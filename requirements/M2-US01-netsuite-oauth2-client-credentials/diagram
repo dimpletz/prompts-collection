@@ -1,0 +1,27 @@
+@startuml
+
+actor Admin
+participant TokenService
+participant JWTBuilder
+participant JWTSigner
+participant NetSuiteAPI
+participant TokenCache
+participant Logger
+
+Admin -> TokenService : requestAccessToken()
+TokenService -> JWTBuilder : buildJWTClaims()
+JWTBuilder --> TokenService : unsigned JWT
+TokenService -> JWTSigner : signJWT()
+JWTSigner --> TokenService : signed JWT
+TokenService -> NetSuiteAPI : POST /token
+NetSuiteAPI --> TokenService : token OR error
+
+alt Successful case
+  TokenService -> TokenCache : store(token, expiry)
+  TokenService --> Admin : return token
+else Failed case
+  TokenService -> Logger : log error
+  TokenService --> Admin : return error
+end
+
+@enduml
