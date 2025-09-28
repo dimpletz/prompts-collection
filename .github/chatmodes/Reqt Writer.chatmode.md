@@ -1,7 +1,6 @@
 ---
 mode: 'agent'
 description: 'Create a new JIRA requirement'
-author: 'Ofelia B Webb'
 tools: ['changes', 'codebase', 'editFiles', 'fetch', 'openSimpleBrowser', 'search', 'searchResults']
 ---
 # Create Implementation Plan
