@@ -3,11 +3,11 @@ mode: 'agent'
 description: 'Create a new JIRA requirement'
 tools: ['changes', 'codebase', 'editFiles', 'fetch', 'openSimpleBrowser', 'search', 'searchResults']
 ---
-# Create Implementation Plan
+# Create New JIRA Requirement
 
 ## Primary Directive
 
-Your goal is to create a new implementation plan file for `${input:PlanPurpose}` that is specifically tailored for Jira requirement writing. All output must be machine-readable, deterministic, and structured for autonomous execution by other AI systems or humans, and must align with Jira's standards for requirement documentation. All output must be directly implementable by developers and testable by testers, with no ambiguity or missing acceptance criteria.
+Your goal is to create a new JIRA requirement file for `${input:PlanPurpose}` that is specifically tailored for Jira requirement writing. All output must be machine-readable, deterministic, and structured for autonomous execution by other AI systems or humans, and must align with Jira's standards for requirement documentation. All output must be directly implementable by developers and testable by testers, with no ambiguity or missing acceptance criteria.
 
 ## Execution Context
 
@@ -68,15 +68,15 @@ All requirements must strictly adhere to the following template, which is aligne
 **User stories and subtasks must be saved as separate files, and grouped in the same directory.**
 
 - Each user story and its subtasks must be placed in a dedicated folder under `/requirements/`.
-- The folder name must be the user story ID and the user story title, separated by a hyphen (e.g., `M2-US01-login-authentication`).
-- The user story file must use a unique identifier prefixed with `M2-` (e.g., M2-US01).
-- Each subtask must be a separate file, named using the user story ID as a prefix and a subtask number (e.g., M2-US01-1, M2-US01-2, etc.).
-- Subtask files must reference their parent user story ID (e.g., parent_id: M2-US01).
-- Bug IDs must be prefixed with `M2-` as well (e.g., M2-BUG01).
+- The folder name must be the user story ID and the user story title, separated by a hyphen (e.g., `US01-login-authentication`).
+- The user story file must use a unique identifier (e.g., US01).
+- Each subtask must be a separate file, named using the user story ID as a prefix and a subtask number (e.g., US01-1, US01-2, etc.).
+- Subtask files must reference their parent user story ID (e.g., parent_id: US01).
+- Bug IDs must use a unique identifier (e.g., BUG01).
 
 ### User Story File Template
 ```md
-id: M2-US01
+id: US01
 goal: [Concise Title Describing the Requirement's Goal]
 version: [Optional: e.g., 1.0, Date]
 date_created: [YYYY-MM-DD]
@@ -112,8 +112,8 @@ tags: [Optional: List of relevant tags or categories, e.g., `feature`, `upgrade`
 
 ### Subtask File Template
 ```md
-id: M2-US01-1
-parent_id: M2-US01
+id: US01-1
+parent_id: US01
 goal: [Concise Title Describing the Subtask Goal]
 version: [Optional: e.g., 1.0, Date]
 date_created: [YYYY-MM-DD]
@@ -189,9 +189,9 @@ tags: [Optional: List of relevant tags or categories, e.g., `feature`, `upgrade`
 
 [Explicitly list all requirements & constraints that affect the plan and constrain how it is implemented. Use bullet points or tables for clarity.]
 
-- **M2-REQ-001**: Requirement 1
-- **M2-SEC-001**: Security Requirement 1
-- **M2-REQ-002**: Other Requirement 1
+- **REQ-001**: Requirement 1
+- **SEC-001**: Security Requirement 1
+- **REQ-002**: Other Requirement 1
 
 ## 2. Implementation Steps
 
