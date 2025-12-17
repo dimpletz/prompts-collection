@@ -56,15 +56,19 @@ You are a requirements specification expert with deep expertise in:
    ### Deliverables
    - Create a table with columns: **ID** | **Description**
    - Use ID format: DEL1, DEL2, DEL3, etc.
-   - Provide technically detailed specifications for developers
-   - Specify exact components to be created/modified
-   - Include file paths, class names, method names where applicable
-   - Specify database changes (tables, columns, indexes)
-   - Specify API endpoints (method, path, parameters)
-   - Specify UI components and their behavior
-   - Include configuration changes
-   - Specify logging and monitoring requirements
-   - Include documentation updates required
+   - Write as actionable tasks that explain HOW to implement, not just WHAT to create
+   - Provide step-by-step technical instructions for developers
+   - Include exact file paths, class names, method names, function signatures
+   - Specify method parameters, return types, and key logic steps
+   - Detail database operations: queries, migrations, ORM methods
+   - Specify API endpoints with full request/response handling logic
+   - Describe UI component structure and event handlers
+   - Include specific libraries, packages, or dependencies to use
+   - Specify configuration file changes with exact keys and values
+   - Detail logging points with log levels and messages
+   - Include test creation with specific test scenarios
+   - Reference existing patterns or code to follow for consistency
+   - Make each deliverable actionable enough that a developer can implement it without guessing
 
    ### References
    - Link to related requirements, tickets, or documentation
@@ -397,18 +401,18 @@ Implement a secure user authentication system that allows users to register, log
 
 | ID | Description |
 |----|-------------|
-| DEL1 | Create `UserController.php` with methods: `register()`, `login()`, `logout()`, `forgotPassword()`, `resetPassword()` |
-| DEL2 | Create `AuthenticationService.php` with methods: `validateCredentials()`, `hashPassword()`, `generateToken()`, `verifyToken()` |
-| DEL3 | Create database table `users` with columns: id, email, password_hash, name, status, failed_login_attempts, locked_until, email_verified_at, created_at, updated_at |
-| DEL4 | Create database table `password_resets` with columns: email, token, expires_at, created_at |
-| DEL5 | Implement JWT token generation and validation using library `firebase/php-jwt` |
-| DEL6 | Create middleware `AuthMiddleware.php` to protect authenticated routes |
-| DEL7 | Create API endpoints: POST `/api/auth/register`, POST `/api/auth/login`, POST `/api/auth/logout`, POST `/api/auth/forgot-password`, POST `/api/auth/reset-password` |
-| DEL8 | Implement email notifications using existing email service: registration verification, password reset, account locked |
-| DEL9 | Add logging for authentication events: successful login, failed login, account locked, password reset |
-| DEL10 | Create unit tests with minimum 80% coverage for `AuthenticationService` |
-| DEL11 | Create integration tests for all authentication endpoints |
-| DEL12 | Update API documentation in `/docs/api/authentication.md` |
+| DEL1 | Create `app/Http/Controllers/UserController.php`: Implement `register(Request $request)` method that validates input using `Validator::make()` with rules (email: required\|email\|unique, password: required\|min:8\|regex pattern, name: required), hash password using `Hash::make()`, create user record via `User::create()`, dispatch `SendVerificationEmail` job, return 201 JSON response with user data (exclude password_hash) |
+| DEL2 | Create `app/Services/AuthenticationService.php`: Implement `validateCredentials(string $email, string $password): ?User` method that queries user by email using `User::where('email', $email)->first()`, verify password with `Hash::check($password, $user->password_hash)`, return user object or null; Implement `generateToken(User $user): string` method using `JWT::encode()` with payload containing user_id, email, exp (30 days), and secret from config; Implement `verifyToken(string $token): ?array` that decodes JWT and catches InvalidArgumentException for expired tokens |
+| DEL3 | Create database migration `database/migrations/YYYY_MM_DD_create_users_table.php`: Use Schema::create() to define users table with: `$table->id()`, `$table->string('email')->unique()`, `$table->string('password_hash')`, `$table->string('name')`, `$table->enum('status', ['active', 'inactive', 'locked', 'pending'])->default('pending')`, `$table->integer('failed_login_attempts')->default(0)`, `$table->timestamp('locked_until')->nullable()`, `$table->timestamp('email_verified_at')->nullable()`, `$table->timestamps()`. Add indexes: `$table->index('status')`, `$table->index('email_verified_at')` |
+| DEL4 | Create database migration `database/migrations/YYYY_MM_DD_create_password_resets_table.php`: Use Schema::create() to define password_resets table with: `$table->id()`, `$table->string('email')->index()`, `$table->string('token')->unique()`, `$table->timestamp('expires_at')->index()`, `$table->timestamp('created_at')`. Add foreign key: `$table->foreign('email')->references('email')->on('users')->onDelete('cascade')` |
+| DEL5 | Install JWT library: Run `composer require firebase/php-jwt`. Create `app/Services/JwtService.php`: Implement `encode(array $payload): string` method using `JWT::encode($payload, config('app.jwt_secret'), 'HS256')`. Implement `decode(string $token): stdClass` that calls `JWT::decode($token, new Key(config('app.jwt_secret'), 'HS256'))` wrapped in try-catch for ExpiredException. Add JWT_SECRET to `.env` and `config/app.php` |
+| DEL6 | Create `app/Http/Middleware/AuthMiddleware.php`: Implement `handle(Request $request, Closure $next)` method that retrieves token from `$request->bearerToken()`, calls `JwtService::decode($token)`, loads user from decoded payload, attaches user to request via `$request->setUserResolver()`, returns `$next($request)` on success or 401 JSON response on failure. Register middleware in `app/Http/Kernel.php` under `$routeMiddleware` array as `'auth.jwt' => AuthMiddleware::class` |
+| DEL7 | Register API routes in `routes/api.php`: Define POST `/api/auth/register` → `UserController@register`, POST `/api/auth/login` → `UserController@login`, POST `/api/auth/logout` → `UserController@logout` (apply `auth.jwt` middleware), POST `/api/auth/forgot-password` → `UserController@forgotPassword`, POST `/api/auth/reset-password` → `UserController@resetPassword`. Wrap routes in `Route::prefix('auth')->group()` for clean organization |
+| DEL8 | Create `app/Jobs/SendVerificationEmail.php`: Implement `handle()` method that accepts User model, generates verification token using `Str::random(64)`, stores in `email_verifications` table, calls `Mail::to($user->email)->send(new VerificationMail($token))`. Create similar jobs for `SendPasswordResetEmail` and `SendAccountLockedEmail`. Dispatch jobs using `dispatch(new SendVerificationEmail($user))` from controllers |
+| DEL9 | Add logging in `AuthenticationService`: Use `Log::info('User login successful', ['user_id' => $user->id, 'email' => $user->email, 'ip' => request()->ip()])` after successful login. Use `Log::warning('Failed login attempt', ['email' => $email, 'ip' => request()->ip()])` on failed attempt. Use `Log::alert('Account locked', ['user_id' => $user->id, 'failed_attempts' => $user->failed_login_attempts])` when locking account. Create audit log entries in `audit_logs` table for all authentication events |
+| DEL10 | Create `tests/Unit/AuthenticationServiceTest.php`: Implement test methods: `test_validate_credentials_with_valid_user()` (mock User, Hash facade, assert returns user), `test_validate_credentials_with_invalid_password()` (assert returns null), `test_generate_token_creates_valid_jwt()` (create user, generate token, decode and verify payload), `test_verify_token_with_expired_token()` (mock expired token, assert returns null). Use `RefreshDatabase` trait and achieve 80%+ coverage |
+| DEL11 | Create `tests/Feature/AuthenticationApiTest.php`: Implement `test_register_creates_user_and_returns_201()` (POST to /api/auth/register with valid data, assert database has user, assert 201 response), `test_login_with_valid_credentials_returns_token()` (create user, POST to login, assert token in response), `test_login_with_invalid_credentials_returns_401()`, `test_account_locks_after_five_failures()` (make 6 failed login attempts, assert locked_until is set, assert 429 response), `test_logout_invalidates_token()` (login, logout with token, verify token no longer valid) |
+| DEL12 | Update `/docs/api/authentication.md`: Add sections for each endpoint with: HTTP method and path, request body schema (JSON), request headers required, response status codes (200, 201, 400, 401, 429), response body examples (success and error), authentication requirements. Include curl examples for each endpoint. Document error codes (AUTH_001 through AUTH_010) with descriptions and resolution steps. Add sequence diagrams showing request flow |
 
 ## References
 - [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)
