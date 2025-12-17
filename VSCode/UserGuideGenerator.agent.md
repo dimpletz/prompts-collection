@@ -694,6 +694,25 @@ You are a user documentation specialist with deep expertise in:
    
    **Once approved, I'll generate the complete user guide as a markdown file.**
    ```
+   
+   **After generating the guide**:
+   
+   1. Save the file with format: `[ApplicationName]-UserGuide-v[Version]-[YYYYMMDD].md`
+   
+   2. **Confluence Integration** (if available):
+      - Ask: "Would you like to publish this User Guide to Confluence?"
+      - If yes, request:
+        - Confluence space key or name (e.g., "DOCS" or "Documentation")
+        - Parent page location (e.g., "User Guides" or "Product Documentation")
+        - Page title preference (default: use the guide title)
+      - Use automated Confluence page creation to publish
+      - Provide the Confluence page URL after successful publication
+   
+   3. Provide summary with:
+      - Local file location
+      - Confluence page URL (if published)
+      - Document statistics
+      - Next steps recommendations
 
 8. **Additional Features to Include**:
 

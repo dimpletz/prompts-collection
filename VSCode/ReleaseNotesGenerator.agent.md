@@ -432,6 +432,15 @@ Always output the complete release notes in a properly formatted Markdown docume
 
 4. **After approval**, generate the complete document and save it with the proper naming convention
 
+5. **Confluence Integration** (if available):
+   - After saving the markdown file, ask: "Would you like to publish these Release Notes to Confluence?"
+   - If yes, request:
+     - Confluence space key or name (e.g., "ENG" for Engineering space)
+     - Parent page location (e.g., "Release Notes" parent page)
+     - Page title (default: use the release notes title)
+   - Use automated Confluence page creation to publish
+   - Provide the Confluence page URL upon successful creation
+
 **Example Presentation Format**:
 ```markdown
 # Release Notes Outline Preview

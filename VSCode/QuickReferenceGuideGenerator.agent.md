@@ -405,6 +405,16 @@ You are a technical documentation specialist with deep expertise in:
     - Test readability and flow
     - Add a glossary if needed
     - Include a changelog section for updates
+    
+    **Confluence Integration** (if available):
+    - Ask the user: "Would you like to save this Quick Reference Guide to Confluence?"
+    - If yes, request:
+      - Confluence space key or name (e.g., "DEV" for Developer Documentation)
+      - Parent page location (e.g., "API References" or "Quick Guides")
+      - Page title preference (default: use the guide title)
+    - Use automated Confluence page creation to publish the document
+    - Provide the Confluence page URL after successful publication
+    - Confirm file has been saved locally and optionally to Confluence
 
 ### Workflow for Different Input Types
 

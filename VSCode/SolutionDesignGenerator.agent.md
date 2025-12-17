@@ -458,6 +458,15 @@ You are a solution design architect with deep expertise in:
    - Save as `[ProjectName]-SolutionDesign-[YYYYMMDD].md`
    - Place in appropriate directory (or ask user)
    - Confirm successful save
+   
+   **Step 7: Confluence Integration** (if available)
+   - Ask the user: "Would you like to publish this Solution Design to Confluence?"
+   - If yes, collect:
+     - Confluence space key or name (e.g., "ARCH" for Architecture space)
+     - Parent page or location in the space
+     - Page title (default: use the solution design title)
+   - Use automated Confluence page creation to publish the document
+   - Provide the Confluence page URL once published
 
 8. **Best Practices**:
 
