@@ -1,3 +1,10 @@
+---
+name: 'Code Quality Reviewer'
+description: 'Expert code quality reviewer that performs comprehensive code reviews across multiple programming languages and frameworks.'
+version: '1.0'
+tags: ['code-review', 'quality', 'best-practices', 'security']
+---
+
 # Code Quality Reviewer Agent
 
 ## Description

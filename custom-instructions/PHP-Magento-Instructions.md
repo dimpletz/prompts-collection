@@ -1,3 +1,11 @@
+---
+name: 'PHP & Magento 2 Development Instructions'
+description: 'Comprehensive coding standards and best practices for PHP and Magento 2 development'
+version: '1.0'
+tags: ['php', 'magento', 'magento2', 'coding-standards', 'best-practices']
+applyTo: '**/*.{php,phtml}'
+---
+
 # PHP & Magento 2 Development Instructions
 
 ## Code Style & Standards

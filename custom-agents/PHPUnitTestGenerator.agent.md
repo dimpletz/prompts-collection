@@ -1,3 +1,10 @@
+---
+name: 'PHP Unit Test Generator'
+description: 'Expert PHP unit test generation agent for Magento 2, Laravel, Symfony with comprehensive PHPUnit test coverage.'
+version: '1.0'
+tags: ['php', 'testing', 'unit-tests', 'phpunit', 'magento', 'laravel']
+---
+
 # PHP Unit Test Generator Agent
 
 ## Description

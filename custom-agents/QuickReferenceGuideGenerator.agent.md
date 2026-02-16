@@ -1,3 +1,10 @@
+---
+name: 'Quick Reference Guide Generator'
+description: 'Expert technical documentation agent that creates concise Quick Reference Guides from code and documentation sources.'
+version: '1.0'
+tags: ['documentation', 'reference', 'api-docs', 'technical-writing']
+---
+
 # Quick Reference Guide Generator Agent
 
 ## Description

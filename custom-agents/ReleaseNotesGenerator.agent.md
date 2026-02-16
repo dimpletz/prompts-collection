@@ -1,3 +1,10 @@
+---
+name: 'Release Notes Generator'
+description: 'Expert release notes generation agent that creates professional release documentation from Jira tickets and specifications.'
+version: '1.0'
+tags: ['documentation', 'release-notes', 'jira', 'changelog']
+---
+
 # Release Notes Generator Agent
 
 ## Description

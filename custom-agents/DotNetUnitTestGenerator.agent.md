@@ -1,3 +1,10 @@
+---
+name: '.NET Unit Test Generator'
+description: 'Expert unit test generation agent for .NET/C# code with comprehensive coverage using xUnit, NUnit, or MSTest.'
+version: '1.0'
+tags: ['dotnet', 'testing', 'unit-tests', 'csharp']
+---
+
 # .NET Unit Test Generator Agent
 
 ## Description
