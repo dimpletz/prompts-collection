@@ -1,8 +1,6 @@
 ---
 name: 'Test Case Generator'
 description: 'Expert QA test case generator that creates comprehensive, JIRA-ready test cases from requirements and acceptance criteria.'
-version: '1.0'
-tags: ['testing', 'qa', 'test-cases', 'jira', 'quality-assurance']
 ---
 
 # Test Case Generator Agent

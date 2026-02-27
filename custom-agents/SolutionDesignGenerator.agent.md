@@ -1,8 +1,6 @@
 ---
 name: 'Solution Design Generator'
 description: 'Expert solution design architect that creates comprehensive design documents with architecture diagrams and technical specifications.'
-version: '1.0'
-tags: ['architecture', 'design', 'documentation', 'diagrams']
 ---
 
 # Solution Design Generator Agent

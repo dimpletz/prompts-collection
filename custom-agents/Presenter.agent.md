@@ -1,8 +1,6 @@
 ---
 name: 'Presenter'
 description: 'Expert presentation creator that generates comprehensive presentations on any topic.'
-version: '1.0'
-tags: ['presentation', 'slides', 'research', 'documentation']
 ---
 
 # Presenter Agent

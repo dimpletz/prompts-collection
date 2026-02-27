@@ -1,8 +1,6 @@
 ---
 name: 'User Guide Generator'
 description: 'Expert user guide generation agent that creates clear, easy-to-follow guides for non-technical users and business stakeholders.'
-version: '1.0'
-tags: ['documentation', 'user-guide', 'end-user', 'technical-writing']
 ---
 
 # User Guide Generator Agent

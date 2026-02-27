@@ -20,7 +20,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 | Agent | Description |
 |-------|-------------|
-| [Presentor](custom-agents/Presentor.agent.md) | Professional presentation creator that generates comprehensive, engaging, and well-structured presentations on any topic. Features automated research, professional formatting, and autonomous operation until completion. |
+| [Presenter](custom-agents/Presenter.agent.md) | Professional presentation creator that generates comprehensive, engaging, and well-structured presentations on any topic. Features automated research, professional formatting, and autonomous operation until completion. |
 | [Requirements Spec Writer](custom-agents/RequirementsSpecWriter.agent.md) | Intelligent JIRA requirement writer that creates structured, implementation-ready requirements and user stories. Produces machine-readable output with complete implementation plans and atomic tasks. |
 | [Test Case Generator](custom-agents/TestCaseGenerator.agent.md) | Expert QA test case generator that creates comprehensive, JIRA-ready test cases from requirements, user stories, and acceptance criteria. Produces structured, tabular test cases ready for quality testing workflows. |
 
@@ -36,27 +36,61 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 | Instruction File | Description | Apply To |
 |------------------|-------------|----------|
-| [PHP-Magento-Instructions](custom-instructions/PHP-Magento-Instructions.md) | Comprehensive PHP & Magento 2 development standards covering PSR compliance, SOLID principles, Magento architecture, security, performance optimization, and testing requirements. | PHP & Magento 2 Projects |
+| [PHP-Magento-Instructions](custom-instructions/PHP-Magento.instructions.md) | Comprehensive PHP & Magento 2 development standards covering PSR compliance, SOLID principles, Magento architecture, security, performance optimization, and testing requirements. | PHP & Magento 2 Projects |
 
-## Skills
+## Custom Skills
 
 | Skill | Description |
 |-------|-------------|
-| [Git Merge Conflict Resolver](skills/git-merge-conflict-resolver/SKILL.md) | Provides structured workflow for resolving git merge conflicts. Use this skill when encountering merge conflicts during git operations. |
+| [Changelog Maintainer](custom-skills/changelog-maintainer/SKILL.md) | Maintains a `CHANGELOG.md` file by inserting new version entries at the top in a consistent, structured format. Use it whenever a release, version bump, or notable set of changes needs to be documented. |
+| [Git Merge Conflict Resolver](custom-skills/git-merge-conflict-resolver/SKILL.md) | Provides structured workflow for resolving git merge conflicts. Use this skill when encountering merge conflicts during git operations. |
+| [README Maintainer](custom-skills/readme-maintainer/SKILL.md) | Creates or updates `README.md` files to be accurate, complete, and easy to navigate. Use it to write a new README from scratch or to update, improve, or extend an existing one. |
+| [Skill Maker](custom-skills/skill-maker/SKILL.md) | A meta-skill for designing, specifying, and refining new AI skills (SKILL.md files) in a consistent, production-ready way. Use it whenever defining or updating instructions for an AI assistant. |
 
 ## Usage
 
 ### Custom Agents
-1. Copy the desired agent file (`.agent.md`) to the `.github\agents` directory in your project
-2. The agent will be automatically available in GitHub Copilot Chat as a custom agent
+
+#### User-level (available across all projects)
+1. Copy the desired agent file (`.agent.md`) to `%APPDATA%\Code\User\prompts\` in your VS Code user profile
+2. On Windows: `C:\Users\<YourUsername>\AppData\Roaming\Code\User\prompts\<agent-name>.agent.md`
+3. The agent will be available in GitHub Copilot Chat across all your projects
+
+#### Project-level (scoped to a single project)
+1. Copy the desired agent file (`.agent.md`) to the `.github\agents\` directory in your project repository
+2. The agent will be available in GitHub Copilot Chat only within that project
 
 ### Custom Instructions
+
+Custom instructions can be applied in two ways:
+
+#### Global instructions (applied to all Copilot interactions in a project)
 1. Copy the instruction content to `.github\copilot-instructions.md` in your project directory
-2. Custom instructions are automatically applied to all Copilot interactions in that project
+2. Instructions are automatically applied to all Copilot interactions in that project
 3. Multiple instruction sets can be combined in the single `copilot-instructions.md` file
 
-### Skills
-1. Copy the skill directory to `%USERPROFILE%\.copilot\skills\` directory
-2. Skills provide domain-specific capabilities to GitHub Copilot CLI
-3. Skills are invoked automatically based on context and requirements
-4. On Windows: `C:\Users\<YourUsername>\.copilot\skills\<skill-name>\SKILL.md`
+#### Scoped instructions (applied to specific files via `applyTo`)
+1. Copy the `.instructions.md` file to `.github\instructions\` in your project repository (e.g. `.github\instructions\PHP-Magento.instructions.md`)
+
+2. Ensure the frontmatter includes an `applyTo` glob pattern to scope which files trigger the instructions:
+   ```yaml
+   ---
+   applyTo: '**/*.php,**/*.phtml'
+   ---
+   ```
+   
+3. GitHub Copilot will automatically apply the instructions when working on matching files
+
+### Custom Skills
+
+#### User-level (available across all projects)
+1. Copy the desired skill directory from `custom-skills/` to `%USERPROFILE%\.copilot\skills\` in your user profile
+2. On Windows: `C:\Users\<YourUsername>\.copilot\skills\<skill-name>\SKILL.md`
+3. Skills are available to GitHub Copilot across all your projects
+
+#### Project-level (scoped to a single project)
+1. Copy the desired skill directory from `custom-skills/` to `.github\skills\` in your project repository
+2. Path structure: `.github\skills\<skill-name>\SKILL.md`
+3. Skills are available to GitHub Copilot only within that project
+
+Skills provide domain-specific capabilities to GitHub Copilot and are invoked automatically based on context and requirements.

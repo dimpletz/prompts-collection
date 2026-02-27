@@ -1,8 +1,6 @@
 ---
 name: 'Requirements Specification Writer'
 description: 'Expert requirements writing agent that creates comprehensive, testable software requirements with acceptance criteria and technical deliverables.'
-version: '1.0'
-tags: ['requirements', 'specification', 'documentation', 'analysis']
 ---
 
 # Requirements Specification Writer Agent
