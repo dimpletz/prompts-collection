@@ -31,11 +31,13 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 | [Code Quality Reviewer](custom-agents/CodeQualityReviewer.agent.md) | Expert code quality reviewer that performs comprehensive code reviews across multiple programming languages including Magento 2, Laravel, Symfony, .NET, JavaScript/TypeScript, and Python. Reviews for coding standards, security, performance, and maintainability. |
 | [.NET Unit Test Generator](custom-agents/DotNetUnitTestGenerator.agent.md) | Automatically creates comprehensive unit tests for C# files, folders, projects, or code selections. Specialized in .NET frameworks including ASP.NET Core, Entity Framework Core, and Blazor. Ensures minimum 80% code coverage with xUnit, NUnit, or MSTest. |
 | [PHP Unit Test Generator](custom-agents/PHPUnitTestGenerator.agent.md) | Automatically creates comprehensive unit tests for PHP files, folders, modules, or code selections. Specialized in PHP frameworks including Magento 2, Laravel, Symfony, and vanilla PHP. Ensures minimum 80% code coverage with PHPUnit. |
+| [Universal Unit Test Generator](custom-agents/UniversalUnitTestGenerator.agent.md) | Comprehensive unit test generation for all major programming languages and frameworks. Supports C#/.NET, Java, PHP, Python, Go, Ruby, Rust, Kotlin, JavaScript, TypeScript, React, Vue, Angular, Swift, and more. Creates tests with 80%+ coverage including mocks, edge cases, and boundary conditions. |
 
 ## Custom Instructions
 
 | Instruction File | Description | Apply To |
 |------------------|-------------|----------|
+| [Universal Coding Standards](custom-instructions/copilot-instructions.md) | Universal coding standards and best practices for all programming languages covering SOLID principles, DRY/KISS/YAGNI, naming conventions, code structure, security, performance, and testing. Applies globally across all file types. | All Files (`**/*`) |
 | [PHP-Magento-Instructions](custom-instructions/PHP-Magento.instructions.md) | Comprehensive PHP & Magento 2 development standards covering PSR compliance, SOLID principles, Magento architecture, security, performance optimization, and testing requirements. | PHP & Magento 2 Projects |
 
 ## Custom Skills
