@@ -92,6 +92,7 @@ Example orchestrator frontmatter:
 ---
 name: 'Database Migration Generator'
 description: 'Orchestrates database migration planning and execution.'
+tools: [agent]
 agents: ['Database Migration Planner', 'Database Migration Executor']
 ---
 ```
@@ -132,7 +133,7 @@ tools: [web, edit, read]
 - `name` **(required)**: A short, human-readable display name in **Title Case** (e.g. `PHP Unit Test Generator`, `Database Migration Generator`). Do NOT use PascalCase for the name — PascalCase is reserved for the file name only.
 - `description` **(required)**: A single sentence describing the agent's purpose. Must be specific enough that a user can decide whether to invoke this agent.
 - `tools` **(optional)**: Only include this field when the user has explicitly specified which tools the agent should use. **If not provided, omit the `tools` field entirely from the frontmatter — do not include it with a placeholder or empty value.** When present, use a YAML list from these categories: `web` (fetch web pages), `agent` (invoke subagents), `edit` (create/edit files), `read` (read files), `execute` (run terminal commands), `search` (search the workspace). If the agent's intent makes the appropriate tool set ambiguous, ask the user before proceeding.
-- `agents` **(optional, orchestrators only)**: A YAML list of subagent display names this orchestrator delegates to. **Always single-quote each agent name** (e.g. `agents: ['Database Migration Planner', 'Database Migration Executor']`). Only include when the agent uses subagents. Omit entirely for single agents.
+- `agents` **(optional, orchestrators only)**: A YAML list of subagent display names this orchestrator delegates to. **Always single-quote each agent name** (e.g. `agents: ['Database Migration Planner', 'Database Migration Executor']`). Only include when the agent uses subagents. Omit entirely for single agents. **When `agents` is present, the `agent` tool must also be included in the `tools` field** — add it if not already listed.
 
 #### B. Title and Description Section (MANDATORY)
 
@@ -229,7 +230,7 @@ Before delivering, verify **each** generated file (orchestrator and all subagent
 4. **Workflow section**: Present and contains at least 3 numbered steps.
 5. **No placeholders**: No `[TODO]`, `[FILL IN]`, or `<placeholder>` text remains. Every section has concrete, actionable content.
 6. **Tone consistency**: The agent speaks in second person ("You are…") for instructions and uses imperative mood for directives.
-7. **Subagent calls** *(orchestrators only)*: The `agents` frontmatter field lists all subagents by display name. Workflow steps reference subagents by that name only — no `runSubagent` tool calls, no redundant re-instruction of the subagent's own responsibilities.
+7. **Subagent calls** *(orchestrators only)*: The `agents` frontmatter field lists all subagents by display name. The `tools` field includes `agent`. Workflow steps reference subagents by that name only — no `runSubagent` tool calls, no redundant re-instruction of the subagent's own responsibilities.
 
 ### Step 4 – Save the File(s)
 
