@@ -21,7 +21,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 | Agent | Description |
 |-------|-------------|
 | [Presenter](custom-agents/Presenter.agent.md) | Professional presentation creator that generates comprehensive, engaging, and well-structured presentations on any topic. Features automated research, professional formatting, and autonomous operation until completion. |
-| [Requirements Spec Writer](custom-agents/RequirementsSpecWriter.agent.md) | Intelligent JIRA requirement writer that creates structured, implementation-ready requirements and user stories. Produces machine-readable output with complete implementation plans and atomic tasks. |
+| [Requirements Spec Writer](custom-agents/RequirementsSpecWriter.agent.md) | Expert requirements documentation agent that creates comprehensive, testable software requirements with user stories, acceptance criteria, database schemas, API specifications, and Mermaid diagrams. Produces well-structured deliverables for both developers and testers. |
 | [Test Case Generator](custom-agents/TestCaseGenerator.agent.md) | Expert QA test case generator that creates comprehensive, JIRA-ready test cases from requirements, user stories, and acceptance criteria. Produces structured, tabular test cases ready for quality testing workflows. |
 
 ### Code Quality & Testing Tools
@@ -29,9 +29,17 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 | Agent | Description |
 |-------|-------------|
 | [Code Quality Reviewer](custom-agents/CodeQualityReviewer.agent.md) | Expert code quality reviewer that performs comprehensive code reviews across multiple programming languages including Magento 2, Laravel, Symfony, .NET, JavaScript/TypeScript, and Python. Reviews for coding standards, security, performance, and maintainability. |
+| [Universal Code Quality Reviewer](custom-agents/UniversalCodeQualityReviewer.agent.md) | Expert code quality reviewer that performs comprehensive, language-agnostic code reviews covering quality, coding standards, best practices, security, performance, and scalability across all major programming languages and frameworks. |
 | [.NET Unit Test Generator](custom-agents/DotNetUnitTestGenerator.agent.md) | Automatically creates comprehensive unit tests for C# files, folders, projects, or code selections. Specialized in .NET frameworks including ASP.NET Core, Entity Framework Core, and Blazor. Ensures minimum 80% code coverage with xUnit, NUnit, or MSTest. |
 | [PHP Unit Test Generator](custom-agents/PHPUnitTestGenerator.agent.md) | Automatically creates comprehensive unit tests for PHP files, folders, modules, or code selections. Specialized in PHP frameworks including Magento 2, Laravel, Symfony, and vanilla PHP. Ensures minimum 80% code coverage with PHPUnit. |
 | [Universal Unit Test Generator](custom-agents/UniversalUnitTestGenerator.agent.md) | Comprehensive unit test generation for all major programming languages and frameworks. Supports C#/.NET, Java, PHP, Python, Go, Ruby, Rust, Kotlin, JavaScript, TypeScript, React, Vue, Angular, Swift, and more. Creates tests with 80%+ coverage including mocks, edge cases, and boundary conditions. |
+
+### Evaluation & Assessment Tools
+
+| Agent | Description |
+|-------|-------------|
+| [Cloud Native App Evaluator](custom-agents/CloudNativeAppEvaluator.agent.md) | Research-first cloud native readiness evaluator that tailors every assessment to the user's specific tech stack and deployment platform. Researches framework defaults from the web, then interviews only about unknowns — scoring 12-factor compliance and producing a context-specific remediation roadmap. |
+| [Software Procurement Evaluator](custom-agents/SoftwareProcurementEvaluator.agent.md) | Research-first software procurement evaluator that autonomously researches an off-the-shelf product before interviewing the user. Scores fit across 10 ISO/IEC 25010-derived dimensions and produces a prioritized procurement recommendation report. |
 
 ## Custom Instructions
 
@@ -44,8 +52,10 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 | Skill | Description |
 |-------|-------------|
+| [Agent Maker](custom-skills/agent-maker/SKILL.md) | Creates well-structured, production-ready VS Code agent files (`.agent.md`). Use it whenever defining a new custom agent persona, workflow, or specification. |
 | [Changelog Maintainer](custom-skills/changelog-maintainer/SKILL.md) | Maintains a `CHANGELOG.md` file by inserting new version entries at the top in a consistent, structured format. Use it whenever a release, version bump, or notable set of changes needs to be documented. |
 | [Git Merge Conflict Resolver](custom-skills/git-merge-conflict-resolver/SKILL.md) | Provides structured workflow for resolving git merge conflicts. Use this skill when encountering merge conflicts during git operations. |
+| [PR Cloner](custom-skills/pr-cloner/SKILL.md) | Fetches a pull request from a remote Git repository (GitHub, GitLab, Bitbucket) into a local tracking branch for inspection and testing without merging. |
 | [README Maintainer](custom-skills/readme-maintainer/SKILL.md) | Creates or updates `README.md` files to be accurate, complete, and easy to navigate. Use it to write a new README from scratch or to update, improve, or extend an existing one. |
 | [Skill Maker](custom-skills/skill-maker/SKILL.md) | A meta-skill for designing, specifying, and refining new AI skills (SKILL.md files) in a consistent, production-ready way. Use it whenever defining or updating instructions for an AI assistant. |
 

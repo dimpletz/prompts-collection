@@ -174,6 +174,41 @@ When changes conflict in complex ways, write new code that:
 - Maintains or improves code quality
 - Preserves all important functionality and fixes from both branches
 
+### Strategy E: Replace Binary or Library Files
+
+Use when a binary (e.g., `*.exe`, `*.dll`, `*.so`) or library artifact (e.g., `*.jar`, `*.war`, `*.ear`, `*.nupkg`, `*.whl`) is being updated to a newer version.
+
+Binary and library files cannot be textually merged. When both branches modify such a file, always accept the **incoming (updated) version** and remove the old file if its name includes a version identifier that has changed.
+
+1. **Accept the incoming version:**
+   ```bash
+   git checkout --theirs <file-path>
+   ```
+
+2. **Detect and remove the old versioned file**: If the old file has a version-stamped name (e.g., `library-1.0.0.jar`) and the incoming branch introduces a new version (e.g., `library-1.2.0.jar`), delete the old file:
+   ```bash
+   git rm <old-versioned-file>
+   ```
+
+3. **Stage the new file:**
+   ```bash
+   git add <new-versioned-file>
+   ```
+
+**Example:**
+
+```
+Current branch has:   libs/commons-lang-3.9.jar
+Incoming branch has:  libs/commons-lang-3.14.jar
+
+Resolution:
+  git checkout --theirs libs/commons-lang-3.14.jar
+  git rm libs/commons-lang-3.9.jar
+  git add libs/commons-lang-3.14.jar
+```
+
+**Important:** Never attempt to textually merge binary or library files. Always treat them as whole-file replacements.
+
 ## 6. Verify the Resolution
 
 After resolving conflicts in each file:
@@ -204,9 +239,32 @@ git status
 
 Ensure there are no files remaining in the "unmerged paths" section.
 
+### Scan Staged Files for Residual Conflict Markers
+
+After staging, verify that no conflict markers leaked into staged text files. Exclude binary and library files from this check:
+
+```bash
+git diff --cached --name-only | grep -v -E '\.(exe|dll|so|dylib|jar|war|ear|nupkg|whl|bin|zip|tar|gz|class)$' | xargs grep -l '<<<<<<<\|=======\|>>>>>>>' 2>/dev/null
+```
+
+If any files are returned, they still contain unresolved conflict markers and **must** be fixed before committing:
+
+1. Open each flagged file and resolve the remaining conflict markers.
+2. **Version-aware resolution**: If the file contains version information in its name or path (e.g., `library-1.2.0.pom`, `dependency-2.0.0.xml`), extract the version identifier from the filename and select the conflict block that matches that version. For example, if the file is `library-1.2.0.pom`, choose the block containing `<version>1.2.0</version>` and discard the other.
+3. For files without version information in their name, apply the standard resolution strategies (Strategies A–D) as described in Step 5.
+4. After fixing, re-stage the corrected files:
+   ```bash
+   git add <fixed-file>
+   ```
+5. Re-run the conflict marker scan to confirm no markers remain:
+   ```bash
+   git diff --cached --name-only | grep -v -E '\.(exe|dll|so|dylib|jar|war|ear|nupkg|whl|bin|zip|tar|gz|class)$' | xargs grep -l '<<<<<<<\|=======\|>>>>>>>' 2>/dev/null
+   ```
+   The command must return no output before proceeding.
+
 ## 9. Complete the Merge
 
-Once all conflicts are resolved and staged, commit with a message that includes the resolved files:
+Once all conflicts are resolved and staged, commit using **exactly** this message format. The format is mandatory and must not be altered:
 
 ```bash
 git commit -m "Merge branch 'branch-name' and resolve conflicts by an agent
@@ -217,7 +275,11 @@ Resolved files:
 - file3.ext"
 ```
 
-Replace `branch-name` with the actual name of the branch being merged, and list all the files that had conflicts and were resolved.
+**Format rules (strictly required):**
+- Replace `branch-name` with the actual name of the branch being merged.
+- List every file that had a conflict and was resolved under `Resolved files:`.
+- Do not change the wording `and resolve conflicts by an agent` — this is a fixed part of the message.
+- Do not add, remove, or reorder sections of the message template.
 
 ## 10. Abort the Merge (If Needed)
 

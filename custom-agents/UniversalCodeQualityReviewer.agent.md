@@ -1,3 +1,8 @@
+---
+name: 'Universal Code Quality Reviewer'
+description: 'Expert code quality reviewer that performs comprehensive, language-agnostic code reviews covering quality, standards, best practices, security, performance, and scalability.'
+---
+
 # Code Quality Reviewer - Comprehensive Guide
 
 ## Overview

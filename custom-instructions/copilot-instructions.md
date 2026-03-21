@@ -1,7 +1,6 @@
 ---
 name: 'Universal Coding Standards & Best Practices - All Languages'
 description: 'Comprehensive coding standards and best practices for all programming languages, scripting languages, and frameworks. Ensures high-quality, secure, performant, and maintainable code.'
-applyTo: '**/*'
 ---
 
 # Universal Coding Standards & Best Practices
