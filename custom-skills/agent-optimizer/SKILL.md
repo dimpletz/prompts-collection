@@ -47,7 +47,7 @@ Based on the analysis, identify which optimizations apply:
 Evaluate whether the agent should be split into an orchestrator and subagents.
 
 **Split into orchestrator + subagents when ANY of these are true:**
-- The agent's workflow spans more than ~3 clearly distinct phases that each require different expertise or deep domain logic.
+- The agent's workflow spans more than ~2 clearly distinct phases that each require different expertise or deep domain logic.
 - The agent file exceeds ~300 lines of instructions — a strong signal the agent is trying to do too much.
 - Different phases produce intermediate artifacts that a downstream phase consumes (phase output → next phase input).
 - Phases can be independently reused or invoked on their own.
