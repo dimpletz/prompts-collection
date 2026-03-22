@@ -176,12 +176,12 @@ Before delivering, verify the generated file:
 - **Save location**: Always place the file in the `.github/agents/` directory.
 - **No code fences**: Each file must start directly with `---` (YAML frontmatter). Never wrap output in code fences.
 
-### Step 5 – Optimize the Agent (if agent optimizer is available)
+### Step 5 – Optimize the Agent (MANDATORY when agent optimizer skill is available)
 
-After saving the agent file, check whether an agent optimizer skill is available:
+After saving the agent file, you MUST check whether an agent optimizer skill is available. If it is, you MUST run it — this step is not optional when the skill is present:
 
 1. **Check availability**: Look for agent optimizer in the list of available skills provided in the environment context or skill index. If it is not listed, skip this step entirely and note its absence in the summary.
-2. **Load the skill**: If available, read the agent optimizer SKILL.md file immediately before proceeding — do not attempt optimization without first loading the skill.
+2. **Load the skill**: Read the agent optimizer SKILL.md file immediately before proceeding — do not attempt optimization without first loading the skill.
 3. **Run optimization**: Invoke the agent optimizer on the newly created `.agent.md` file:
    - Set `agent_file` to the path of the file saved in Step 4.
    - Do not specify an `optimization_goal` — let the optimizer perform a full analysis and recommend improvements.
