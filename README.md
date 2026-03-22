@@ -53,6 +53,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 | Skill | Description |
 |-------|-------------|
 | [Agent Maker](custom-skills/agent-maker/SKILL.md) | Creates well-structured, production-ready VS Code agent files (`.agent.md`). Use it whenever defining a new custom agent persona, workflow, or specification. |
+| [Agent Optimizer](custom-skills/agent-optimizer/SKILL.md) | Analyzes and optimizes existing VS Code agent files (`.agent.md`). Use it whenever improving, refactoring, or decomposing an existing agent into an orchestrator + subagent architecture. |
 | [Changelog Maintainer](custom-skills/changelog-maintainer/SKILL.md) | Maintains a `CHANGELOG.md` file by inserting new version entries at the top in a consistent, structured format. Use it whenever a release, version bump, or notable set of changes needs to be documented. |
 | [Git Merge Conflict Resolver](custom-skills/git-merge-conflict-resolver/SKILL.md) | Provides structured workflow for resolving git merge conflicts. Use this skill when encountering merge conflicts during git operations. |
 | [PR Cloner](custom-skills/pr-cloner/SKILL.md) | Fetches a pull request from a remote Git repository (GitHub, GitLab, Bitbucket) into a local tracking branch for inspection and testing without merging. |
