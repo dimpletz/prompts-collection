@@ -146,7 +146,7 @@ Example orchestrator workflow steps (sequential where required, parallel where i
 
 ##### Frontmatter Fields for Orchestrators and Subagents
 
-- `agents` **(required for orchestrators)**: A YAML list of subagent display names this orchestrator delegates to. **Always single-quote each agent name** (e.g. `agents: ['Database Migration Planner', 'Database Migration Executor']`). **When `agents` is present, the `agent` tool must also be included in the `tools` field** — add it if not already listed.
+- `agents` **(required for orchestrators)**: A YAML list of subagent display names this orchestrator delegates to. **Always single-quote each agent name** (e.g. `agents: ['Database Migration Planner', 'Database Migration Executor']`). If the orchestrator has no `tools` field, all tools are implicitly available — do **not** add a `tools` field just to include `agent`. Only add `agent` to an existing `tools` field if it is not already listed there.
 - `tools` **(required for subagents)**: A YAML list of tools the subagent needs to perform its specific task. Scope this to the minimum required — do not assign all tools by default. Available categories: `web` (fetch web pages), `agent` (invoke further subagents), `edit` (create/edit files), `read` (read files), `execute` (run terminal commands), `search` (search the workspace).
 - `user-invocable: false` **(required for subagents)**: Prevents subagents from appearing as directly invocable entry points. Every subagent must include this field. Orchestrators must NOT include this field — they are the user-facing entry point.
 
@@ -166,7 +166,7 @@ Before delivering, verify **each** file (orchestrator and all subagents):
 4. **Workflow section**: Present and contains at least 3 numbered steps.
 5. **No placeholders**: No `[TODO]`, `[FILL IN]`, or `<placeholder>` text remains. Every section has concrete, actionable content.
 6. **Tone consistency**: The agent speaks in second person ("You are…") for instructions and uses imperative mood for directives.
-7. **Subagent integrity** *(orchestrators only)*: The `agents` frontmatter field lists all subagents by display name. The `tools` field includes `agent`. Workflow steps reference subagents by that name only — no `runSubagent` tool calls, no redundant re-instruction of the subagent's own responsibilities.
+7. **Subagent integrity** *(orchestrators only)*: The `agents` frontmatter field lists all subagents by display name. If the orchestrator has a `tools` field, `agent` must be included in it — but do not add a `tools` field solely for this purpose (no `tools` field means all tools are available). Workflow steps reference subagents by that name only — no `runSubagent` tool calls, no redundant re-instruction of the subagent's own responsibilities.
 8. **Subagent visibility** *(subagents only)*: Every subagent's frontmatter contains `user-invocable: false`. Orchestrators must not have this field.
 9. **Subagent tools** *(subagents only)*: Every subagent has a `tools` field scoped to the tools it actually needs for its specific task. No subagent has an empty or missing `tools` field.
 8. **Behavioral preservation**: The optimized agent(s) handle the same request types as the original. No capabilities were silently dropped.
