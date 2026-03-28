@@ -1,3 +1,4 @@
 requirements/
-.github/
+.github/agents/
+.github/skills/
 .agents/
