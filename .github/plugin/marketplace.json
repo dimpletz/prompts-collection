@@ -14,6 +14,12 @@
       "source": "makers",
       "description": "Makers are a collection of skills that help you create and optimize agents.",
       "version": "1.0.0"
+    },
+    {
+      "name": "coder",
+      "source": "coder",
+      "description": "Coders are a collection of skills that help you maintain and improve code quality.",
+      "version": "1.0.0"
     }
   ]
 }
