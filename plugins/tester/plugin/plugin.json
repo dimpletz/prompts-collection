@@ -1,0 +1,25 @@
+{
+  "name": "tester",
+  "description": "Testers are a collection of agents that help you generate comprehensive test cases for your applications.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "tester",
+    "testing",
+    "test-cases",
+    "test-plan",
+    "test-design",
+    "qa",
+    "quality-assurance",
+    "acceptance-testing",
+    "bdd",
+    "scenarios"
+  ],
+  "agents": [
+    "./agents"
+  ]
+}

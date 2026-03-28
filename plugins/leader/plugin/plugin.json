@@ -1,0 +1,24 @@
+{
+  "name": "leader",
+  "description": "Leaders are a collection of agents that help you create compelling presentations and communicate ideas effectively.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "leader",
+    "presenter",
+    "presentation",
+    "slides",
+    "communication",
+    "storytelling",
+    "public-speaking",
+    "pitch",
+    "leadership"
+  ],
+  "agents": [
+    "./agents"
+  ]
+}

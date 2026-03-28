@@ -1,0 +1,32 @@
+{
+  "name": "developer",
+  "description": "Developers are a collection of skills that help you maintain and improve code quality.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "developer",
+    "coder",
+    "programmer",
+    "software-engineer",
+    "maintainer",
+    "code-quality",
+    "code-review",
+    "unit-test",
+    "unit-testing",
+    "test-generation",
+    "changelog",
+    "readme",
+    "release-notes"
+  ],
+  "agents": [
+    "./agents"
+  ],
+  "skills": [
+    "./skills/changelog-maintainer",
+    "./skills/readme-maintainer"
+  ]
+}

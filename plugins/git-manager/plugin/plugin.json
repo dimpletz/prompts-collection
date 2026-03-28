@@ -10,7 +10,13 @@
   "keywords": [
     "git-manager",
     "git",
-    "version-control"
+    "version-control",
+    "merge-conflict",
+    "worktree",
+    "pull-request",
+    "pr",
+    "repository",
+    "branching"
   ],
   "skills": [
     "./skills/git-merge-conflict-resolver",

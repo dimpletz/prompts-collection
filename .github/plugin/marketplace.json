@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -10,21 +10,63 @@
   },
   "plugins": [
     {
-      "name": "makers",
-      "source": "makers",
-      "description": "Makers are a collection of skills that help you create and optimize agents.",
+      "name": "analyst",
+      "source": "analyst",
+      "description": "Analysts are a collection of agents that help you write requirements specifications and generate solution designs.",
       "version": "1.0.0"
     },
     {
-      "name": "coder",
-      "source": "coder",
-      "description": "Coders are a collection of skills that help you maintain and improve code quality.",
+      "name": "developer",
+      "source": "developer",
+      "description": "Developers are a collection of skills that help you maintain and improve code quality.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "dotnet-developer",
+      "source": "dotnet-developer",
+      "description": "DotNet Developers are a collection of agents that help you generate and maintain unit tests for .NET applications.",
       "version": "1.0.0"
     },
     {
       "name": "git-manager",
       "source": "git-manager",
       "description": "Git Managers are a collection of skills that help you manage Git repositories.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "leader",
+      "source": "leader",
+      "description": "Leaders are a collection of agents that help you create compelling presentations and communicate ideas effectively.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "makers",
+      "source": "makers",
+      "description": "Makers are a collection of skills that help you create and optimize VS Code agents and skills.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "php-developer",
+      "source": "php-developer",
+      "description": "PHP Developers are a collection of agents that help you generate and maintain unit tests for PHP applications.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "software-evaluator",
+      "source": "software-evaluator",
+      "description": "Software Evaluators are a collection of agents that help you evaluate cloud-native applications and software procurement decisions.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "technical-writer",
+      "source": "technical-writer",
+      "description": "Technical Writers are a collection of agents that help you create how-to documents, quick reference guides, and user guides.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "tester",
+      "source": "tester",
+      "description": "Testers are a collection of agents that help you generate comprehensive test cases for your applications.",
       "version": "1.0.0"
     }
   ]

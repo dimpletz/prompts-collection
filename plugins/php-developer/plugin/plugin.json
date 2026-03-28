@@ -1,0 +1,26 @@
+{
+  "name": "php-developer",
+  "description": "PHP Developers are a collection of agents that help you generate and maintain unit tests for PHP applications.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "php-developer",
+    "php",
+    "phpunit",
+    "unit-test",
+    "unit-testing",
+    "testing",
+    "test-generation",
+    "laravel",
+    "symfony",
+    "composer",
+    "tdd"
+  ],
+  "agents": [
+    "./agents"
+  ]
+}

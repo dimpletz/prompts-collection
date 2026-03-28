@@ -1,0 +1,25 @@
+{
+  "name": "analyst",
+  "description": "Analysts are a collection of agents that help you write requirements specifications and generate solution designs.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "analyst",
+    "business-analyst",
+    "requirements",
+    "requirements-specification",
+    "functional-requirements",
+    "user-stories",
+    "specification",
+    "solution-design",
+    "solution-architect",
+    "system-design"
+  ],
+  "agents": [
+    "./agents"
+  ]
+}
