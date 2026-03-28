@@ -13,8 +13,8 @@
     "optimizer"
   ],
   "skills": [
-    "../custom-skills/skill-maker",
-    "../custom-skills/agent-maker",
-    "../custom-skills/agent-optimizer"
+    "./skills/skill-maker",
+    "./skills/agent-maker",
+    "./skills/agent-optimizer"
   ]
 }
