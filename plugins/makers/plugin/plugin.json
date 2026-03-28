@@ -1,7 +1,7 @@
 {
   "name": "makers",
   "description": "Makers are a collection of skills that help you create and optimize VS Code agents and skills.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Dimpletz"
   },
@@ -12,6 +12,7 @@
     "agent-maker",
     "agent-optimizer",
     "skill-maker",
+    "custom-instruction-maker",
     "agent",
     "skill",
     "vscode",
@@ -22,6 +23,7 @@
   "skills": [
     "./skills/agent-maker",
     "./skills/agent-optimizer",
-    "./skills/skill-maker"
+    "./skills/skill-maker",
+    "./skills/custom-instruction-maker"
   ]
 }
