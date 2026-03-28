@@ -1,0 +1,18 @@
+{
+  "name": "coder",
+  "description": "Coders are a collection of skills that help you maintain and improve code quality.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "coder",
+    "maintainer"
+  ],
+  "skills": [
+    "./skills/changelog-maintainer",
+    "./skills/readme-maintainer"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "git-manager",
+  "description": "Git Managers are a collection of skills that help you manage Git repositories.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "git-manager",
+    "git",
+    "version-control"
+  ],
+  "skills": [
+    "./skills/git-merge-conflict-resolver",
+    "./skills/git-worktree-manager",
+    "./skills/pr-cloner"
+  ]
+}
