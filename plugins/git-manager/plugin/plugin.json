@@ -1,7 +1,7 @@
 {
   "name": "git-manager",
   "description": "Git Managers are a collection of skills that help you manage Git repositories.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Dimpletz"
   },
@@ -16,11 +16,13 @@
     "pull-request",
     "pr",
     "repository",
-    "branching"
+    "branching",
+    "audit"
   ],
   "skills": [
     "./skills/git-merge-conflict-resolver",
     "./skills/git-worktree-manager",
-    "./skills/pr-cloner"
+    "./skills/pr-cloner",
+    "./skills/git-merge-auditor"
   ]
 }

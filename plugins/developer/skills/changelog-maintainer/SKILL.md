@@ -12,12 +12,12 @@ This **skill** is for developers, release managers, and CI workflows that need t
 
 - **version** (optional): The new version string to document (e.g. `1.4.2`, `2.0.0-rc.1`). If not supplied, the skill **must** auto-detect it from the project directory (see Step 1). Ask the user only if detection fails.
 - **release_date** (optional): The date of the release in `YYYY-MM-DD` format. Defaults to the current date if not provided.
-- **added** (optional): List of new features or capabilities introduced in this version. If not supplied, the skill **must** auto-detect it from git history (see Step 2). Explicit values override auto-detection.
-- **changed** (optional): List of modifications to existing behaviour, APIs, or configuration. If not supplied, the skill **must** auto-detect it from git history (see Step 2). Explicit values override auto-detection.
-- **fixed** (optional): List of bug fixes and defect resolutions. If not supplied, the skill **must** auto-detect it from git history (see Step 2). Explicit values override auto-detection.
+- **added** (optional): List of new features or capabilities introduced in this version. If not supplied, the skill **must** auto-detect it from git history and the staged index (see Step 2). Explicit values override auto-detection.
+- **changed** (optional): List of modifications to existing behaviour, APIs, or configuration. If not supplied, the skill **must** auto-detect it from git history and the staged index (see Step 2). Explicit values override auto-detection.
+- **fixed** (optional): List of bug fixes and defect resolutions. If not supplied, the skill **must** auto-detect it from git history and the staged index (see Step 2). Explicit values override auto-detection.
 - **changelog_path** (optional): Relative path to the changelog file. Defaults to `CHANGELOG.md` at the repository root.
 
-> If git history is unavailable and none of **added**, **changed**, or **fixed** could be determined, ask the user to provide the change details before proceeding.
+> If git history is unavailable, the staged index is empty, and none of **added**, **changed**, or **fixed** could be determined, ask the user to provide the change details before proceeding.
 
 ## Task priorities
 
@@ -43,21 +43,37 @@ This **skill** is for developers, release managers, and CI workflows that need t
    - Use the first match found. If multiple files are present, prefer the highest-priority source.
    - If no version can be detected, stop and ask the user to provide it before continuing.
 
-2. **Step 2 – Detect changes from git history**
-   - For each of **added**, **changed**, and **fixed** that was not explicitly provided, derive its content from the git commit log:
+2. **Step 2 – Detect changes from git history and staged index**
+   - For each of **added**, **changed**, and **fixed** that was not explicitly provided, derive its content from both the git commit log and the staged index:
+
+   **2a – Collect committed changes**
      1. Find the most recent git tag: `git describe --tags --abbrev=0` (or `git tag --sort=-creatordate` and take the first). If no tag exists, use the very first commit as the baseline.
-     2. Collect all commits since that tag up to `HEAD`: `git log <last-tag>..HEAD --pretty=format:"%s"`.
-     3. Classify each commit message using **Conventional Commits** prefixes:
-        | Prefix | Section |
-        |---|---|
-        | `feat:` / `feat(<scope>):` | **Added** |
-        | `fix:` / `fix(<scope>):` | **Fixed** |
-        | `refactor:` / `perf:` / `style:` / `chore:` / `build:` / `ci:` / `docs:` | **Changed** |
-     4. Strip the prefix and scope from each message to produce a clean description (e.g. `feat(auth): add OAuth2 login` → `Add OAuth2 login`).
-     5. Deduplicate messages and discard merge commits (messages starting with `Merge `).
-   - If a section was **explicitly provided** by the user, skip auto-detection for that section entirely.
+     2. Check whether there are any commits since that tag: `git log <last-tag>..HEAD --oneline`; if the output is empty, skip this sub-step silently.
+     3. Run `git diff <last-tag>..HEAD` to obtain the full unified diff of all changes since the baseline.
+     4. For each file in the diff, analyse the added (`+`) and removed (`-`) lines to understand **what actually changed** inside the file. Use this content to write a concise, human-readable description of the actual modification (e.g. "Add OAuth2 login support to authentication module", "Replace deprecated `request` calls with `fetch` in API client", "Remove unused `LegacyCache` class").
+     5. Determine the section for each file using the following heuristic applied to the diff content:
+        - File is entirely new (only added lines, no prior content): **Added**
+        - File is entirely removed (only removed lines): **Changed**
+        - File introduces new public functions, classes, endpoints, or features not previously present: **Added**
+        - File removes or replaces existing behaviour, updates logic, renames symbols, or fixes a defect detectable in the diff: **Changed** or **Fixed** as appropriate
+     6. Deduplicate descriptions and discard entries that correspond solely to merge commits (identifiable by merge commit SHAs in `git log --merges <last-tag>..HEAD`).
+
+   **2b – Collect staged index changes**
+     1. Check whether there are any staged changes: `git diff --cached --quiet`; if the exit code is `0` (nothing staged), skip this sub-step silently.
+     2. Run `git diff --cached` to obtain the full unified diff of all staged files.
+     3. For each file in the diff, analyse the added (`+`) and removed (`-`) lines to understand **what actually changed** inside the file, not just that it changed. Use this content to write a concise, human-readable description of the actual modification (e.g. "Add OAuth2 login support to authentication module", "Replace deprecated `request` calls with `fetch` in API client", "Remove unused `LegacyCache` class").
+     4. Determine the section for each file using the following heuristic applied to the diff content:
+        - File is entirely new (only added lines, no prior content): **Added**
+        - File is entirely removed (only removed lines): **Changed**
+        - File introduces new public functions, classes, endpoints, or features not previously present: **Added**
+        - File removes or replaces existing behaviour, updates logic, renames symbols, or fixes a defect detectable in the diff: **Changed** or **Fixed** as appropriate
+     5. Deduplicate against entries already collected from the commit log to avoid repetition.
+
+   **2c – Merge results**
+     - Combine items from 2a and 2b into a single de-duplicated list per section (**Added**, **Changed**, **Fixed**). Items from the staged index (2b) are appended after committed-diff items (2a) within each section.
+
+   - If a section was **explicitly provided** by the user, skip auto-detection for that section entirely (both 2a and 2b).
    - If `git` is not available or the directory is not a git repository, skip this step and proceed with only the explicitly supplied values. If none are supplied, ask the user.
-   - If commits exist but none match a conventional prefix, place all commit messages into **Changed** as a fallback.
 
 3. **Step 3 – Validate inputs**
    - Confirm **version** is now known (detected or supplied).
@@ -165,10 +181,11 @@ The updated (or newly created) CHANGELOG.md content, shown in full.
 - **Assumes** the file uses `# Changelog` as its sole H1 heading; a non-standard header may cause incorrect insertion.
 - **Assumes** version strings are matched by exact string comparison; partial or fuzzy matches are not supported.
 - **Assumes** the version field in the detected project file reflects the version being released (i.e. it has already been bumped before the skill is invoked).
-- **Assumes** commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) for accurate classification into Added / Changed / Fixed. Non-conventional messages are placed in **Changed** as a fallback.
+- **Assumes** commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) format for reference, but change descriptions are derived from the actual diff content of committed (`git diff <last-tag>..HEAD`) and staged (`git diff --cached`) files. Section classification is based on what was added, modified, or removed in the diff rather than on commit message prefixes.
+- **Assumes** staged file paths reflect the intended change intent; descriptions are derived from the actual diff content (`git diff --cached`) of each staged file, not from file names or status codes.
 - **Does not** handle "Yanked" releases or the `[UNRELEASED]` pattern from Keep a Changelog without extension.
 - **Does not** support monorepos with multiple versioned packages automatically; for those, supply **version** and **changelog_path** explicitly.
-- **Does not** analyse file diffs or ASTs; change detection is solely based on git commit messages.
+- **Does not** analyse ASTs; change detection for both committed and staged changes reads unified diff output (`git diff <last-tag>..HEAD` and `git diff --cached`) and derives human-readable descriptions from the actual line-level changes.
 
 ### Validation checks
 
@@ -177,6 +194,8 @@ The updated (or newly created) CHANGELOG.md content, shown in full.
 3. Run it twice with the same version and confirm the second run updates the existing entry in-place without adding a duplicate or changing any other entries.
 4. Run it without supplying a **version** in a project that has a recognisable manifest file (e.g. `package.json`, `pyproject.toml`, `pom.xml`, `*.csproj`, `composer.json`, `build.gradle`) and confirm the version is read from that file automatically.
 5. Run it in a directory with no recognisable project file and confirm the skill stops and prompts for a version rather than proceeding silently.
-6. Run it on a repo whose commits since the last tag use conventional prefixes and confirm messages are correctly classified into **Added**, **Changed**, and **Fixed**.
+6. Run it on a repo with commits since the last tag and confirm descriptions are derived from the actual diff content — not from commit message prefixes — and classified correctly into **Added**, **Changed**, and **Fixed**.
 7. Run it on a repo with no git tags and confirm it falls back to using the first commit as the baseline.
-8. Explicitly supply an **added** list and confirm that section is taken verbatim while **changed** and **fixed** are still auto-detected from git.
+8. Explicitly supply an **added** list and confirm that section is taken verbatim while **changed** and **fixed** are still auto-detected from the committed and staged diffs.
+9. Stage a new file, a modified file, and a deleted file without committing, then run the skill and confirm the staged entries are described from the actual diff content and placed in the correct sections.
+10. Stage changes that overlap with already-committed diffs and confirm the final output contains no duplicate entries.
