@@ -93,6 +93,49 @@ For each flagged file, produce a focused diff to show what is missing:
 git diff <target_branch>..<source_branch> -- <file-path>
 ```
 
+### Step 4.5 – Audit binary file changes
+
+Binary files (e.g. `*.jar`, `*.exe`, `*.dll`, `*.so`, `*.zip`, `*.war`) cannot be line-diffed. Confirm whether each binary change performed in **source_branch** — added, replaced, or removed — is mirrored in **target_branch**.
+
+#### 4.5.1 — Identify binary files changed in source branch
+
+Binary files are detected via `--numstat`, which outputs `-` for both counts when a file is not text-diffable:
+
+```bash
+git diff <merge_base>..<source_branch> --numstat | awk '$1 == "-" && $2 == "-" { print $3 }'
+```
+
+For each file returned, determine the operation performed in the source branch:
+
+```bash
+git diff <merge_base>..<source_branch> --name-status -- <file>
+```
+
+Status letters:
+- `A` — Added (file did not exist at the merge base)
+- `M` — Modified / Replaced (file existed but its content changed)
+- `D` — Deleted (file was removed)
+
+#### 4.5.2 — Confirm the same operation in the target branch
+
+For each binary file identified, check what the target branch did with it:
+
+```bash
+git diff <merge_base>..<target_branch> --name-status -- <file>
+```
+
+Then compare object hashes to verify content parity:
+
+```bash
+git rev-parse <source_branch>:<file>
+git rev-parse <target_branch>:<file>
+```
+
+Classify each binary file as:
+- **✅ Synced** — same operation and identical content hash in both branches
+- **⚠️ Partial / Hash mismatch** — operation is present in target but content differs
+- **❌ Missing** — the source operation is not reflected in the target at all
+
 ### Step 5 – Detect cherry-pick equivalence (optional refinement)
 
 When commits are missing by hash (Step 3) but the target branch may have applied equivalent changes via cherry-pick or rebase, check whether the patch content is already present:
@@ -127,6 +170,7 @@ Always respond using this structure:
 |---|---|
 | Missing commits | <count or "None"> |
 | Divergent files | <count or "None"> |
+| Binary file changes | <count or "None"> |
 | Possibly included (different hash) | <count or "None"> |
 | **Overall status** | ✅ Clean / ⚠️ Needs Review / ❌ Missing Changes |
 
@@ -162,6 +206,18 @@ _None_ — if no divergent files.
 
 ---
 
+### Binary File Changes
+
+> Binary files (*.jar, *.exe, etc.) changed in `<source_branch>`. Confirms whether each add/replace/remove was applied to `<target_branch>`.
+
+| File | Source Operation | Target Status | Notes |
+|---|---|---|---|
+| `<file-path>` | Added / Replaced / Removed | ✅ Synced / ⚠️ Hash mismatch / ❌ Missing | <optional note> |
+
+_None_ — if no binary files were changed in the source branch.
+
+---
+
 ### Possibly Included (Different Hash)
 
 > Source commits not present by hash, but whose subject line was found in target history. Manual review recommended.
@@ -184,6 +240,7 @@ _None_ — if no such commits.
 
 - **Assumes** both branches are accessible in the local repository (after the optional fetch step). Branches on forks not configured as remotes are out of scope.
 - **Assumes** a linear or standard merge-based history. Orphan branches or `--orphan` histories may produce misleading merge-base results.
+- **Binary detection** uses `--numstat` to identify non-text-diffable files. Files that Git treats as text despite a binary extension (e.g. text-encoded XML inside a `.jar` wrapper) will not be captured here; they are covered by Step 4's file diff instead.
 - **Does not** account for reverted commits — a commit that was applied and then reverted in the target branch will appear as missing even though its net effect is zero. Flag these for manual review.
 - **Does not** perform the merge or any write operation. It is strictly diagnostic.
 - **Cherry-pick equivalence** (Step 5) is a best-effort heuristic based on commit subject line matching. It may produce false positives when two unrelated commits share the same summary.

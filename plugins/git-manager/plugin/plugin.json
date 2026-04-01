@@ -1,7 +1,7 @@
 {
   "name": "git-manager",
   "description": "Git Managers are a collection of skills that help you manage Git repositories.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "Dimpletz"
   },

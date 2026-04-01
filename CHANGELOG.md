@@ -1,5 +1,13 @@
 # Changelog for Marketplace
 
+## 1.5.1 - 2026-04-02
+
+### Changed
+- Git Merge Auditor skill updated to audit binary file changes (*.jar, *.exe, etc.) — confirms add/replace/remove operations are mirrored in the target branch
+- Changelog Maintainer skill updated to support a fourth `Removed` section, skip lock files during diff analysis, handle binary files with high-level add/replace/remove entries, and fix the "entirely removed file" heuristic to classify under `Removed` instead of `Changed`
+- git-manager plugin updated to v1.1.1
+- developer plugin updated to v1.0.2
+
 ## 1.5.0 - 2026-04-01
 
 ### Added

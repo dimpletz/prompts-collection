@@ -6,7 +6,7 @@ description: >
 
 # Changelog Maintainer
 
-This **skill** is for developers, release managers, and CI workflows that need to keep a `CHANGELOG.md` up-to-date as new versions are released. It ensures every entry follows a uniform structure, appears at the top of the file (most recent first), and covers the three standard buckets: **Added**, **Changed**, and **Fixed**.
+This **skill** is for developers, release managers, and CI workflows that need to keep a `CHANGELOG.md` up-to-date as new versions are released. It ensures every entry follows a uniform structure, appears at the top of the file (most recent first), and covers the four standard buckets: **Added**, **Changed**, **Fixed**, and **Removed**.
 
 ## Inputs
 
@@ -15,9 +15,10 @@ This **skill** is for developers, release managers, and CI workflows that need t
 - **added** (optional): List of new features or capabilities introduced in this version. If not supplied, the skill **must** auto-detect it from git history and the staged index (see Step 2). Explicit values override auto-detection.
 - **changed** (optional): List of modifications to existing behaviour, APIs, or configuration. If not supplied, the skill **must** auto-detect it from git history and the staged index (see Step 2). Explicit values override auto-detection.
 - **fixed** (optional): List of bug fixes and defect resolutions. If not supplied, the skill **must** auto-detect it from git history and the staged index (see Step 2). Explicit values override auto-detection.
+- **removed** (optional): List of features, capabilities, or components no longer present in this version. If not supplied, the skill **must** auto-detect it from git history and the staged index (see Step 2). Explicit values override auto-detection.
 - **changelog_path** (optional): Relative path to the changelog file. Defaults to `CHANGELOG.md` at the repository root.
 
-> If git history is unavailable, the staged index is empty, and none of **added**, **changed**, or **fixed** could be determined, ask the user to provide the change details before proceeding.
+> If git history is unavailable, the staged index is empty, and none of **added**, **changed**, **fixed**, or **removed** could be determined, ask the user to provide the change details before proceeding.
 
 ## Task priorities
 
@@ -44,33 +45,39 @@ This **skill** is for developers, release managers, and CI workflows that need t
    - If no version can be detected, stop and ask the user to provide it before continuing.
 
 2. **Step 2 – Detect changes from git history and staged index**
-   - For each of **added**, **changed**, and **fixed** that was not explicitly provided, derive its content from both the git commit log and the staged index:
+   - For each of **added**, **changed**, **fixed**, and **removed** that was not explicitly provided, derive its content from both the git commit log and the staged index:
 
    **2a – Collect committed changes**
      1. Find the most recent git tag: `git describe --tags --abbrev=0` (or `git tag --sort=-creatordate` and take the first). If no tag exists, use the very first commit as the baseline.
      2. Check whether there are any commits since that tag: `git log <last-tag>..HEAD --oneline`; if the output is empty, skip this sub-step silently.
      3. Run `git diff <last-tag>..HEAD` to obtain the full unified diff of all changes since the baseline.
-     4. For each file in the diff, analyse the added (`+`) and removed (`-`) lines to understand **what actually changed** inside the file. Use this content to write a concise, human-readable description of the actual modification (e.g. "Add OAuth2 login support to authentication module", "Replace deprecated `request` calls with `fetch` in API client", "Remove unused `LegacyCache` class").
-     5. Determine the section for each file using the following heuristic applied to the diff content:
+     4. **Before analysis**, apply these file filters:
+        - **Skip lock files**: `package-lock.json`, `package.lock`, `yarn.lock`, `composer.lock`, `Pipfile.lock`, `poetry.lock`, `Gemfile.lock`, `pnpm-lock.yaml`, and any file ending in `.lock`. Do not generate a changelog entry for these files.
+        - **For binary files** (e.g. `*.jar`, `*.exe`, `*.dll`, `*.zip`, `*.war`, `*.class`, `*.png`, `*.jpg`, `*.gif`, `*.pdf`): skip diff content analysis. Record a single high-level entry — `Add <filename>`, `Replace <filename>`, or `Remove <filename>` — based on whether the file was added, replaced, or deleted.
+     5. For each remaining file in the diff, analyse the added (`+`) and removed (`-`) lines to understand **what actually changed** inside the file. Write a **high-level, concise** description — one brief line per logical change (e.g. "Add OAuth2 login support", "Replace deprecated HTTP client", "Fix null pointer in login flow"). Do not enumerate individual method names, config keys, or code lines.
+     6. Determine the section for each file using the following heuristic applied to the diff content:
         - File is entirely new (only added lines, no prior content): **Added**
-        - File is entirely removed (only removed lines): **Changed**
+        - File is entirely removed (deleted file, only removed lines): **Removed**
         - File introduces new public functions, classes, endpoints, or features not previously present: **Added**
         - File removes or replaces existing behaviour, updates logic, renames symbols, or fixes a defect detectable in the diff: **Changed** or **Fixed** as appropriate
-     6. Deduplicate descriptions and discard entries that correspond solely to merge commits (identifiable by merge commit SHAs in `git log --merges <last-tag>..HEAD`).
+     7. Deduplicate descriptions and discard entries that correspond solely to merge commits (identifiable by merge commit SHAs in `git log --merges <last-tag>..HEAD`).
 
    **2b – Collect staged index changes**
      1. Check whether there are any staged changes: `git diff --cached --quiet`; if the exit code is `0` (nothing staged), skip this sub-step silently.
      2. Run `git diff --cached` to obtain the full unified diff of all staged files.
-     3. For each file in the diff, analyse the added (`+`) and removed (`-`) lines to understand **what actually changed** inside the file, not just that it changed. Use this content to write a concise, human-readable description of the actual modification (e.g. "Add OAuth2 login support to authentication module", "Replace deprecated `request` calls with `fetch` in API client", "Remove unused `LegacyCache` class").
-     4. Determine the section for each file using the following heuristic applied to the diff content:
+     3. **Before analysis**, apply these file filters:
+        - **Skip lock files**: `package-lock.json`, `package.lock`, `yarn.lock`, `composer.lock`, `Pipfile.lock`, `poetry.lock`, `Gemfile.lock`, `pnpm-lock.yaml`, and any file ending in `.lock`. Do not generate a changelog entry for these files.
+        - **For binary files** (e.g. `*.jar`, `*.exe`, `*.dll`, `*.zip`, `*.war`, `*.class`, `*.png`, `*.jpg`, `*.gif`, `*.pdf`): skip diff content analysis. Record a single high-level entry — `Add <filename>`, `Replace <filename>`, or `Remove <filename>` — based on whether the file was added, replaced, or deleted.
+     4. For each remaining file in the diff, analyse the added (`+`) and removed (`-`) lines to understand **what actually changed** inside the file. Write a **high-level, concise** description — one brief line per logical change (e.g. "Add OAuth2 login support", "Replace deprecated HTTP client", "Fix null pointer in login flow"). Do not enumerate individual method names, config keys, or code lines.
+     5. Determine the section for each file using the following heuristic applied to the diff content:
         - File is entirely new (only added lines, no prior content): **Added**
-        - File is entirely removed (only removed lines): **Changed**
+        - File is entirely removed (deleted file, only removed lines): **Removed**
         - File introduces new public functions, classes, endpoints, or features not previously present: **Added**
         - File removes or replaces existing behaviour, updates logic, renames symbols, or fixes a defect detectable in the diff: **Changed** or **Fixed** as appropriate
-     5. Deduplicate against entries already collected from the commit log to avoid repetition.
+     6. Deduplicate against entries already collected from the commit log to avoid repetition.
 
    **2c – Merge results**
-     - Combine items from 2a and 2b into a single de-duplicated list per section (**Added**, **Changed**, **Fixed**). Items from the staged index (2b) are appended after committed-diff items (2a) within each section.
+     - Combine items from 2a and 2b into a single de-duplicated list per section (**Added**, **Changed**, **Fixed**, **Removed**). Items from the staged index (2b) are appended after committed-diff items (2a) within each section.
 
    - If a section was **explicitly provided** by the user, skip auto-detection for that section entirely (both 2a and 2b).
    - If `git` is not available or the directory is not a git repository, skip this step and proceed with only the explicitly supplied values. If none are supplied, ask the user.
@@ -78,7 +85,7 @@ This **skill** is for developers, release managers, and CI workflows that need t
 3. **Step 3 – Validate inputs**
    - Confirm **version** is now known (detected or supplied).
    - Confirm **release_date** is set; default to today's date if not provided.
-   - Confirm at least one of **added**, **changed**, or **fixed** is non-empty after detection. If none are available, ask the user to provide the change details before proceeding.
+   - Confirm at least one of **added**, **changed**, **fixed**, or **removed** is non-empty after detection. If none are available, ask the user to provide the change details before proceeding.
    - If the changelog file already exists, check whether the same **version** is already recorded. If it is, mark it for **in-place update** (see Step 6) rather than stopping.
 
 4. **Step 4 – Read existing changelog**
@@ -87,7 +94,7 @@ This **skill** is for developers, release managers, and CI workflows that need t
    - If the file does not exist, create it with only the `# Changelog` heading, then append the new entry.
 
 5. **Step 5 – Compose the new entry**
-   - Use the exact template below. Omit any section (`### Added`, `### Changed`, `### Fixed`) whose corresponding input is empty.
+   - Use the exact template below. Omit any section (`### Added`, `### Changed`, `### Fixed`, `### Removed`) whose corresponding input is empty.
    - Each item in a section is a Markdown list item starting with `- `.
 
    ```markdown
@@ -100,6 +107,9 @@ This **skill** is for developers, release managers, and CI workflows that need t
    - <item>
 
    ### Fixed
+   - <item>
+
+   ### Removed
    - <item>
    ```
 
@@ -128,7 +138,7 @@ After completing all steps, respond with:
 ```markdown
 ## Summary
 - Version recorded and its release date.
-- Sections populated (Added / Changed / Fixed).
+- Sections populated (Added / Changed / Fixed / Removed).
 - Whether the entry was inserted (new version), updated in-place (existing version), or the file was created from scratch.
 
 ## Main Results
@@ -194,8 +204,10 @@ The updated (or newly created) CHANGELOG.md content, shown in full.
 3. Run it twice with the same version and confirm the second run updates the existing entry in-place without adding a duplicate or changing any other entries.
 4. Run it without supplying a **version** in a project that has a recognisable manifest file (e.g. `package.json`, `pyproject.toml`, `pom.xml`, `*.csproj`, `composer.json`, `build.gradle`) and confirm the version is read from that file automatically.
 5. Run it in a directory with no recognisable project file and confirm the skill stops and prompts for a version rather than proceeding silently.
-6. Run it on a repo with commits since the last tag and confirm descriptions are derived from the actual diff content — not from commit message prefixes — and classified correctly into **Added**, **Changed**, and **Fixed**.
+6. Run it on a repo with commits since the last tag and confirm descriptions are derived from the actual diff content — not from commit message prefixes — and classified correctly into **Added**, **Changed**, **Fixed**, and **Removed**.
 7. Run it on a repo with no git tags and confirm it falls back to using the first commit as the baseline.
 8. Explicitly supply an **added** list and confirm that section is taken verbatim while **changed** and **fixed** are still auto-detected from the committed and staged diffs.
 9. Stage a new file, a modified file, and a deleted file without committing, then run the skill and confirm the staged entries are described from the actual diff content and placed in the correct sections.
 10. Stage changes that overlap with already-committed diffs and confirm the final output contains no duplicate entries.
+11. Commit a change that includes a lock file (e.g. `package-lock.json`) alongside source changes and confirm no lock-file entry appears in the changelog.
+12. Commit or stage a binary file (e.g. `app.jar`) that is new, replaced, or deleted, and confirm the entry reads `Add app.jar`, `Replace app.jar`, or `Remove app.jar` respectively, with no diff analysis.
