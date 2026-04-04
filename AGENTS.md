@@ -14,6 +14,11 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/*/agents/ — agent definition files (.agent.md)
 - plugins/*/skills/ — skill definition files (SKILL.md)
 - plugins/*/plugin/ — plugin.json manifest for each plugin
+- plugins/*/hooks/ — hook configuration files (hooks.json)
+- plugins/*/scripts/ — hook scripts referenced by hooks.json
+- plugins/python-developer/plugin/plugin.json — python-developer manifest
+- plugins/python-developer/hooks/hooks.json — PostToolUse hook config
+- plugins/python-developer/scripts/python-quality.py — black + pylint hook script
 - custom-instructions/ — global custom instruction files
 - CHANGELOG.md — marketplace changelog
 - README.md — repo overview, plugin table, agent/skill catalog, usage guide

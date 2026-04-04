@@ -1,0 +1,20 @@
+{
+  "name": "python-developer",
+  "description": "Python Developer is a plugin that enforces code quality by running black and pylint automatically after every Python file modification.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "python-developer",
+    "python",
+    "black",
+    "pylint",
+    "code-quality",
+    "formatting",
+    "linting",
+    "hooks"
+  ]
+}

@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.5.2",
+    "version": "1.6.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -67,6 +67,12 @@
       "name": "tester",
       "source": "tester",
       "description": "Testers are a collection of agents that help you generate comprehensive test cases for your applications.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "python-developer",
+      "source": "python-developer",
+      "description": "Python Developer is a plugin that enforces code quality by running black and pylint automatically after every Python file modification.",
       "version": "1.0.0"
     }
   ]

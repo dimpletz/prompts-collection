@@ -1,5 +1,10 @@
 # Changelog for Marketplace
 
+## 1.6.0 - 2026-04-05
+
+### Added
+- python-developer plugin (v1.0.0) with a PostToolUse hook that runs `black` on all Python files and `pylint` on all non-test Python files after every Python file modification; missing `black` or `pylint` produces a blocking error with installation instructions
+
 ## 1.5.2 - 2026-04-04
 
 ### Changed
