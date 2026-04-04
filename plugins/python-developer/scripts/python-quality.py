@@ -77,21 +77,20 @@ def blocking_error(message: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Main
+# Main helpers
 # ---------------------------------------------------------------------------
 
 
-def main() -> None:
-    data = read_stdin_json()
-
-    # Only act when a Python file was modified
+def get_modified_py_files(data: dict) -> tuple[list[str], list[str]]:
+    """Return (all_py_files, non_test_py_files) from the hook payload."""
     modified_files = extract_modified_files(data)
-    if not any(is_python_file(f) for f in modified_files):
-        sys.exit(0)
+    all_py = [f for f in modified_files if is_python_file(f)]
+    non_test = [f for f in all_py if not is_test_file(f)]
+    return all_py, non_test
 
-    workspace = data.get("cwd") or os.getcwd()
 
-    # --- Availability checks (blocking) ------------------------------------
+def check_required_tools() -> None:
+    """Block with an error message if black or pylint are not on PATH."""
     if not check_tool_available("black"):
         blocking_error(
             "ERROR: 'black' is not available on PATH.\n"
@@ -112,30 +111,38 @@ def main() -> None:
             "Once installed, re-run the agent action."
         )
 
-    # Partition modified Python files into test and non-test
-    modified_py_files = [f for f in modified_files if is_python_file(f)]
-    non_test_py_files = [f for f in modified_py_files if not is_test_file(f)]
 
-    # --- Run black on modified Python files --------------------------------
-    black_result = subprocess.run(
-        ["black"] + modified_py_files,
+def run_black(files: list[str], workspace: str) -> subprocess.CompletedProcess:
+    """Run black on *files* and return the CompletedProcess result."""
+    return subprocess.run(
+        ["black"] + files,
         cwd=workspace,
         capture_output=True,
         text=True,
+        check=False,
     )
 
-    # --- Run pylint on modified non-test files -----------------------------
-    pylint_output = ""
-    if non_test_py_files:
-        pylint_result = subprocess.run(
-            ["pylint"] + non_test_py_files,
-            cwd=workspace,
-            capture_output=True,
-            text=True,
-        )
-        pylint_output = (pylint_result.stdout + pylint_result.stderr).strip()
 
-    # --- Build context string for the agent --------------------------------
+def run_pylint(files: list[str], workspace: str) -> str:
+    """Run pylint on *files* and return combined stdout+stderr, or '' if no files."""
+    if not files:
+        return ""
+    result = subprocess.run(
+        ["pylint"] + files,
+        cwd=workspace,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return (result.stdout + result.stderr).strip()
+
+
+def build_context(
+    black_result: subprocess.CompletedProcess,
+    pylint_output: str,
+    non_test_py_files: list[str],
+) -> str:
+    """Assemble the additionalContext string from black and pylint results."""
     context_parts = []
 
     black_summary = (black_result.stdout + black_result.stderr).strip()
@@ -150,18 +157,43 @@ def main() -> None:
     elif non_test_py_files:
         context_parts.append("pylint: no issues found.")
 
-    additional_context = "\n\n".join(context_parts) if context_parts else ""
+    return "\n\n".join(context_parts) if context_parts else ""
 
-    # --- Emit hook output --------------------------------------------------
-    output: dict = {}
-    if additional_context:
-        output["hookSpecificOutput"] = {
+
+def emit_hook_output(additional_context: str) -> None:
+    """Print the JSON hook output payload when there is context to share."""
+    if not additional_context:
+        return
+    output = {
+        "hookSpecificOutput": {
             "hookEventName": "PostToolUse",
             "additionalContext": additional_context,
         }
+    }
+    print(json.dumps(output))
 
-    if output:
-        print(json.dumps(output))
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+
+def main() -> None:
+    data = read_stdin_json()
+
+    all_py_files, non_test_py_files = get_modified_py_files(data)
+    if not all_py_files:
+        sys.exit(0)
+
+    workspace = data.get("cwd") or os.getcwd()
+
+    check_required_tools()
+
+    black_result = run_black(all_py_files, workspace)
+    pylint_output = run_pylint(non_test_py_files, workspace)
+
+    additional_context = build_context(black_result, pylint_output, non_test_py_files)
+    emit_hook_output(additional_context)
 
     sys.exit(0)
 
