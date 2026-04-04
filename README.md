@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.5.1`
+## Plugins `v1.5.2`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -15,7 +15,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [dotnet-developer](plugins/dotnet-developer/) `v1.0.0` | Agents for generating and maintaining unit tests for .NET/C# applications. | [.NET Unit Test Generator](plugins/dotnet-developer/agents/DotNetUnitTestGenerator.agent.md) | — |
 | [git-manager](plugins/git-manager/) `v1.1.1` | Skills for managing Git repositories, worktrees, merge conflicts, and pull requests. | — | [Git Merge Conflict Resolver](plugins/git-manager/skills/git-merge-conflict-resolver/SKILL.md), [Git Worktree Manager](plugins/git-manager/skills/git-worktree-manager/SKILL.md), [PR Cloner](plugins/git-manager/skills/pr-cloner/SKILL.md), [Git Merge Auditor](plugins/git-manager/skills/git-merge-auditor/SKILL.md) |
 | [leader](plugins/leader/) `v1.0.0` | Agents for creating compelling presentations and communicating ideas effectively. | [Presenter](plugins/leader/agents/Presenter.agent.md) | — |
-| [ai-engineer](plugins/ai-engineer/) `v1.0.0` | Skills for creating and optimizing VS Code agents, skills, and custom instruction files. | — | [Agent Maker](plugins/ai-engineer/skills/agent-maker/SKILL.md), [Agent Optimizer](plugins/ai-engineer/skills/agent-optimizer/SKILL.md), [Custom Instruction Maker](plugins/ai-engineer/skills/custom-instruction-maker/SKILL.md), [Skill Maker](plugins/ai-engineer/skills/skill-maker/SKILL.md) |
+| [ai-engineer](plugins/ai-engineer/) `v1.0.1` | Skills for creating and optimizing VS Code agents, skills, and custom instruction files. | — | [Agent Maker](plugins/ai-engineer/skills/agent-maker/SKILL.md), [Agent Optimizer](plugins/ai-engineer/skills/agent-optimizer/SKILL.md), [Custom Instruction Maker](plugins/ai-engineer/skills/custom-instruction-maker/SKILL.md), [Skill Maker](plugins/ai-engineer/skills/skill-maker/SKILL.md) |
 | [php-developer](plugins/php-developer/) `v1.0.0` | Agents for generating and maintaining unit tests for PHP applications. | [PHP Unit Test Generator](plugins/php-developer/agents/PHPUnitTestGenerator.agent.md) | — |
 | [software-evaluator](plugins/software-evaluator/) `v1.0.0` | Agents for evaluating cloud-native applications and software procurement decisions. | [Cloud Native App Evaluator](plugins/software-evaluator/agents/CloudNativeAppEvaluator.agent.md), [Software Procurement Evaluator](plugins/software-evaluator/agents/SoftwareProcurementEvaluator.agent.md) | — |
 | [technical-writer](plugins/technical-writer/) `v1.0.0` | Agents for creating how-to documents, quick reference guides, and user guides. | [HowTo Document Generator](plugins/technical-writer/agents/HowToDocumentGenerator.agent.md), [Quick Reference Guide Generator](plugins/technical-writer/agents/QuickReferenceGuideGenerator.agent.md), [User Guide Generator](plugins/technical-writer/agents/UserGuideGenerator.agent.md) | — |

@@ -1,7 +1,7 @@
 {
   "name": "ai-engineer",
   "description": "AI Engineer is a collection of skills that help you create and optimize VS Code agents and skills.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Dimpletz"
   },

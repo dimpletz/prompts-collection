@@ -1,5 +1,11 @@
 # Changelog for Marketplace
 
+## 1.5.2 - 2026-04-04
+
+### Changed
+- Custom Instruction Maker skill updated to restrict the Tree section to main folders and important files only — individual source files are no longer enumerated
+- ai-engineer plugin updated to v1.0.1
+
 ## 1.5.1 - 2026-04-02
 
 ### Changed

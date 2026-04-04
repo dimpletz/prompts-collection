@@ -72,11 +72,11 @@ to start locally. Tests use Jest — run `npm test`.
 
 #### B. Tree (MANDATORY)
 
-A map of the folder's contents with a one-line description for each entry. This serves as the AI's mental model of where things live.
+A map of the folder's top-level structure with a one-line description for each entry. This serves as the AI's mental model of where things live.
 
-- List every important file and folder with a brief explanation of what it contains.
+- List main folders and important root-level files only — do not enumerate every source file.
 - Use `- path/to/item — description` format.
-- Include source directories, test directories, config files, scripts, docs, and infrastructure.
+- Include top-level source directories, test directories, config files, scripts, docs, and infrastructure. Stop at the folder level unless a specific file within is particularly important.
 - Keep it current — the Rules section will instruct the AI to update this list when new files are created.
 
 Example:
