@@ -20,7 +20,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [software-evaluator](plugins/software-evaluator/) `v1.0.0` | Agents for evaluating cloud-native applications and software procurement decisions. | [Cloud Native App Evaluator](plugins/software-evaluator/agents/CloudNativeAppEvaluator.agent.md), [Software Procurement Evaluator](plugins/software-evaluator/agents/SoftwareProcurementEvaluator.agent.md) | — |
 | [technical-writer](plugins/technical-writer/) `v1.0.0` | Agents for creating how-to documents, quick reference guides, and user guides. | [HowTo Document Generator](plugins/technical-writer/agents/HowToDocumentGenerator.agent.md), [Quick Reference Guide Generator](plugins/technical-writer/agents/QuickReferenceGuideGenerator.agent.md), [User Guide Generator](plugins/technical-writer/agents/UserGuideGenerator.agent.md) | — |
 | [tester](plugins/tester/) `v1.0.0` | Agents for generating comprehensive test cases. | [Test Case Generator](plugins/tester/agents/TestCaseGenerator.agent.md) | — |
-| [python-developer](plugins/python-developer/) `v1.0.0` | Hook that auto-formats all Python files with `black` and lints all non-test Python files with `pylint` after every file modification. | — | — |
+| [python-developer](plugins/python-developer/) `v1.1.0` | Hook that auto-formats all Python files with `black` and lints all non-test Python files with `pylint` after every file modification. | — | — |
 
 ## Agents
 

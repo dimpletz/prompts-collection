@@ -89,27 +89,28 @@ def get_modified_py_files(data: dict) -> tuple[list[str], list[str]]:
     return all_py, non_test
 
 
-def check_required_tools() -> None:
-    """Block with an error message if black or pylint are not on PATH."""
-    if not check_tool_available("black"):
-        blocking_error(
-            "ERROR: 'black' is not available on PATH.\n"
-            "Please install it before continuing:\n\n"
-            "    pip install black\n\n"
-            "Or, if you are using a virtual environment:\n"
-            "    python -m pip install black\n\n"
-            "Once installed, re-run the agent action."
-        )
+def install_tool(tool_name: str) -> bool:
+    """Attempt to install *tool_name* via `python -m pip`. Return True on success."""
+    result = subprocess.run(
+        [sys.executable, "-m", "pip", "install", tool_name],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return result.returncode == 0
 
-    if not check_tool_available("pylint"):
-        blocking_error(
-            "ERROR: 'pylint' is not available on PATH.\n"
-            "Please install it before continuing:\n\n"
-            "    pip install pylint\n\n"
-            "Or, if you are using a virtual environment:\n"
-            "    python -m pip install pylint\n\n"
-            "Once installed, re-run the agent action."
-        )
+
+def check_required_tools() -> None:
+    """Ensure black and pylint are available, installing them if needed."""
+    for tool in ("black", "pylint"):
+        if not check_tool_available(tool):
+            if not install_tool(tool):
+                blocking_error(
+                    f"ERROR: '{tool}' is not available and could not be installed.\n"
+                    f"Please install it manually before continuing:\n\n"
+                    f"    python -m pip install {tool}\n\n"
+                    "Once installed, re-run the agent action."
+                )
 
 
 def run_black(files: list[str], workspace: str) -> subprocess.CompletedProcess:

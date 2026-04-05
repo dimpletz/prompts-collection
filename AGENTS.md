@@ -11,6 +11,7 @@ using the `dimpletz/prompts-collection` marketplace source.
 ## Tree
 
 - plugins/ — all plugins, grouped by domain
+- plugins/*/README.md — per-plugin documentation
 - plugins/*/agents/ — agent definition files (.agent.md)
 - plugins/*/skills/ — skill definition files (SKILL.md)
 - plugins/*/plugin/ — plugin.json manifest for each plugin
@@ -37,10 +38,12 @@ using the `dimpletz/prompts-collection` marketplace source.
 - Always ensure the version in a plugin's plugin.json matches its entry in .github/plugin/marketplace.json
 - When a plugin's version in plugin.json is updated, update the matching plugin entry in .github/plugin/marketplace.json to the same version
 - When a plugin's version in plugin.json is updated, update the corresponding plugin version in README.md to the same version
+- When a plugin's version in plugin.json is updated, update the version in the plugin's own README.md title (e.g. `# Plugin Name \`vX.Y.Z\``) to the same version
 - The marketplace version (from .github/plugin/marketplace.json metadata.version) belongs on the ## Plugins heading in README.md, not on the # title
 - When the marketplace version in .github/plugin/marketplace.json is updated, update the version on the ## Plugins heading in README.md to match
 - When a new plugin is created, add a corresponding entry in .github/plugin/marketplace.json
 - When you create or discover new files, update the Tree above
+- Every plugin must have a README.md — never create a plugin without one
 - All Markdown content must be clean — no unnecessary code fences wrapping entire documents
 
 ## Note-taking
