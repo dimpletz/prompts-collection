@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.6.0`
+## Plugins `v1.7.0`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -21,6 +21,8 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [technical-writer](plugins/technical-writer/) `v1.0.0` | Agents for creating how-to documents, quick reference guides, and user guides. | [HowTo Document Generator](plugins/technical-writer/agents/HowToDocumentGenerator.agent.md), [Quick Reference Guide Generator](plugins/technical-writer/agents/QuickReferenceGuideGenerator.agent.md), [User Guide Generator](plugins/technical-writer/agents/UserGuideGenerator.agent.md) | — |
 | [tester](plugins/tester/) `v1.0.0` | Agents for generating comprehensive test cases. | [Test Case Generator](plugins/tester/agents/TestCaseGenerator.agent.md) | — |
 | [python-developer](plugins/python-developer/) `v1.1.0` | Hook that auto-formats all Python files with `black` and lints all non-test Python files with `pylint` after every file modification. | — | — |
+| [current-date-injector](plugins/current-date-injector/) `v1.0.0` | Hook that injects the current date (YYYY-MM-DD) into the agent context at the start of every session. | — | — |
+| [developer-id-injector](plugins/developer-id-injector/) `v1.0.0` | Hook that injects the developer name from the `DEVELOPER_NAME` environment variable into the agent context at the start of every session. | — | — |
 
 ## Agents
 

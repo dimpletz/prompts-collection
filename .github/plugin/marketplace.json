@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.6.0",
+    "version": "1.7.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -74,6 +74,18 @@
       "source": "python-developer",
       "description": "Python Developer is a plugin that enforces code quality by running black and pylint automatically after every Python file modification.",
       "version": "1.1.0"
+    },
+    {
+      "name": "current-date-injector",
+      "source": "current-date-injector",
+      "description": "Injects the current date (YYYY-MM-DD) into the agent context at the start of every session so agents always know today's date without being told.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "developer-id-injector",
+      "source": "developer-id-injector",
+      "description": "Injects the developer name from the DEVELOPER_NAME environment variable into the agent context at the start of every session so agents always know the author/developer name without being told.",
+      "version": "1.0.0"
     }
   ]
 }

@@ -1,5 +1,11 @@
 # Changelog for Marketplace
 
+## 1.7.0 - 2026-04-13
+
+### Added
+- current-date-injector plugin (v1.0.0) with SessionStart and SubagentStart hooks that inject the current date (YYYY-MM-DD) into the agent context automatically — once when a session begins and once per subagent spawned
+- developer-id-injector plugin (v1.0.0) with SessionStart and SubagentStart hooks that inject the developer name from the `DEVELOPER_NAME` environment variable into the agent context automatically — once when a session begins and once per subagent spawned; outputs nothing if the variable is not set
+
 ## 1.6.0 - 2026-04-05
 
 ### Added
