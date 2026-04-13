@@ -14,12 +14,10 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/*/README.md — per-plugin documentation
 - plugins/*/agents/ — agent definition files (.agent.md)
 - plugins/*/skills/ — skill definition files (SKILL.md)
-- plugins/*/plugin/ — plugin.json manifest for each plugin
+- plugins/*/plugin/ — plugin.json manifest for skill/agent-only plugins
+- plugins/*/.claude-plugin/ — plugin.json manifest for plugins that include hooks
 - plugins/*/hooks/ — hook configuration files (hooks.json)
 - plugins/*/scripts/ — hook scripts referenced by hooks.json
-- plugins/python-developer/plugin/plugin.json — python-developer manifest
-- plugins/python-developer/hooks/hooks.json — PostToolUse hook config
-- plugins/python-developer/scripts/python-quality.py — black + pylint hook script
 - custom-instructions/ — global custom instruction files
 - CHANGELOG.md — marketplace changelog
 - README.md — repo overview, plugin table, agent/skill catalog, usage guide
@@ -30,7 +28,7 @@ using the `dimpletz/prompts-collection` marketplace source.
 - Before creating a new skill, read plugins/ai-engineer/skills/skill-maker/SKILL.md for the canonical format
 - Before modifying README.md, read plugins/developer/skills/readme-maintainer/SKILL.md
 - Before modifying CHANGELOG.md, read plugins/developer/skills/changelog-maintainer/SKILL.md
-- Every plugin must have a plugin/plugin.json manifest — never create a plugin without one
+- Every plugin must have a plugin.json manifest — plugins with hooks use `.claude-plugin/plugin.json`; skill/agent-only plugins use `plugin/plugin.json`; never create a plugin without one
 - Every agent file uses the .agent.md extension; every skill entry point is SKILL.md
 - Keep plugin folders named in kebab-case matching the domain (e.g. git-manager, technical-writer)
 - When adding a new plugin, agent, or skill, update the tables in README.md to reflect the addition

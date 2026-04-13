@@ -1,5 +1,17 @@
 # Changelog for Marketplace
 
+## 1.8.0 - 2026-04-13
+
+### Added
+- markdown-viewer plugin (v1.0.0) with a SessionStart hook that installs `markdown-viewer-app` via pip when Python is available, and a Markdown Viewer skill that runs `mdview <file>` to open any markdown file in a browser with optional `--browser` and `-p` (port) parameters; notifies the user if Python is absent or installation fails; also handles stopping the background server on request
+
+### Changed
+- Merged developer-id-injector plugin into developer plugin (v1.1.0) — SessionStart and SubagentStart hooks that inject the developer name from the `DEVELOPER_NAME` environment variable are now part of the developer plugin
+- developer plugin updated to v1.2.0 — developer name injector hook now supports `DEVELOPER_EMAIL` and `DEVELOPER_COUNTRY` environment variables in addition to `DEVELOPER_NAME`; any combination of the three variables can be set and only those that are present are injected into the agent context
+
+### Removed
+- developer-id-injector plugin — functionality consolidated into the developer plugin
+
 ## 1.7.0 - 2026-04-13
 
 ### Added

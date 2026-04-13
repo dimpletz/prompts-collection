@@ -1,4 +1,4 @@
-# Developer `v1.0.2`
+# Developer `v1.2.0`
 
 > A collection of agents and skills for code quality reviews, unit test generation, release notes, and project file maintenance.
 
@@ -32,6 +32,30 @@ This plugin provides both **agents** (selected from the Copilot Chat agent picke
 | **Changelog Maintainer** | You need to insert a new version entry into `CHANGELOG.md` in a consistent, structured format. |
 | **README Maintainer** | You need to create or update a `README.md` file. |
 
+### Hooks
+
+The plugin registers `SessionStart` and `SubagentStart` hooks (`hooks/hooks.json`). The hooks read up to three optional environment variables and inject any that are set as `additionalContext` so every session and every subagent knows the developer details automatically. Variables that are not set are silently skipped.
+
+| Variable | Injected as |
+|----------|-------------|
+| `DEVELOPER_NAME` | Author name — used whenever a developer/programmer name is needed. |
+| `DEVELOPER_EMAIL` | Developer email — used whenever a developer email is needed. |
+| `DEVELOPER_COUNTRY` | Developer country — used for any country-specific context. |
+
+**Windows (PowerShell):**
+```powershell
+$env:DEVELOPER_NAME    = "Jane Smith"
+$env:DEVELOPER_EMAIL   = "jane@example.com"
+$env:DEVELOPER_COUNTRY = "AU"
+```
+
+**Linux/macOS (bash):**
+```bash
+export DEVELOPER_NAME="Jane Smith"
+export DEVELOPER_EMAIL="jane@example.com"
+export DEVELOPER_COUNTRY="AU"
+```
+
 ## Components
 
 ```mermaid
@@ -49,6 +73,7 @@ graph TD
     A --> G[Release Notes Generator]
     A --> H[Changelog Maintainer<br/>skills/changelog-maintainer/SKILL.md]
     A --> I[README Maintainer<br/>skills/readme-maintainer/SKILL.md]
+    A --> J[Developer Name Injector<br/>hooks/hooks.json]
 ```
 
 ### Code Quality Reviewer

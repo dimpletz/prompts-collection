@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.7.0",
+    "version": "1.8.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -19,7 +19,7 @@
       "name": "developer",
       "source": "developer",
       "description": "Developers are a collection of skills that help you maintain and improve code quality.",
-      "version": "1.0.2"
+      "version": "1.2.0"
     },
     {
       "name": "dotnet-developer",
@@ -82,9 +82,15 @@
       "version": "1.0.0"
     },
     {
-      "name": "developer-id-injector",
-      "source": "developer-id-injector",
-      "description": "Injects the developer name from the DEVELOPER_NAME environment variable into the agent context at the start of every session so agents always know the author/developer name without being told.",
+      "name": "browser-path-provider",
+      "source": "browser-path-provider",
+      "description": "Provides the absolute path of the Google Chrome browser installation, or notifies the user if Chrome is not installed.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "markdown-viewer",
+      "source": "markdown-viewer",
+      "description": "Installs markdown-viewer-app via pip and provides a skill to view markdown files in a browser using the mdview command.",
       "version": "1.0.0"
     }
   ]

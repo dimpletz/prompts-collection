@@ -1,0 +1,22 @@
+{
+  "name": "markdown-viewer",
+  "description": "Installs markdown-viewer-app via pip and provides a skill to view markdown files in a browser using the mdview command.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "markdown",
+    "viewer",
+    "mdview",
+    "browser",
+    "preview",
+    "flask",
+    "python"
+  ],
+  "skills": [
+    "./skills/markdown-viewer"
+  ]
+}

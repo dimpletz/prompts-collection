@@ -1,0 +1,29 @@
+{
+  "name": "browser-path-provider",
+  "description": "Provides the absolute path of major browser installations (Chrome, Edge, Firefox, Brave), or notifies the user if a browser is not installed.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "chrome",
+    "google-chrome",
+    "edge",
+    "microsoft-edge",
+    "firefox",
+    "mozilla-firefox",
+    "brave",
+    "browser",
+    "path",
+    "executable",
+    "chromium"
+  ],
+  "skills": [
+    "./skills/chrome-browser-path-provider",
+    "./skills/edge-browser-path-provider",
+    "./skills/firefox-browser-path-provider",
+    "./skills/brave-browser-path-provider"
+  ]
+}

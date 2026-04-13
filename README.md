@@ -4,25 +4,26 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.7.0`
+## Plugins `v1.8.0`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
-| Plugin | Description | Agents | Skills |
-|--------|-------------|--------|--------|
-| [analyst](plugins/analyst/) `v1.0.0` | Agents for writing requirements specifications and generating solution designs. | [Requirements Specification Writer](plugins/analyst/agents/RequirementsSpecificationWriter.agent.md), [Requirements Specification Writer Analyzer](plugins/analyst/agents/RequirementsSpecificationWriterAnalyzer.agent.md), [Requirements Specification Writer Documenter](plugins/analyst/agents/RequirementsSpecificationWriterDocumenter.agent.md), [Solution Design Generator](plugins/analyst/agents/SolutionDesignGenerator.agent.md) | — |
-| [developer](plugins/developer/) `v1.0.2` | Agents and skills for code quality reviews, unit test generation, and release notes. | [Code Quality Reviewer](plugins/developer/agents/CodeQualityReviewer.agent.md), [Comprehensive Code Quality Reviewer](plugins/developer/agents/ComprehensiveCodeQualityReviewer.agent.md), [Universal Code Quality Reviewer](plugins/developer/agents/UniversalCodeQualityReviewer.agent.md), [Comprehensive Unit Test Generator](plugins/developer/agents/ComprehensiveUnitTestGenerator.agent.md), [Comprehensive Unit Test Analyzer](plugins/developer/agents/ComprehensiveUnitTestGeneratorAnalyzer.agent.md), [Comprehensive Unit Test Executor](plugins/developer/agents/ComprehensiveUnitTestGeneratorExecutor.agent.md), [Comprehensive Unit Test Code Generator](plugins/developer/agents/ComprehensiveUnitTestGeneratorGenerator.agent.md), [Comprehensive Unit Test Reporter](plugins/developer/agents/ComprehensiveUnitTestGeneratorReporter.agent.md), [Release Notes Generator](plugins/developer/agents/ReleaseNotesGenerator.agent.md), [Universal Unit Test Generator](plugins/developer/agents/UniversalUnitTestGenerator.agent.md) | [Changelog Maintainer](plugins/developer/skills/changelog-maintainer/SKILL.md), [README Maintainer](plugins/developer/skills/readme-maintainer/SKILL.md) |
-| [dotnet-developer](plugins/dotnet-developer/) `v1.0.0` | Agents for generating and maintaining unit tests for .NET/C# applications. | [.NET Unit Test Generator](plugins/dotnet-developer/agents/DotNetUnitTestGenerator.agent.md) | — |
-| [git-manager](plugins/git-manager/) `v1.1.1` | Skills for managing Git repositories, worktrees, merge conflicts, and pull requests. | — | [Git Merge Conflict Resolver](plugins/git-manager/skills/git-merge-conflict-resolver/SKILL.md), [Git Worktree Manager](plugins/git-manager/skills/git-worktree-manager/SKILL.md), [PR Cloner](plugins/git-manager/skills/pr-cloner/SKILL.md), [Git Merge Auditor](plugins/git-manager/skills/git-merge-auditor/SKILL.md) |
-| [leader](plugins/leader/) `v1.0.0` | Agents for creating compelling presentations and communicating ideas effectively. | [Presenter](plugins/leader/agents/Presenter.agent.md) | — |
-| [ai-engineer](plugins/ai-engineer/) `v1.0.1` | Skills for creating and optimizing VS Code agents, skills, and custom instruction files. | — | [Agent Maker](plugins/ai-engineer/skills/agent-maker/SKILL.md), [Agent Optimizer](plugins/ai-engineer/skills/agent-optimizer/SKILL.md), [Custom Instruction Maker](plugins/ai-engineer/skills/custom-instruction-maker/SKILL.md), [Skill Maker](plugins/ai-engineer/skills/skill-maker/SKILL.md) |
-| [php-developer](plugins/php-developer/) `v1.0.0` | Agents for generating and maintaining unit tests for PHP applications. | [PHP Unit Test Generator](plugins/php-developer/agents/PHPUnitTestGenerator.agent.md) | — |
-| [software-evaluator](plugins/software-evaluator/) `v1.0.0` | Agents for evaluating cloud-native applications and software procurement decisions. | [Cloud Native App Evaluator](plugins/software-evaluator/agents/CloudNativeAppEvaluator.agent.md), [Software Procurement Evaluator](plugins/software-evaluator/agents/SoftwareProcurementEvaluator.agent.md) | — |
-| [technical-writer](plugins/technical-writer/) `v1.0.0` | Agents for creating how-to documents, quick reference guides, and user guides. | [HowTo Document Generator](plugins/technical-writer/agents/HowToDocumentGenerator.agent.md), [Quick Reference Guide Generator](plugins/technical-writer/agents/QuickReferenceGuideGenerator.agent.md), [User Guide Generator](plugins/technical-writer/agents/UserGuideGenerator.agent.md) | — |
-| [tester](plugins/tester/) `v1.0.0` | Agents for generating comprehensive test cases. | [Test Case Generator](plugins/tester/agents/TestCaseGenerator.agent.md) | — |
-| [python-developer](plugins/python-developer/) `v1.1.0` | Hook that auto-formats all Python files with `black` and lints all non-test Python files with `pylint` after every file modification. | — | — |
-| [current-date-injector](plugins/current-date-injector/) `v1.0.0` | Hook that injects the current date (YYYY-MM-DD) into the agent context at the start of every session. | — | — |
-| [developer-id-injector](plugins/developer-id-injector/) `v1.0.0` | Hook that injects the developer name from the `DEVELOPER_NAME` environment variable into the agent context at the start of every session. | — | — |
+| Plugin | Description | Agents | Skills | Hooks |
+|--------|-------------|--------|--------|-------|
+| [analyst](plugins/analyst/) `v1.0.0` | Agents for writing requirements specifications and generating solution designs. | [Requirements Specification Writer](plugins/analyst/agents/RequirementsSpecificationWriter.agent.md), [Requirements Specification Writer Analyzer](plugins/analyst/agents/RequirementsSpecificationWriterAnalyzer.agent.md), [Requirements Specification Writer Documenter](plugins/analyst/agents/RequirementsSpecificationWriterDocumenter.agent.md), [Solution Design Generator](plugins/analyst/agents/SolutionDesignGenerator.agent.md) | — | — |
+| [developer](plugins/developer/) `v1.2.0` | Agents and skills for code quality reviews, unit test generation, release notes, and developer name injection. | [Code Quality Reviewer](plugins/developer/agents/CodeQualityReviewer.agent.md), [Comprehensive Code Quality Reviewer](plugins/developer/agents/ComprehensiveCodeQualityReviewer.agent.md), [Universal Code Quality Reviewer](plugins/developer/agents/UniversalCodeQualityReviewer.agent.md), [Comprehensive Unit Test Generator](plugins/developer/agents/ComprehensiveUnitTestGenerator.agent.md), [Comprehensive Unit Test Analyzer](plugins/developer/agents/ComprehensiveUnitTestGeneratorAnalyzer.agent.md), [Comprehensive Unit Test Executor](plugins/developer/agents/ComprehensiveUnitTestGeneratorExecutor.agent.md), [Comprehensive Unit Test Code Generator](plugins/developer/agents/ComprehensiveUnitTestGeneratorGenerator.agent.md), [Comprehensive Unit Test Reporter](plugins/developer/agents/ComprehensiveUnitTestGeneratorReporter.agent.md), [Release Notes Generator](plugins/developer/agents/ReleaseNotesGenerator.agent.md), [Universal Unit Test Generator](plugins/developer/agents/UniversalUnitTestGenerator.agent.md) | [Changelog Maintainer](plugins/developer/skills/changelog-maintainer/SKILL.md), [README Maintainer](plugins/developer/skills/readme-maintainer/SKILL.md) | `SessionStart`, `SubagentStart` |
+| [dotnet-developer](plugins/dotnet-developer/) `v1.0.0` | Agents for generating and maintaining unit tests for .NET/C# applications. | [.NET Unit Test Generator](plugins/dotnet-developer/agents/DotNetUnitTestGenerator.agent.md) | — | — |
+| [git-manager](plugins/git-manager/) `v1.1.1` | Skills for managing Git repositories, worktrees, merge conflicts, and pull requests. | — | [Git Merge Conflict Resolver](plugins/git-manager/skills/git-merge-conflict-resolver/SKILL.md), [Git Worktree Manager](plugins/git-manager/skills/git-worktree-manager/SKILL.md), [PR Cloner](plugins/git-manager/skills/pr-cloner/SKILL.md), [Git Merge Auditor](plugins/git-manager/skills/git-merge-auditor/SKILL.md) | — |
+| [leader](plugins/leader/) `v1.0.0` | Agents for creating compelling presentations and communicating ideas effectively. | [Presenter](plugins/leader/agents/Presenter.agent.md) | — | — |
+| [ai-engineer](plugins/ai-engineer/) `v1.0.1` | Skills for creating and optimizing VS Code agents, skills, and custom instruction files. | — | [Agent Maker](plugins/ai-engineer/skills/agent-maker/SKILL.md), [Agent Optimizer](plugins/ai-engineer/skills/agent-optimizer/SKILL.md), [Custom Instruction Maker](plugins/ai-engineer/skills/custom-instruction-maker/SKILL.md), [Skill Maker](plugins/ai-engineer/skills/skill-maker/SKILL.md) | — |
+| [php-developer](plugins/php-developer/) `v1.0.0` | Agents for generating and maintaining unit tests for PHP applications. | [PHP Unit Test Generator](plugins/php-developer/agents/PHPUnitTestGenerator.agent.md) | — | — |
+| [software-evaluator](plugins/software-evaluator/) `v1.0.0` | Agents for evaluating cloud-native applications and software procurement decisions. | [Cloud Native App Evaluator](plugins/software-evaluator/agents/CloudNativeAppEvaluator.agent.md), [Software Procurement Evaluator](plugins/software-evaluator/agents/SoftwareProcurementEvaluator.agent.md) | — | — |
+| [technical-writer](plugins/technical-writer/) `v1.0.0` | Agents for creating how-to documents, quick reference guides, and user guides. | [HowTo Document Generator](plugins/technical-writer/agents/HowToDocumentGenerator.agent.md), [Quick Reference Guide Generator](plugins/technical-writer/agents/QuickReferenceGuideGenerator.agent.md), [User Guide Generator](plugins/technical-writer/agents/UserGuideGenerator.agent.md) | — | — |
+| [tester](plugins/tester/) `v1.0.0` | Agents for generating comprehensive test cases. | [Test Case Generator](plugins/tester/agents/TestCaseGenerator.agent.md) | — | — |
+| [python-developer](plugins/python-developer/) `v1.1.0` | Hook that auto-formats all Python files with `black` and lints all non-test Python files with `pylint` after every file modification. | — | — | `PostToolUse` |
+| [current-date-injector](plugins/current-date-injector/) `v1.0.0` | Hook that injects the current date (YYYY-MM-DD) into the agent context at the start of every session. | — | — | `SessionStart`, `SubagentStart` |
+| [browser-path-provider](plugins/browser-path-provider/) `v1.0.0` | Returns the absolute path of major browser executables (Chrome, Edge, Firefox, Brave), or notifies the user if a browser is not installed. | — | [Chrome](plugins/browser-path-provider/skills/chrome-browser-path-provider/SKILL.md), [Edge](plugins/browser-path-provider/skills/edge-browser-path-provider/SKILL.md), [Firefox](plugins/browser-path-provider/skills/firefox-browser-path-provider/SKILL.md), [Brave](plugins/browser-path-provider/skills/brave-browser-path-provider/SKILL.md) | — |
+| [markdown-viewer](plugins/markdown-viewer/) `v1.0.0` | Installs markdown-viewer-app via pip and provides a skill to view markdown files in a browser using the `mdview` command. | — | [Markdown Viewer](plugins/markdown-viewer/skills/markdown-viewer/SKILL.md) | `SessionStart` |
 
 ## Agents
 
@@ -84,6 +85,30 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [PR Cloner](plugins/git-manager/skills/pr-cloner/SKILL.md) | git-manager | Fetches a pull request from a remote Git repository (GitHub, GitLab, Bitbucket) into a local tracking branch for inspection and testing without merging. |
 | [README Maintainer](plugins/developer/skills/readme-maintainer/SKILL.md) | developer | Creates or updates `README.md` files to be accurate, complete, and easy to navigate. Use it to write a new README from scratch or to update, improve, or extend an existing one. |
 | [Skill Maker](plugins/ai-engineer/skills/skill-maker/SKILL.md) | ai-engineer | A meta-skill for designing, specifying, and refining new AI skills (SKILL.md files) in a consistent, production-ready way. Use it whenever defining or updating instructions for an AI assistant. |
+| [Chrome Browser Path Provider](plugins/browser-path-provider/skills/chrome-browser-path-provider/SKILL.md) | browser-path-provider | Returns the absolute path of the Google Chrome browser executable on Windows, macOS, and Linux. Notifies the user if Chrome is not installed and provides a download link. |
+| [Edge Browser Path Provider](plugins/browser-path-provider/skills/edge-browser-path-provider/SKILL.md) | browser-path-provider | Returns the absolute path of the Microsoft Edge browser executable on Windows, macOS, and Linux. Notifies the user if Edge is not installed and provides a download link. |
+| [Firefox Browser Path Provider](plugins/browser-path-provider/skills/firefox-browser-path-provider/SKILL.md) | browser-path-provider | Returns the absolute path of the Mozilla Firefox browser executable on Windows, macOS, and Linux. Notifies the user if Firefox is not installed and provides a download link. |
+| [Brave Browser Path Provider](plugins/browser-path-provider/skills/brave-browser-path-provider/SKILL.md) | browser-path-provider | Returns the absolute path of the Brave browser executable on Windows, macOS, and Linux. Notifies the user if Brave is not installed and provides a download link. |
+| [Markdown Viewer](plugins/markdown-viewer/skills/markdown-viewer/SKILL.md) | markdown-viewer | Opens any markdown file in a browser using `mdview`. Supports optional `--browser` and `-p` (port) flags. Handles server startup, error reporting, and stopping the background server. |
+
+## Hooks
+
+Hooks are scripts that run automatically at specific points in the agent lifecycle. Three plugins ship hooks.
+
+| Plugin | Hook event | What it does |
+|--------|-----------|--------------|
+| [developer](plugins/developer/) | `SessionStart`, `SubagentStart` | Injects developer identity (`DEVELOPER_NAME`, `DEVELOPER_EMAIL`, `DEVELOPER_COUNTRY`) as `additionalContext` so every session and subagent knows the author without being told explicitly. Variables that are not set are silently skipped. |
+| [current-date-injector](plugins/current-date-injector/) | `SessionStart`, `SubagentStart` | Injects today's date (`YYYY-MM-DD`) as `additionalContext` so agents always know the current date without requiring it to be stated in the prompt. |
+| [python-developer](plugins/python-developer/) | `PostToolUse` | After every Python file modification, runs `black` to auto-format and `pylint` to lint all non-test Python files. Missing tools produce a blocking error with installation instructions. |
+| [markdown-viewer](plugins/markdown-viewer/) | `SessionStart` | At session start, checks whether `markdown-viewer-app` is installed and installs it via `pip` if Python is available. Notifies the user if Python is not available or installation fails. |
+
+### Hook events reference
+
+| Event | When it fires |
+|-------|--------------|
+| `SessionStart` | Once when a new agent session begins. |
+| `SubagentStart` | Once each time a subagent is spawned within a session. |
+| `PostToolUse` | After every tool invocation (e.g. file write). |
 
 ## Usage
 
@@ -128,6 +153,20 @@ To view and manage your installed plugins:
 3. Skills are available to GitHub Copilot only within that project
 
 Skills provide domain-specific capabilities to GitHub Copilot and are invoked automatically based on context and requirements.
+
+### Hooks
+
+#### User-level (available across all projects)
+1. Copy the desired hook directory from `plugins/<plugin>/hooks/` to `%USERPROFILE%\.copilot\hooks\` in your user profile
+2. On Windows: `C:\Users\<YourUsername>\.copilot\hooks\<hook-name>.json`
+3. Hooks are executed by GitHub Copilot across all your projects
+
+#### Project-level (scoped to a single project)
+1. Copy the desired hook JSON file from `plugins/<plugin>/hooks/` to `.github\hooks\` in your project repository
+2. Path structure: `.github\hooks\<hook-name>.json`
+3. Hooks are executed by GitHub Copilot only within that project
+
+Hooks execute shell commands automatically at specific agent lifecycle points (`SessionStart`, `SubagentStart`, `PostToolUse`, etc.) and require no manual invocation. See the [VS Code hooks documentation](https://code.visualstudio.com/docs/copilot/customization/hooks) for the full list of lifecycle events and configuration options.
 
 ### Custom Instructions
 
