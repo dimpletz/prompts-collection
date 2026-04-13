@@ -1,7 +1,7 @@
 {
   "name": "markdown-viewer",
   "description": "Installs markdown-viewer-app via pip and provides a skill to view markdown files in a browser using the mdview command.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "Dimpletz"
   },

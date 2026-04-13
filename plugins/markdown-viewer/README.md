@@ -1,4 +1,4 @@
-# Markdown Viewer `v1.0.0`
+# Markdown Viewer `v1.1.0`
 
 > A plugin that installs [markdown-viewer-app](https://github.com/dimpletz/markdown-viewer) automatically via pip and provides a skill to open any markdown file in a full browser UI using the `mdview` command.
 
@@ -56,12 +56,16 @@ graph TD
     A --> C[Markdown Viewer skill<br/>skills/markdown-viewer/SKILL.md]
     B --> D[install-markdown-viewer.ps1<br/>Windows]
     B --> E[install-markdown-viewer.sh<br/>Linux / macOS]
-    C --> F[mdview command<br/>markdown-viewer-app]
+    B --> F[inject-mdview-params.ps1<br/>Windows]
+    B --> G[inject-mdview-params.sh<br/>Linux / macOS]
+    C --> H[mdview command<br/>markdown-viewer-app]
 ```
 
 ### SessionStart Hook
 
-Runs at the start of every session. Checks Python availability, then checks whether
+Two scripts run at the start of every session:
+
+**install-markdown-viewer** — Checks Python availability, then checks whether
 `markdown-viewer-app` is already installed. If not installed, runs
 `pip install markdown-viewer-app`. Outputs an `additionalContext` message for:
 
@@ -70,6 +74,16 @@ Runs at the start of every session. Checks Python availability, then checks whet
 - **Installation failed**: notifies the user with the error and a command to troubleshoot manually.
 
 Outputs nothing if `markdown-viewer-app` is already installed (to keep the context clean).
+
+**inject-mdview-params** — Reads the `MDVIEW_BROWSER` and `MDVIEW_PORT` environment
+variables. If either is set, outputs an `additionalContext` table of preferred mdview
+parameters:
+
+- `MDVIEW_BROWSER`: the preferred browser. Accepts a browser name (e.g. `chrome`,
+  `firefox`, `msedge`) or an absolute path to the browser executable.
+- `MDVIEW_PORT`: the preferred port number for the mdview Flask server.
+
+Outputs nothing if neither variable is set.
 
 ### Markdown Viewer Skill
 

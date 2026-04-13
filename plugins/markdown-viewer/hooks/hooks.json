@@ -5,6 +5,11 @@
         "type": "command",
         "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/install-markdown-viewer.sh\"",
         "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/install-markdown-viewer.ps1\""
+      },
+      {
+        "type": "command",
+        "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-mdview-params.sh\"",
+        "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-mdview-params.ps1\""
       }
     ]
   }

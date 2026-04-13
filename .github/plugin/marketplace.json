@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.8.0",
+    "version": "1.9.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -91,7 +91,7 @@
       "name": "markdown-viewer",
       "source": "markdown-viewer",
       "description": "Installs markdown-viewer-app via pip and provides a skill to view markdown files in a browser using the mdview command.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ]
 }

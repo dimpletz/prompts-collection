@@ -1,5 +1,10 @@
 # Changelog for Marketplace
 
+## 1.9.0 - 2026-04-13
+
+### Add
+- markdown-viewer plugin updated to v1.1.0 — adds `inject-mdview-params` SessionStart hook that reads `MDVIEW_BROWSER` and `MDVIEW_PORT` environment variables and injects preferred mdview parameters into the agent context; outputs nothing if neither variable is set
+
 ## 1.8.0 - 2026-04-13
 
 ### Added
