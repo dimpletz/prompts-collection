@@ -1,4 +1,15 @@
+
 # Changelog for Marketplace
+
+## 1.10.0 - 2026-04-16
+
+### Added
+- meeting-note-taker plugin (v1.0.0) with a Meeting Note Taker agent that guides the user through structured meeting note capture; SessionStart hook that reads the `MEETING_DIR` environment variable (falling back to `%USERPROFILE%\Documents\MeetingNotes` on Windows or `$HOME/Documents/MeetingNotes` on Linux/macOS) and injects the resolved path into the agent context; the agent collects notes interactively, analyzes them to produce a summary with optional Mermaid diagrams, an optional Q&A table (questions not answered are marked **UNANSWERED**), an optional actions checklist, and the verbatim original notes, then saves the document to a timestamped file under the configured directory
+
+## 1.10.0 - 2026-04-16
+
+### Added
+- meeting-note-taker plugin (v1.0.0) with a Meeting Note Taker agent that guides the user through structured meeting note capture; SessionStart and SubagentStart hooks that read the `MEETING_DIR` environment variable (falling back to `%USERPROFILE%\Documents\MeetingNotes` on Windows or `$HOME/Documents/MeetingNotes` on Linux/macOS) and inject the resolved path into the agent context; the agent collects notes interactively, analyzes them to produce a summary with optional Mermaid diagrams, an optional Q&A table (questions not answered are marked **UNANSWERED**), an optional actions checklist, and the verbatim original notes, then saves the document to a timestamped file under the configured directory
 
 ## 1.9.0 - 2026-04-13
 

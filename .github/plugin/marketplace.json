@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.9.0",
+    "version": "1.10.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -92,6 +92,12 @@
       "source": "markdown-viewer",
       "description": "Installs markdown-viewer-app via pip and provides a skill to view markdown files in a browser using the mdview command.",
       "version": "1.1.0"
+    },
+    {
+      "name": "meeting-note-taker",
+      "source": "meeting-note-taker",
+      "description": "Guides you through structured meeting note capture and produces a formatted summary with optional Q&A, actions, and Mermaid diagrams saved to a configurable directory.",
+      "version": "1.0.0"
     }
   ]
 }

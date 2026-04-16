@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.9.0`
+## Plugins `v1.10.0`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -24,6 +24,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [current-date-injector](plugins/current-date-injector/) `v1.0.0` | Hook that injects the current date (YYYY-MM-DD) into the agent context at the start of every session. | — | — | `SessionStart`, `SubagentStart` |
 | [browser-path-provider](plugins/browser-path-provider/) `v1.0.0` | Returns the absolute path of major browser executables (Chrome, Edge, Firefox, Brave), or notifies the user if a browser is not installed. | — | [Chrome](plugins/browser-path-provider/skills/chrome-browser-path-provider/SKILL.md), [Edge](plugins/browser-path-provider/skills/edge-browser-path-provider/SKILL.md), [Firefox](plugins/browser-path-provider/skills/firefox-browser-path-provider/SKILL.md), [Brave](plugins/browser-path-provider/skills/brave-browser-path-provider/SKILL.md) | — |
 | [markdown-viewer](plugins/markdown-viewer/) `v1.0.0` | Installs markdown-viewer-app via pip and provides a skill to view markdown files in a browser using the `mdview` command. | — | [Markdown Viewer](plugins/markdown-viewer/skills/markdown-viewer/SKILL.md) | `SessionStart` |
+| [meeting-note-taker](plugins/meeting-note-taker/) `v1.0.0` | Guides you through structured meeting note capture and produces a formatted summary with optional Q&A, actions, and Mermaid diagrams saved to a configurable directory. | [Meeting Note Taker](plugins/meeting-note-taker/agents/MeetingNoteTaker.agent.md) | — | `SessionStart` |
 
 ## Agents
 
@@ -64,6 +65,12 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [Cloud Native App Evaluator](plugins/software-evaluator/agents/CloudNativeAppEvaluator.agent.md) | software-evaluator | Research-first cloud native readiness evaluator that tailors every assessment to the user's specific tech stack and deployment platform. Researches framework defaults from the web, then interviews only about unknowns — scoring 12-factor compliance and producing a context-specific remediation roadmap. |
 | [Software Procurement Evaluator](plugins/software-evaluator/agents/SoftwareProcurementEvaluator.agent.md) | software-evaluator | Research-first software procurement evaluator that autonomously researches an off-the-shelf product before interviewing the user. Scores fit across 10 ISO/IEC 25010-derived dimensions and produces a prioritized procurement recommendation report. |
 
+### Productivity Tools
+
+| Agent | Plugin | Description |
+|-------|--------|-------------|
+| [Meeting Note Taker](plugins/meeting-note-taker/agents/MeetingNoteTaker.agent.md) | meeting-note-taker | Interactive agent that guides you through structured meeting note capture and produces a formatted document with a prose summary, optional Mermaid diagrams, Q&A table, actions checklist, and verbatim original notes — all saved to a configurable directory. |
+
 ## Custom Instructions
 
 | Instruction File | Description | Apply To |
@@ -101,6 +108,7 @@ Hooks are scripts that run automatically at specific points in the agent lifecyc
 | [current-date-injector](plugins/current-date-injector/) | `SessionStart`, `SubagentStart` | Injects today's date (`YYYY-MM-DD`) as `additionalContext` so agents always know the current date without requiring it to be stated in the prompt. |
 | [python-developer](plugins/python-developer/) | `PostToolUse` | After every Python file modification, runs `black` to auto-format and `pylint` to lint all non-test Python files. Missing tools produce a blocking error with installation instructions. |
 | [markdown-viewer](plugins/markdown-viewer/) | `SessionStart` | At session start, checks whether `markdown-viewer-app` is installed and installs it via `pip` if Python is available. Notifies the user if Python is not available or installation fails. |
+| [meeting-note-taker](plugins/meeting-note-taker/) | `SessionStart` | Reads the `MEETING_DIR` environment variable (falls back to `%USERPROFILE%\Documents\MeetingNotes` on Windows or `$HOME/Documents/MeetingNotes` on Linux/macOS) and injects the resolved path into the agent context. |
 
 ### Hook events reference
 

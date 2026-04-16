@@ -1,0 +1,22 @@
+{
+  "name": "meeting-note-taker",
+  "description": "Meeting Note Taker is an agent that guides you through structured meeting note capture and produces a formatted summary with Q&A extraction, action items, and Mermaid diagrams.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "meeting",
+    "notes",
+    "note-taker",
+    "minutes",
+    "summary",
+    "actions",
+    "productivity"
+  ],
+  "agents": [
+    "./agents"
+  ]
+}
