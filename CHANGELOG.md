@@ -1,5 +1,11 @@
-
 # Changelog for Marketplace
+
+
+## 1.11.0 - 2026-04-16
+
+### Changed
+- meeting-note-taker plugin updated to v1.1.0 — Meeting Note Taker agent now collects facilitators and attendees during setup (two additional questions); adds optional `## Facilitators` and `## Attendees` sections to the output document; includes a `[TOC]` in the generated file; timestamps the date field with `YYYY-MM-DD HH:mm` format; renames the "Questions and Answers" section to "Q & A"; promotes all document body sections from H1 to H2; fixes a step-numbering bug in the capture workflow
+- inject-meeting-dir.ps1 hook now wraps the resolved meeting directory path in quotes in the injected context output
 
 ## 1.10.0 - 2026-04-16
 

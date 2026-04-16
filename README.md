@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.10.0`
+## Plugins `v1.11.0`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -24,7 +24,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [current-date-injector](plugins/current-date-injector/) `v1.0.0` | Hook that injects the current date (YYYY-MM-DD) into the agent context at the start of every session. | — | — | `SessionStart`, `SubagentStart` |
 | [browser-path-provider](plugins/browser-path-provider/) `v1.0.0` | Returns the absolute path of major browser executables (Chrome, Edge, Firefox, Brave), or notifies the user if a browser is not installed. | — | [Chrome](plugins/browser-path-provider/skills/chrome-browser-path-provider/SKILL.md), [Edge](plugins/browser-path-provider/skills/edge-browser-path-provider/SKILL.md), [Firefox](plugins/browser-path-provider/skills/firefox-browser-path-provider/SKILL.md), [Brave](plugins/browser-path-provider/skills/brave-browser-path-provider/SKILL.md) | — |
 | [markdown-viewer](plugins/markdown-viewer/) `v1.0.0` | Installs markdown-viewer-app via pip and provides a skill to view markdown files in a browser using the `mdview` command. | — | [Markdown Viewer](plugins/markdown-viewer/skills/markdown-viewer/SKILL.md) | `SessionStart` |
-| [meeting-note-taker](plugins/meeting-note-taker/) `v1.0.0` | Guides you through structured meeting note capture and produces a formatted summary with optional Q&A, actions, and Mermaid diagrams saved to a configurable directory. | [Meeting Note Taker](plugins/meeting-note-taker/agents/MeetingNoteTaker.agent.md) | — | `SessionStart` |
+| [meeting-note-taker](plugins/meeting-note-taker/) `v1.1.0` | Guides you through structured meeting note capture and produces a formatted summary with optional Q&A, actions, and Mermaid diagrams saved to a configurable directory. | [Meeting Note Taker](plugins/meeting-note-taker/agents/MeetingNoteTaker.agent.md) | — | `SessionStart` |
 
 ## Agents
 
@@ -69,7 +69,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 
 | Agent | Plugin | Description |
 |-------|--------|-------------|
-| [Meeting Note Taker](plugins/meeting-note-taker/agents/MeetingNoteTaker.agent.md) | meeting-note-taker | Interactive agent that guides you through structured meeting note capture and produces a formatted document with a prose summary, optional Mermaid diagrams, Q&A table, actions checklist, and verbatim original notes — all saved to a configurable directory. |
+| [Meeting Note Taker](plugins/meeting-note-taker/agents/MeetingNoteTaker.agent.md) | meeting-note-taker | Interactive agent that guides you through structured meeting note capture and produces a formatted document with a prose summary, optional Mermaid diagrams, Q&A table, actions checklist, facilitators list, attendees list, and verbatim original notes — all saved to a configurable directory. |
 
 ## Custom Instructions
 
