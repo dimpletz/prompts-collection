@@ -1,4 +1,4 @@
-# Markdown Viewer `v1.1.0`
+# Markdown Viewer `v1.1.1`
 
 > A plugin that installs [markdown-viewer-app](https://github.com/dimpletz/markdown-viewer) automatically via pip and provides a skill to open any markdown file in a full browser UI using the `mdview` command.
 

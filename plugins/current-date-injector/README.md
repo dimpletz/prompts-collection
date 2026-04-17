@@ -1,6 +1,6 @@
-# current-date-injector `v1.0.0`
+# current-date-injector `v1.1.0`
 
-> A Claude plugin that injects the current date (YYYY-MM-DD) into the agent context at the start of every session, so agents always know today's date without being told.
+> A Claude plugin that injects the current date (YYYY-MM-DD) and time (HH:mm:ss) into the agent context at the start of every session, so agents always know today's date and time without being told.
 
 ## Prerequisites
 
@@ -30,5 +30,5 @@ graph TD
 When triggered, the hook surfaces the following context to the agent:
 
 ```
-Today's date is 2026-04-13 (YYYY-MM-DD).
+The current date and time is 2026-04-18 14:30:00 (YYYY-MM-DD HH:mm:ss).
 ```

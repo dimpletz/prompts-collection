@@ -1,5 +1,17 @@
 {
   "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-python-version.sh\"",
+        "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-python-version.ps1\""
+      },
+      {
+        "type": "command",
+        "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/check-python.sh\"",
+        "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/check-python.ps1\""
+      }
+    ],
     "PostToolUse": [
       {
         "type": "command",

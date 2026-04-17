@@ -14,8 +14,7 @@ foreach ($cmd in @('python', 'python3', 'py')) {
 }
 
 if (-not $pythonCmd) {
-    $msg = "markdown-viewer-app requires Python but Python is not installed or not on PATH. " +
-           "Install Python from https://www.python.org/ and then run: pip install markdown-viewer-app"
+    $msg = "Python is required for markdown-viewer-app."
     @{ hookSpecificOutput = @{ additionalContext = $msg } } | ConvertTo-Json -Compress
     exit 0
 }

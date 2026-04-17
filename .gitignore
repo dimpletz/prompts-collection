@@ -2,3 +2,4 @@ requirements/
 .github/agents/
 .github/skills/
 .agents/
+*.log

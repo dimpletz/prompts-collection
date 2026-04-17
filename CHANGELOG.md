@@ -1,6 +1,18 @@
 # Changelog for Marketplace
 
 
+## 1.12.0 - 2026-04-18
+
+### Added
+- python-developer plugin updated to v1.2.0 — adds `python-installer` skill with cross-platform install scripts (`install-python.ps1` / `install-python.sh`) that download and install a specific Python version from the official FTP server
+- python-developer plugin updated to v1.2.0 — adds `inject-python-version` SessionStart hook that reads the `DEFAULT_PYTHON_VERSION` environment variable (falling back to `3.14.4`) and injects it into the agent context
+- python-developer plugin updated to v1.2.0 — adds `check-python` SessionStart hook that detects whether Python is installed and, if not, injects a permission-request prompt instructing the agent to offer installation via the python-installer skill
+
+### Changed
+- markdown-viewer plugin updated to v1.1.1 — install scripts now inject a concise "Python is required for markdown-viewer-app." message when Python is not detected on PATH, instead of the previous verbose install-instructions message
+- current-date-injector plugin updated to v1.1.0 — hook scripts now inject both date (YYYY-MM-DD) and time (HH:mm:ss) as `additionalContext` so agents always know the current date and time
+- meeting-note-taker plugin updated to v1.1.1 — inject-meeting-dir hook scripts now output `MEETING_DIR="<path>"` format instead of the previous `Meeting notes directory (MEETING_DIR): <path>` format
+
 ## 1.11.0 - 2026-04-16
 
 ### Changed

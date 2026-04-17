@@ -12,7 +12,7 @@ for cmd in python3 python; do
 done
 
 if [ -z "$PYTHON_CMD" ]; then
-    MSG="markdown-viewer-app requires Python but Python is not installed or not on PATH. Install Python from https://www.python.org/ and then run: pip install markdown-viewer-app"
+    MSG="Python is required for markdown-viewer-app."
     printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$MSG"
     exit 0
 fi

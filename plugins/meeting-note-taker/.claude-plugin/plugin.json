@@ -1,7 +1,7 @@
 {
   "name": "meeting-note-taker",
   "description": "Meeting Note Taker is an agent that guides you through structured meeting note capture and produces a formatted summary with Q&A extraction, action items, and Mermaid diagrams.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "Dimpletz"
   },
