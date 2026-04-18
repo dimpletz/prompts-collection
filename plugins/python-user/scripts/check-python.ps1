@@ -1,4 +1,4 @@
-# check-python.ps1 — SessionStart hook for the python-developer plugin.
+# check-python.ps1 — SessionStart hook for the python-user plugin.
 # Runs on Windows. Detects whether Python is actually available (not just a Windows Store stub).
 # If Python is not found, injects a permission-request to install it using the python-installer skill.
 

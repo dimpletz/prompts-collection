@@ -24,15 +24,15 @@ Downloads and installs the official Python release for the current platform usin
    **Windows**
 
    ```powershell
-   powershell -ExecutionPolicy Bypass -File plugins/python-developer/skills/python-installer/scripts/install-python.ps1 -PythonVersion <python_version>
+   powershell -ExecutionPolicy Bypass -File plugins/python-user/skills/python-installer/scripts/install-python.ps1 -PythonVersion <python_version>
    ```
 
    **macOS / Linux**
 
     ```bash
-    bash plugins/python-developer/skills/python-installer/scripts/install-python.sh <python_version>
+    bash plugins/python-user/skills/python-installer/scripts/install-python.sh <python_version>
     ```
 
 3. Report the script's output to the user.
 - Does not handle proxy settings, offline installation, or non-amd64 Windows architectures.
-- `DEFAULT_PYTHON_VERSION` is injected by the python-developer plugin `SessionStart` hook; if the hook is not active, the version must be supplied manually.
+- `DEFAULT_PYTHON_VERSION` is injected by the python-user plugin `SessionStart` hook; if the hook is not active, the version must be supplied manually.

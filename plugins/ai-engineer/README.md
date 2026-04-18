@@ -1,4 +1,4 @@
-# AI Engineer `v1.0.1`
+# AI Engineer `v1.1.0`
 
 > A collection of skills for creating and optimizing VS Code agents, skills, and custom AI instruction files.
 

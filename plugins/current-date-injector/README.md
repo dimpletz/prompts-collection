@@ -1,6 +1,6 @@
-# current-date-injector `v1.1.0`
+# current-date-injector `v1.2.0`
 
-> A Claude plugin that injects the current date (YYYY-MM-DD) and time (HH:mm:ss) into the agent context at the start of every session, so agents always know today's date and time without being told.
+> A Claude plugin that injects the current date (YYYY-MM-DD) into the agent context at the start of every session, and provides the command to determine the current time in 24-hr format with timezone, so agents always have date and time awareness without being told.
 
 ## Prerequisites
 
@@ -12,9 +12,12 @@ Install via the VS Code Chat Plugin Marketplace using the `dimpletz/prompts-coll
 
 ## How It Works
 
-The plugin registers `SessionStart` and `SubagentStart` hooks (`hooks/hooks.json`). `SessionStart` fires once when a new agent session begins; `SubagentStart` fires each time a subagent is spawned. Both hooks run the same date-injection script.
+The plugin registers `SessionStart` and `SubagentStart` hooks (`hooks/hooks.json`).
 
-When triggered, the script outputs today's date as `additionalContext` so every session and every subagent receives the current date automatically.
+- **SessionStart** fires once when a new agent session begins and runs two scripts:
+  1. `inject-date` — injects today's date as `additionalContext`.
+  2. `inject-time-command` — injects the command the agent should run to get the current time in 24-hr format with timezone.
+- **SubagentStart** fires each time a subagent is spawned and runs the same two scripts so every subagent also knows today's date and how to get the current time.
 
 ## Components
 
@@ -22,13 +25,16 @@ When triggered, the script outputs today's date as `additionalContext` so every 
 graph TD
     A[New session / subagent spawned] --> B{SessionStart or SubagentStart hook}
     B --> C[inject-date.sh / inject-date.ps1]
-    C --> D[Output today's date as additionalContext]
+    B --> D[inject-time-command.sh / inject-time-command.ps1]
+    C --> E[Output today's date as additionalContext]
+    D --> F[Output time command hint as additionalContext]
 ```
 
 ## Output Example
 
-When triggered, the hook surfaces the following context to the agent:
+When triggered, the hooks surface the following context to the agent:
 
 ```
-The current date and time is 2026-04-18 14:30:00 (YYYY-MM-DD HH:mm:ss).
+The current date is 2026-04-19 (YYYY-MM-DD).
+To get the current time in 24-hr format with timezone, run: (Get-Date).ToString('HH:mm:ss zzz')
 ```

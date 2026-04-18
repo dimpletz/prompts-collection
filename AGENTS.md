@@ -18,6 +18,7 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/*/.claude-plugin/ — plugin.json manifest for plugins that include hooks
 - plugins/*/hooks/ — hook configuration files (hooks.json)
 - plugins/*/scripts/ — hook scripts referenced by hooks.json
+- plugins/poetry-user/ — detects poetry.lock and injects Poetry usage context; auto-installs Poetry via pip
 - custom-instructions/ — global custom instruction files
 - CHANGELOG.md — marketplace changelog
 - README.md — repo overview, plugin table, agent/skill catalog, usage guide
@@ -32,6 +33,8 @@ using the `dimpletz/prompts-collection` marketplace source.
 - Every agent file uses the .agent.md extension; every skill entry point is SKILL.md
 - Keep plugin folders named in kebab-case matching the domain (e.g. git-manager, technical-writer)
 - When adding a new plugin, agent, or skill, update the tables in README.md to reflect the addition
+- When adding a new agent, update both the Plugins table (Agents column) AND the dedicated Agents catalog section in README.md
+- When adding a new skill, update both the Plugins table (Skills column) AND the dedicated Skills catalog section in README.md
 - When adding a new plugin, add a CHANGELOG.md entry under the current version
 - Always ensure the version in a plugin's plugin.json matches its entry in .github/plugin/marketplace.json
 - When a plugin's version in plugin.json is updated, update the matching plugin entry in .github/plugin/marketplace.json to the same version
@@ -39,7 +42,9 @@ using the `dimpletz/prompts-collection` marketplace source.
 - When a plugin's version in plugin.json is updated, update the version in the plugin's own README.md title (e.g. `# Plugin Name \`vX.Y.Z\``) to the same version
 - The marketplace version (from .github/plugin/marketplace.json metadata.version) belongs on the ## Plugins heading in README.md, not on the # title
 - When the marketplace version in .github/plugin/marketplace.json is updated, update the version on the ## Plugins heading in README.md to match
+- Never update the marketplace version in .github/plugin/marketplace.json unless the user explicitly instructs you to do so
 - When a new plugin is created, add a corresponding entry in .github/plugin/marketplace.json
+- When adding a hook-based plugin, also add a row to the Hooks section table in README.md — not just the Plugins table
 - When you create or discover new files, update the Tree above
 - Every plugin must have a README.md — never create a plugin without one
 - All Markdown content must be clean — no unnecessary code fences wrapping entire documents
@@ -52,3 +57,8 @@ using the `dimpletz/prompts-collection` marketplace source.
   e.g. "Plugin manifests require 'version' field in plugin.json (learned 3/29)"
 - 3+ related notes → create a new docs/ file. Move notes there.
   Update the Tree. Keep this file under 100 lines.
+
+## Session learnings
+
+- Hook-based plugins require a row in both the Plugins table AND the Hooks section table in README.md; omitting the Hooks row was caught on review (learned 2026-04-19)
+- Agents and Skills sections in README.md are standalone catalogs that must be kept in sync with the Plugins table; sub-agents and new skills were missing from their catalog sections (learned 2026-04-19)

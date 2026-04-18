@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# check-python.sh — SessionStart hook for the python-developer plugin.
+# check-python.sh — SessionStart hook for the python-user plugin.
 # Runs on Linux/macOS. Detects whether Python is actually installed and executable.
 # If Python is not found, injects a permission-request to install it using the python-installer skill.
 

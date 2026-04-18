@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.12.0",
+    "version": "1.13.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -43,7 +43,7 @@
       "name": "ai-engineer",
       "source": "ai-engineer",
       "description": "AI Engineer is a collection of skills that help you create and optimize VS Code agents and skills.",
-      "version": "1.0.1"
+      "version": "1.1.0"
     },
     {
       "name": "php-developer",
@@ -72,14 +72,14 @@
     {
       "name": "python-developer",
       "source": "python-developer",
-      "description": "Python Developer is a plugin that enforces code quality by running black and pylint automatically after every Python file modification, injects DEFAULT_PYTHON_VERSION into the agent context at session start, and provides a skill to download and install Python from the official FTP server.",
-      "version": "1.2.0"
+      "description": "Python Developer is a plugin that enforces code quality by running black and pylint automatically after every Python file modification.",
+      "version": "1.3.0"
     },
     {
       "name": "current-date-injector",
       "source": "current-date-injector",
       "description": "Injects the current date (YYYY-MM-DD) and time (HH:mm:ss) into the agent context at the start of every session so agents always know today's date and time without being told.",
-      "version": "1.1.0"
+      "version": "1.2.0"
     },
     {
       "name": "browser-path-provider",
@@ -97,7 +97,19 @@
       "name": "meeting-note-taker",
       "source": "meeting-note-taker",
       "description": "Guides you through structured meeting note capture and produces a formatted summary with optional Q&A, actions, and Mermaid diagrams saved to a configurable directory.",
-      "version": "1.1.1"
+      "version": "1.1.2"
+    },
+    {
+      "name": "python-user",
+      "source": "python-user",
+      "description": "Python User is a plugin that injects DEFAULT_PYTHON_VERSION into the agent context at session start, checks whether Python is installed and offers to install it via the python-installer skill, and provides a skill to download and install Python from the official FTP server.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "poetry-user",
+      "source": "poetry-user",
+      "description": "Poetry User is a plugin that detects whether the current workspace uses Poetry (via poetry.lock), injects context instructing the agent to prefer poetry commands, and automatically installs Poetry via pip if it is not already installed.",
+      "version": "1.0.0"
     }
   ]
 }

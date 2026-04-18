@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# inject-python-version.sh — SessionStart hook for the python-developer plugin.
+# inject-python-version.sh — SessionStart hook for the python-user plugin.
 # Runs on Linux/macOS. Reads DEFAULT_PYTHON_VERSION environment variable and outputs it as additionalContext JSON.
 # Falls back to '3.14.4' if DEFAULT_PYTHON_VERSION is not set.
 

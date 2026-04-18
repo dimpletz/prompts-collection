@@ -1,4 +1,4 @@
-# meeting-note-taker `v1.1.1`
+# meeting-note-taker `v1.1.2`
 
 > Guides you through structured meeting note capture and produces a formatted summary saved to your meeting notes directory.
 

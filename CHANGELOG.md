@@ -1,6 +1,19 @@
 # Changelog for Marketplace
 
 
+## 1.13.0 - 2026-04-19
+
+### Added
+- python-user plugin (v1.0.0) with a `SessionStart` hook that injects `DEFAULT_PYTHON_VERSION` into the agent context (falling back to `3.14.4`) and a second `SessionStart` hook that detects whether Python is installed — if missing, injects a permission-request prompt instructing the agent to offer installation via the python-installer skill; includes the `python-installer` skill with cross-platform install scripts (`install-python.ps1` / `install-python.sh`) that download and install a specific Python version from the official FTP server
+- poetry-user plugin (v1.0.0) with two `SessionStart` hooks: `inject-poetry-context` checks for a `poetry.lock` file and, if found, injects context instructing the agent to always prefer `poetry` commands (`poetry run`, `poetry add`, `poetry install`, `poetry update`, `poetry remove`); `check-poetry` also fires only when `poetry.lock` is detected — if Python is unavailable it injects "poetry requires python", if Poetry is not installed it attempts `pip install poetry` and injects either a success message (with a reminder to restart the terminal) or the pip error output
+- poetry-user plugin — adds `vscode-poetry-configurator` skill that checks for an active Poetry virtual environment (running `poetry install` if none exists), then configures `.vscode/settings.json` with `python.defaultInterpreterPath` pointing to the venv's Python executable and `python.terminal.activateEnvironment: true` so all integrated PowerShell terminals automatically activate the environment
+
+### Changed
+- current-date-injector plugin updated to v1.2.0 — inject-date scripts now inject only the current date (YYYY-MM-DD), removing the time component
+- current-date-injector plugin updated to v1.2.0 — adds `inject-time-command` hook (runs on both `SessionStart` and `SubagentStart`) that injects context describing the command to determine the current time in 24-hr format with timezone information (`(Get-Date).ToString('HH:mm:ss zzz')` on Windows / `date +"%H:%M:%S %Z"` on Linux/macOS)
+- python-developer plugin updated to v1.3.0 — removed `SessionStart` hooks (`inject-python-version`, `check-python`) and `python-installer` skill; these have been moved to the new `python-user` plugin; the plugin now exclusively enforces code quality via the `PostToolUse` hook
+- meeting-note-taker plugin updated to v1.1.2 — Workflow Step 1 now scans the user's initial prompt for any of the five setup values (subdirectory, filename prefix, meeting title, facilitators, attendees); pre-filled fields are shown with their inferred values for confirmation instead of asking the question from scratch
+
 ## 1.12.0 - 2026-04-18
 
 ### Added

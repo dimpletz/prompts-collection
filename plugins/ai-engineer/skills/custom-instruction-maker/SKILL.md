@@ -102,7 +102,11 @@ Operational rules that govern how the AI should behave in this folder. Rules mus
 
 Must include at minimum:
 1. Which files or docs to read before specific types of work (e.g. read ADRs before architectural changes).
-2. Coding conventions — naming, patterns, file structure expectations.
+2. Coding conventions — naming, patterns, file structure expectations. Always include the following coding principles:
+   - **SOLID**: each component has a single responsibility and depends on abstractions, not concretions.
+   - **DRY**: extract shared logic into utilities; never duplicate business logic.
+   - **Composition over inheritance**: build behavior by composing small, focused units rather than deep class hierarchies.
+   - **Modern syntax**: use the latest language features available (e.g. arrow functions, destructuring, async/await, optional chaining).
 3. Safety gates — what requires human approval before modifying (e.g. DB migrations, CI config, public APIs).
 4. Tree maintenance — update the Tree section when creating or discovering new files.
 
