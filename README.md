@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.14.0`
+## Plugins `v1.15.0`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
