@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.13.0`
+## Plugins `v1.14.0`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -120,6 +120,7 @@ Hooks are scripts that run automatically at specific points in the agent lifecyc
 | [meeting-note-taker](plugins/meeting-note-taker/) | `SessionStart` | Reads the `MEETING_DIR` environment variable (falls back to `%USERPROFILE%\Documents\MeetingNotes` on Windows or `$HOME/Documents/MeetingNotes` on Linux/macOS) and injects the resolved path into the agent context. |
 | [python-user](plugins/python-user/) | `SessionStart` | Injects `DEFAULT_PYTHON_VERSION` into the agent context (falls back to `3.14.4`). Checks whether Python is installed; if not, injects a permission-request prompt instructing the agent to offer installation via the python-installer skill. |
 | [poetry-user](plugins/poetry-user/) | `SessionStart` | Detects `poetry.lock` in the workspace and injects context instructing the agent to prefer `poetry` commands. If `poetry.lock` is present but Poetry is not installed, automatically installs it via `pip`; injects success, failure, or "poetry requires python" messages as appropriate. |
+| [git-manager](plugins/git-manager/) | `SessionStart`, `SubagentStart` | Reads the `GIT_DIFF_DIR` environment variable and injects its value into agent context so generated diff files are saved to the configured directory. |
 
 ### Hook events reference
 

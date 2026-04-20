@@ -1,6 +1,19 @@
 # Changelog for Marketplace
 
 
+## 1.14.0 - 2026-04-21
+
+### Added
+- git-manager plugin updated to v1.2.0 — adds `git-diff-generator` skill that generates a `.diff` file comparing a source (pull request ID, currently checked-out branch, or remote branch) against a target branch using three-dot diff semantics; saves diff files to `GIT_DIFF_DIR` when set, otherwise to the current workspace root
+- git-manager plugin updated to v1.2.0 — adds `SessionStart` and `SubagentStart` hooks (`inject-git-diff-dir`) that read the `GIT_DIFF_DIR` environment variable and inject its value into agent context
+
+### Changed
+- git-manager plugin updated to v1.2.0 — renames `pr-cloner` skill to `git-pr-cloner` for naming consistency; plugin manifest converted from `plugin/plugin.json` to hook-based `.claude-plugin/plugin.json`
+- current-date-injector plugin updated to v1.3.0 — consolidates `inject-date` and `inject-time-command` into a single `inject-date` script that outputs both the date command hint and the time command hint as `additionalContext`
+
+### Removed
+- current-date-injector plugin updated to v1.3.0 — removes redundant `inject-time-command.ps1` and `inject-time-command.sh` scripts and their corresponding hook entries from `hooks.json`
+
 ## 1.13.0 - 2026-04-19
 
 ### Added
