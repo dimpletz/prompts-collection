@@ -5,11 +5,6 @@
         "type": "command",
         "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-date.sh\"",
         "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-date.ps1\""
-      },
-      {
-        "type": "command",
-        "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-time-command.sh\"",
-        "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-time-command.ps1\""
       }
     ],
     "SubagentStart": [
@@ -17,11 +12,6 @@
         "type": "command",
         "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-date.sh\"",
         "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-date.ps1\""
-      },
-      {
-        "type": "command",
-        "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-time-command.sh\"",
-        "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-time-command.ps1\""
       }
     ]
   }

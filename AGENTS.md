@@ -35,7 +35,7 @@ using the `dimpletz/prompts-collection` marketplace source.
 - When adding a new plugin, agent, or skill, update the tables in README.md to reflect the addition
 - When adding a new agent, update both the Plugins table (Agents column) AND the dedicated Agents catalog section in README.md
 - When adding a new skill, update both the Plugins table (Skills column) AND the dedicated Skills catalog section in README.md
-- When adding a new plugin, add a CHANGELOG.md entry under the current version
+- Never update CHANGELOG.md unless the marketplace version in .github/plugin/marketplace.json was explicitly changed by the user
 - Always ensure the version in a plugin's plugin.json matches its entry in .github/plugin/marketplace.json
 - When a plugin's version in plugin.json is updated, update the matching plugin entry in .github/plugin/marketplace.json to the same version
 - When a plugin's version in plugin.json is updated, update the corresponding plugin version in README.md to the same version
