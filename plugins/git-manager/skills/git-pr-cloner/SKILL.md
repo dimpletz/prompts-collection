@@ -1,10 +1,10 @@
 ---
-name: pr-cloner
+name: git-pr-cloner
 description: >
   Clones (fetches) a pull request from a remote Git repository into a local tracking branch. Supports both GitHub/GitLab-style remotes and Bitbucket remotes. Use this skill whenever the user wants to check out or fetch a PR/pull-request locally without merging it. Do NOT use this skill for creating, reviewing, or merging pull requests.
 ---
 
-# PR Cloner
+# Git PR Cloner
 
 Fetches a pull request from a remote Git repository into a local branch so it can be inspected, reviewed, or tested locally without merging.
 

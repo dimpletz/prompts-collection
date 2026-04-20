@@ -1,6 +1,6 @@
-# Git Manager `v1.1.1`
+# Git Manager `v1.2.0`
 
-> A collection of skills for managing Git repositories, worktrees, merge conflicts, and pull requests.
+> A collection of skills for managing Git repositories, worktrees, merge conflicts, and pull requests — with context injection for diff output directories.
 
 ## Prerequisites
 
@@ -11,6 +11,12 @@
 
 Install via the VS Code Chat Plugin Marketplace using the `dimpletz/prompts-collection` marketplace source and enable the **git-manager** plugin.
 
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GIT_DIFF_DIR` | Optional | Directory where generated diff files are saved. If not set, diff files are saved to the current workspace root. |
+
 ## Usage
 
 All capabilities are provided as **skills** — describe your git task in Copilot Chat and the appropriate skill is automatically invoked.
@@ -20,17 +26,29 @@ All capabilities are provided as **skills** — describe your git task in Copilo
 | **Git Merge Conflict Resolver** | You encounter merge conflicts (e.g. "error: Merging is not possible because you have unmerged files."). |
 | **Git Merge Auditor** | You want to verify that a target branch contains all commits and changes from a source branch. |
 | **Git Worktree Manager** | You want to create, list, move, remove, or purge a Git worktree. |
-| **PR Cloner** | You want to fetch a pull request locally to inspect or test it without merging. |
+| **Git PR Cloner** | You want to fetch a pull request locally to inspect or test it without merging. |
+| **Git Diff Generator** | You want to generate a diff file comparing a PR, local branch, or remote branch against a target branch. |
+
+## Hooks
+
+| Hook | Trigger | Behaviour |
+|------|---------|-----------|
+| `SessionStart` | At the start of every chat session | Reads `GIT_DIFF_DIR` and injects it into agent context when set. |
+| `SubagentStart` | At the start of every sub-agent call | Same as `SessionStart`. |
 
 ## Components
 
 ```mermaid
 graph TD
     A[git-manager plugin]
+    A --> H[Hooks<br/>hooks/hooks.json]
+    H --> S1[SessionStart → inject-git-diff-dir]
+    H --> S2[SubagentStart → inject-git-diff-dir]
     A --> B[Git Merge Conflict Resolver<br/>skills/git-merge-conflict-resolver/SKILL.md]
     A --> C[Git Merge Auditor<br/>skills/git-merge-auditor/SKILL.md]
     A --> D[Git Worktree Manager<br/>skills/git-worktree-manager/SKILL.md]
-    A --> E[PR Cloner<br/>skills/pr-cloner/SKILL.md]
+    A --> E[Git PR Cloner<br/>skills/git-pr-cloner/SKILL.md]
+    A --> F[Git Diff Generator<br/>skills/git-diff-generator/SKILL.md]
 ```
 
 ### Git Merge Conflict Resolver
@@ -45,9 +63,13 @@ Audits whether a target branch fully contains all commits and changes from a sou
 
 Manages the full lifecycle of Git worktrees: **Create**, **List**, **Move/Lock/Unlock**, and **Remove/Purge**. All worktrees are placed beside the repository root and follow the naming convention `<REPO>-worktree-<BRANCH>`.
 
-### PR Cloner
+### Git PR Cloner
 
 Fetches a pull request from a remote Git repository into a local tracking branch for inspection, review, or testing. Supports GitHub/GitLab-style remotes and Bitbucket remotes. Does **not** merge the PR.
+
+### Git Diff Generator
+
+Generates a `.diff` file comparing a source (pull request ID, currently checked-out branch, or remote branch) against a target branch. Uses three-dot diff semantics to capture only the changes introduced by the source. Saves the diff to `GIT_DIFF_DIR` when available, otherwise to the current workspace root. Sanitizes all filename components and always fetches the target branch from the remote before diffing.
 
 ## Author
 
