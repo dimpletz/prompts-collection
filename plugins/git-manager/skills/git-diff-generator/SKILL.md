@@ -1,12 +1,12 @@
 ---
 name: git-diff-generator
 description: >
-  Generates a diff file comparing a source (pull request ID, current local branch, or remote branch) against a target branch. Use this skill whenever you need to produce a diff file based on a PR, locally checked-out branch, or remote branch versus a target branch. Do NOT use this skill for merging, resolving conflicts, or reviewing code inline.
+  Generates a diff file comparing a source (pull request ID, current local branch, remote branch, or first commit) against a target branch. Use this skill whenever you need to produce a diff file based on a PR, locally checked-out branch, remote branch, or the repository's first commit versus a target branch. Do NOT use this skill for merging, resolving conflicts, or reviewing code inline.
 ---
 
 # Git Diff Generator
 
-Produces a `.diff` file comparing a source ref (pull request, current local branch, or remote branch) against a target branch, using three-dot (`A...B`) diff semantics to capture only the changes introduced by the source.
+Produces a `.diff` file comparing a source ref (pull request, current local branch, remote branch, or the repository's first commit) against a target branch, using three-dot (`A...B`) diff semantics to capture only the changes introduced by the source.
 
 ## Inputs
 
@@ -14,6 +14,7 @@ Produces a `.diff` file comparing a source ref (pull request, current local bran
   - `pr_id` — a pull request number (integer, e.g. `42`)
   - `current_branch` — use the currently checked-out local branch (no value needed; keyword only)
   - `remote_branch` — a branch name on the remote (string, e.g. `feature/my-feature`; do **not** include the remote prefix)
+  - `first_commit` — use the repository's very first (root) commit as the source (no value needed; keyword only)
 - **target_branch** (required): the branch to diff against (e.g. `main`, `develop`). Do **not** include the remote prefix — it will always be fetched and referenced as `<remote>/<target_branch>`.
 - **remote** (optional, default: `origin`): the remote repository name (e.g. `origin`, `upstream`).
 
@@ -53,7 +54,7 @@ The `<YYYY-MM-DD-HH-MM>` timestamp in all filenames must be obtained from the sy
 
 ### Step 0 – Validate Inputs
 
-1. Confirm that exactly one source type is provided (`pr_id`, `current_branch`, or `remote_branch`). If none or more than one is provided, ask the user to clarify.
+1. Confirm that exactly one source type is provided (`pr_id`, `current_branch`, `remote_branch`, or `first_commit`). If none or more than one is provided, ask the user to clarify.
 2. Confirm that `target_branch` is provided. If missing, ask the user.
 3. Set `remote` to `origin` if not specified.
 4. Determine the output directory:
@@ -150,6 +151,34 @@ Example: `remote-feature-my-feature-main-2026-04-21-14-30.diff`
 git diff <remote>/<target_branch>...<remote>/<remote_branch> > "<output_dir>/<filename>"
 ```
 
+### Step 2D – Scenario: First Commit
+
+Use when `first_commit` is the source type.
+
+**2D-1. Resolve the first commit SHA:**
+
+```bash
+git rev-list --max-parents=0 HEAD
+```
+
+If the command returns more than one SHA (multiple root commits), use the first one listed. If it returns nothing, stop and tell the user the repository has no commits.
+
+**2D-2. Assemble the filename:**
+
+```
+first-commit-<sanitized_target_branch>-<YYYY-MM-DD-HH-MM>.diff
+```
+
+where `<sanitized_target_branch>` is the target branch name with the remote prefix stripped and then sanitized.
+
+Example: `first-commit-main-2026-04-21-14-30.diff`
+
+**2D-3. Generate the diff:**
+
+```bash
+git diff <first_commit_sha>...<remote>/<target_branch> > "<output_dir>/<filename>"
+```
+
 ### Step 3 – Verify the Diff File
 
 After writing:
@@ -166,6 +195,7 @@ After writing:
 - **Forgetting to delete the PR branch**: Always delete `PR<id>` after a PR diff. Leaving it pollutes the local repo.
 - **Unsanitized filenames**: Slashes in branch names (e.g. `feature/my-feature`) must be replaced with `-` before use in a filename.
 - **Writing to a non-existent GIT_DIFF_DIR**: Verify or create the directory before writing the diff.
+- **Multiple root commits for first_commit**: `git rev-list --max-parents=0 HEAD` may return more than one SHA in repositories with multiple root commits (e.g. orphan branches). Always use the first SHA listed.
 
 ## Output Format
 
@@ -173,7 +203,7 @@ Always respond using this structure:
 
 ```markdown
 ## Summary
-- Source type used (PR ID / current branch / remote branch) and the value.
+- Source type used (PR ID / current branch / remote branch / first commit) and the value.
 - Target branch and remote used.
 - Diff file path and size.
 
