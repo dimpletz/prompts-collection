@@ -155,13 +155,21 @@ git diff <remote>/<target_branch>...<remote>/<remote_branch> > "<output_dir>/<fi
 
 Use when `first_commit` is the source type.
 
-**2D-1. Resolve the first commit SHA:**
+**2D-1. Resolve the first commit SHA** by reversing the commit history and taking the first entry:
 
-```bash
-git rev-list --max-parents=0 HEAD
-```
+- **bash / Linux / macOS**:
 
-If the command returns more than one SHA (multiple root commits), use the first one listed. If it returns nothing, stop and tell the user the repository has no commits.
+  ```bash
+  git rev-list --reverse HEAD | head -1
+  ```
+
+- **PowerShell / Windows**:
+
+  ```powershell
+  git rev-list --reverse HEAD | Select-Object -First 1
+  ```
+
+This always yields the single chronologically earliest ancestor reachable from `HEAD`, regardless of how many root commits exist in the repository. If the command returns nothing, stop and tell the user the repository has no commits.
 
 **2D-2. Assemble the filename:**
 
@@ -195,7 +203,7 @@ After writing:
 - **Forgetting to delete the PR branch**: Always delete `PR<id>` after a PR diff. Leaving it pollutes the local repo.
 - **Unsanitized filenames**: Slashes in branch names (e.g. `feature/my-feature`) must be replaced with `-` before use in a filename.
 - **Writing to a non-existent GIT_DIFF_DIR**: Verify or create the directory before writing the diff.
-- **Multiple root commits for first_commit**: `git rev-list --max-parents=0 HEAD` may return more than one SHA in repositories with multiple root commits (e.g. orphan branches). Always use the first SHA listed.
+- **Multiple root commits for first_commit**: Using `git rev-list --reverse HEAD | head -1` (or `Select-Object -First 1` on PowerShell) always returns the single chronologically earliest ancestor reachable from `HEAD`, so multiple root commits do not affect the result.
 
 ## Output Format
 
