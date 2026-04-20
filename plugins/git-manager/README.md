@@ -1,4 +1,4 @@
-# Git Manager `v1.2.0`
+# Git Manager `v1.3.0`
 
 > A collection of skills for managing Git repositories, worktrees, merge conflicts, and pull requests — with context injection for diff output directories.
 
