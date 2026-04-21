@@ -1,12 +1,12 @@
 ---
 name: git-diff-generator
 description: >
-  Generates a diff file comparing a source (pull request ID, current local branch, or remote branch) against a target branch. Use this skill whenever you need to produce a diff file based on a PR, locally checked-out branch, or remote branch versus a target branch. Do NOT use this skill for merging, resolving conflicts, or reviewing code inline.
+  Generates a diff file comparing a source (pull request ID, current local branch, remote branch, or first commit) against a target branch. Use this skill whenever you need to produce a diff file based on a PR, locally checked-out branch, remote branch, or the repository's first commit versus a target branch. Do NOT use this skill for merging, resolving conflicts, or reviewing code inline.
 ---
 
 # Git Diff Generator
 
-Produces a `.diff` file comparing a source ref (pull request, current local branch, or remote branch) against a target branch, using three-dot (`A...B`) diff semantics to capture only the changes introduced by the source.
+Produces a `.diff` file comparing a source ref (pull request, current local branch, remote branch, or the repository's first commit) against a target branch, using three-dot (`A...B`) diff semantics to capture only the changes introduced by the source.
 
 ## Inputs
 
@@ -14,10 +14,11 @@ Produces a `.diff` file comparing a source ref (pull request, current local bran
   - `pr_id` — a pull request number (integer, e.g. `42`)
   - `current_branch` — use the currently checked-out local branch (no value needed; keyword only)
   - `remote_branch` — a branch name on the remote (string, e.g. `feature/my-feature`; do **not** include the remote prefix)
-- **target_branch** (required): the branch to diff against (e.g. `main`, `develop`). Do **not** include the remote prefix — it will always be fetched and referenced as `<remote>/<target_branch>`.
+  - `first_commit` — use the repository's very first (root) commit as the source (no value needed; keyword only)
+- **target_branch** (required unless source is `first_commit`): the branch to diff against (e.g. `main`, `develop`). Do **not** include the remote prefix — it will always be fetched and referenced as `<remote>/<target_branch>`. Not used when source is `first_commit`.
 - **remote** (optional, default: `origin`): the remote repository name (e.g. `origin`, `upstream`).
 
-If `source` or `target_branch` is missing, **ask the user** before proceeding. Do not guess or use defaults for these two inputs.
+If `source` is missing, **ask the user** before proceeding. If `target_branch` is missing and source is not `first_commit`, **ask the user** before proceeding. Do not guess or use defaults for these inputs.
 
 ## Output Location
 
@@ -43,18 +44,19 @@ The `<YYYY-MM-DD-HH-MM>` timestamp in all filenames must be obtained from the sy
 
 ## Task Priorities
 
-1. **Priority 1 – Correct diff content**: Use `git diff <remote>/<target_branch>...<source_ref>` (three-dot) so the diff captures only the changes introduced by the source and not unrelated commits on the target.
+1. **Priority 1 – Correct diff content**: Use `git diff <remote>/<target_branch>...<source_ref>` (three-dot) so the diff captures only the changes introduced by the source and not unrelated commits on the target. **Exception**: for the `first_commit` scenario, use `git diff 4b825dc642cb6eb9a060e54bf8d69288fbee4904..<first_commit_sha>` (two-dot against Git's empty tree) — the root commit has no parent and no target branch applies.
 2. **Priority 2 – Always fetch target branch**: Always run `git fetch <remote> <target_branch>` before generating any diff. The target branch reference must always come from the named remote.
 3. **Priority 3 – Always use `git-pr-cloner` for PR fetching**: Whenever a `pr_id` is the source, **never** run a manual `git fetch pull/...` command. Always delegate to the `git-pr-cloner` skill. This is non-negotiable — it ensures consistent branch naming (`PR<id>`), platform detection, and prerequisite checks.
-4. **Priority 4 – Safe file output**: Sanitize all filename components; confirm `GIT_DIFF_DIR` exists before writing there.
-5. **Priority 5 – Clean up temporary branches**: After generating a PR diff, always delete the local `PR<id>` branch.
+4. **Priority 4 – Always generate a fresh diff file**: Never read or load an existing diff file from the output directory unless the user explicitly asks. Every invocation must produce a new diff file, overwriting any existing file with the same name.
+5. **Priority 5 – Safe file output**: Sanitize all filename components; confirm `GIT_DIFF_DIR` exists before writing there.
+6. **Priority 6 – Clean up temporary branches**: After generating a PR diff, always delete the local `PR<id>` branch.
 
 ## Workflow
 
 ### Step 0 – Validate Inputs
 
-1. Confirm that exactly one source type is provided (`pr_id`, `current_branch`, or `remote_branch`). If none or more than one is provided, ask the user to clarify.
-2. Confirm that `target_branch` is provided. If missing, ask the user.
+1. Confirm that exactly one source type is provided (`pr_id`, `current_branch`, `remote_branch`, or `first_commit`). If none or more than one is provided, ask the user to clarify.
+2. Confirm that `target_branch` is provided, unless source is `first_commit` (it is not needed in that scenario). If missing and source is not `first_commit`, ask the user.
 3. Set `remote` to `origin` if not specified.
 4. Determine the output directory:
    - If `GIT_DIFF_DIR` is in context, use that directory. Verify it exists; if not, create it or ask the user — do not silently fall back.
@@ -69,6 +71,8 @@ git fetch <remote> <target_branch>
 ```
 
 This ensures `<remote>/<target_branch>` reflects the latest state.
+
+> **Skip this step** when source is `first_commit` — no target branch ref is needed.
 
 ### Step 2A – Scenario: PR ID
 
@@ -150,6 +154,46 @@ Example: `remote-feature-my-feature-main-2026-04-21-14-30.diff`
 git diff <remote>/<target_branch>...<remote>/<remote_branch> > "<output_dir>/<filename>"
 ```
 
+### Step 2D – Scenario: First Commit
+
+Use when `first_commit` is the source type.
+
+**2D-1. Resolve the first commit SHA** by reversing the commit history and taking the first entry:
+
+- **bash / Linux / macOS**:
+
+  ```bash
+  git rev-list --reverse HEAD | head -1
+  ```
+
+- **PowerShell / Windows**:
+
+  ```powershell
+  git rev-list --reverse HEAD | Select-Object -First 1
+  ```
+
+This always yields the single chronologically earliest ancestor reachable from `HEAD`, regardless of how many root commits exist in the repository. If the command returns nothing, stop and tell the user the repository has no commits.
+
+**2D-2. Assemble the filename:**
+
+```
+first-commit-<YYYY-MM-DD-HH-MM>.diff
+```
+
+No target branch component — the diff is against Git's empty tree, not any branch.
+
+Example: `first-commit-2026-04-21-14-30.diff`
+
+**2D-3. Generate the diff:**
+
+Diff the first commit against Git's empty tree SHA (`4b825dc642cb6eb9a060e54bf8d69288fbee4904`). This is the correct technique for a root commit that has no parent:
+
+```bash
+git diff 4b825dc642cb6eb9a060e54bf8d69288fbee4904..<first_commit_sha> > "<output_dir>/<filename>"
+```
+
+> **Why two-dot and not three-dot**: Three-dot finds the merge base between the two refs. The empty tree has no concept of a merge base, so three-dot would behave incorrectly here. Two-dot simply compares the two trees directly, which is what we want.
+
 ### Step 3 – Verify the Diff File
 
 After writing:
@@ -160,12 +204,14 @@ After writing:
 ## Common Pitfalls to Avoid
 
 - **Not fetching the target branch first**: Always run `git fetch <remote> <target_branch>` before diffing. Stale local refs produce wrong diffs.
-- **Two-dot vs three-dot**: Use `...` (three-dot), not `..` (two-dot). Three-dot shows only what was introduced by the source branch since it diverged from the target; two-dot compares tips and can include commits already on the target.
+- **Two-dot vs three-dot**: Use `...` (three-dot), not `..` (two-dot) for all branch-based scenarios. Three-dot shows only what was introduced by the source branch since it diverged from the target; two-dot compares tips and can include commits already on the target. **Exception**: the `first_commit` scenario uses two-dot (`..`) against Git's empty tree (`4b825dc642cb6eb9a060e54bf8d69288fbee4904`) — this is intentional, since the empty tree has no merge base.
 - **Remote prefix in filename**: Strip `origin/`, `upstream/`, etc. from branch names used in filenames. The filename must contain only the branch name without the remote prefix.
 - **Bypassing `git-pr-cloner` for PR fetching**: Never run `git fetch pull/<id>/head:PR<id>` manually. Always invoke the `git-pr-cloner` skill for any PR fetch. Running the fetch directly bypasses platform detection and safety checks.
 - **Forgetting to delete the PR branch**: Always delete `PR<id>` after a PR diff. Leaving it pollutes the local repo.
 - **Unsanitized filenames**: Slashes in branch names (e.g. `feature/my-feature`) must be replaced with `-` before use in a filename.
 - **Writing to a non-existent GIT_DIFF_DIR**: Verify or create the directory before writing the diff.
+- **Reading existing diff files**: Never read or load a previously generated diff file from the output directory. Always produce a fresh diff by running the git commands — this is the default behaviour. Only examine an existing diff file if the user explicitly requests it.
+- **Multiple root commits for first_commit**: Using `git rev-list --reverse HEAD | head -1` (or `Select-Object -First 1` on PowerShell) always returns the single chronologically earliest ancestor reachable from `HEAD`, so multiple root commits do not affect the result.
 
 ## Output Format
 
@@ -173,7 +219,7 @@ Always respond using this structure:
 
 ```markdown
 ## Summary
-- Source type used (PR ID / current branch / remote branch) and the value.
+- Source type used (PR ID / current branch / remote branch / first commit) and the value.
 - Target branch and remote used.
 - Diff file path and size.
 

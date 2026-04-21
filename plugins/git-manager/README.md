@@ -1,4 +1,4 @@
-# Git Manager `v1.2.0`
+# Git Manager `v1.3.0`
 
 > A collection of skills for managing Git repositories, worktrees, merge conflicts, and pull requests — with context injection for diff output directories.
 
@@ -27,7 +27,7 @@ All capabilities are provided as **skills** — describe your git task in Copilo
 | **Git Merge Auditor** | You want to verify that a target branch contains all commits and changes from a source branch. |
 | **Git Worktree Manager** | You want to create, list, move, remove, or purge a Git worktree. |
 | **Git PR Cloner** | You want to fetch a pull request locally to inspect or test it without merging. |
-| **Git Diff Generator** | You want to generate a diff file comparing a PR, local branch, or remote branch against a target branch. |
+| **Git Diff Generator** | You want to generate a diff file comparing a PR, local branch, remote branch, or the repository's first commit against a target branch. |
 
 ## Hooks
 
@@ -69,7 +69,7 @@ Fetches a pull request from a remote Git repository into a local tracking branch
 
 ### Git Diff Generator
 
-Generates a `.diff` file comparing a source (pull request ID, currently checked-out branch, or remote branch) against a target branch. Uses three-dot diff semantics to capture only the changes introduced by the source. Saves the diff to `GIT_DIFF_DIR` when available, otherwise to the current workspace root. Sanitizes all filename components and always fetches the target branch from the remote before diffing.
+Generates a `.diff` file comparing a source (pull request ID, currently checked-out branch, remote branch, or the repository's first commit) against a target branch. For the `first_commit` source, diffs against Git's empty tree using two-dot semantics — no target branch is required. Uses three-dot diff semantics for all other source types. Saves the diff to `GIT_DIFF_DIR` when available, otherwise to the current workspace root. Sanitizes all filename components and always fetches the target branch from the remote before diffing.
 
 ## Author
 
