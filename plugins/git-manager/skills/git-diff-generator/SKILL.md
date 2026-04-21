@@ -47,8 +47,9 @@ The `<YYYY-MM-DD-HH-MM>` timestamp in all filenames must be obtained from the sy
 1. **Priority 1 – Correct diff content**: Use `git diff <remote>/<target_branch>...<source_ref>` (three-dot) so the diff captures only the changes introduced by the source and not unrelated commits on the target.
 2. **Priority 2 – Always fetch target branch**: Always run `git fetch <remote> <target_branch>` before generating any diff. The target branch reference must always come from the named remote.
 3. **Priority 3 – Always use `git-pr-cloner` for PR fetching**: Whenever a `pr_id` is the source, **never** run a manual `git fetch pull/...` command. Always delegate to the `git-pr-cloner` skill. This is non-negotiable — it ensures consistent branch naming (`PR<id>`), platform detection, and prerequisite checks.
-4. **Priority 4 – Safe file output**: Sanitize all filename components; confirm `GIT_DIFF_DIR` exists before writing there.
-5. **Priority 5 – Clean up temporary branches**: After generating a PR diff, always delete the local `PR<id>` branch.
+4. **Priority 4 – Always generate a fresh diff file**: Never read or load an existing diff file from the output directory unless the user explicitly asks. Every invocation must produce a new diff file, overwriting any existing file with the same name.
+5. **Priority 5 – Safe file output**: Sanitize all filename components; confirm `GIT_DIFF_DIR` exists before writing there.
+6. **Priority 6 – Clean up temporary branches**: After generating a PR diff, always delete the local `PR<id>` branch.
 
 ## Workflow
 
@@ -203,6 +204,7 @@ After writing:
 - **Forgetting to delete the PR branch**: Always delete `PR<id>` after a PR diff. Leaving it pollutes the local repo.
 - **Unsanitized filenames**: Slashes in branch names (e.g. `feature/my-feature`) must be replaced with `-` before use in a filename.
 - **Writing to a non-existent GIT_DIFF_DIR**: Verify or create the directory before writing the diff.
+- **Reading existing diff files**: Never read or load a previously generated diff file from the output directory. Always produce a fresh diff by running the git commands — this is the default behaviour. Only examine an existing diff file if the user explicitly requests it.
 - **Multiple root commits for first_commit**: Using `git rev-list --reverse HEAD | head -1` (or `Select-Object -First 1` on PowerShell) always returns the single chronologically earliest ancestor reachable from `HEAD`, so multiple root commits do not affect the result.
 
 ## Output Format
