@@ -1,6 +1,16 @@
 # Changelog for Marketplace
 
 
+## 1.15.0 - 2026-04-21
+
+### Added
+- git-manager plugin updated to v1.3.0 — `git-diff-generator` skill adds `first_commit` source input that diffs the repository's very first (root) commit against Git's empty tree (`4b825dc642cb6eb9a060e54bf8d69288fbee4904`), producing a self-contained diff of everything introduced by the initial commit; no target branch is required for this source type
+
+### Changed
+- git-manager plugin updated to v1.3.0 — `git-diff-generator` skill makes `target_branch` optional when source is `first_commit` (not needed since the diff targets Git's empty tree)
+- git-manager plugin updated to v1.3.0 — `git-diff-generator` skill now always generates a fresh diff file on every invocation and never reads or loads an existing diff file from the output directory unless the user explicitly requests it
+- git-manager plugin updated to v1.3.0 — `git-diff-generator` skill uses `git rev-list --reverse HEAD | head -1` (or `Select-Object -First 1` on PowerShell) to reliably resolve the chronologically earliest ancestor reachable from `HEAD`
+
 ## 1.14.0 - 2026-04-21
 
 ### Added
