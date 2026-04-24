@@ -117,11 +117,11 @@ If the learner chooses **Finish**, skip to Step 5.
 
 Ask: *"What is the title of this new section?"*
 
-**4b. Continue section — choose existing section**
+**4c. Continue section — choose existing section**
 
 List the existing section titles found in the file (H2 headings). Ask the learner to pick one. Content will be appended after the last line of that section, before its trailing `-----` separator. If the section has no trailing separator, append one after the new content.
 
-**4c. Gather section content**
+**4d. Gather section content**
 
 Tell the learner:
 
@@ -130,7 +130,7 @@ Tell the learner:
 - Accept multiple messages until the learner replies `done` (case-insensitive) or explicitly confirms the section is complete.
 - Collect all text, code blocks, and attached images (reference images by their attachment name in the Markdown).
 
-**4d. Mermaid diagram suggestion**
+**4e. Mermaid diagram suggestion**
 
 After the learner replies `done`, analyse the section content. If the content describes:
 
@@ -147,7 +147,7 @@ Only suggest a diagram when it would genuinely clarify the content. Present the 
 - If the learner says **show me first**, display the proposed diagram for review before asking for final confirmation.
 - If the learner says **no**, skip the diagram.
 
-**4e. Write the section**
+**4f. Write the section**
 
 **New section** — append the following block to the end of the file:
 
