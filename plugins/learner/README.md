@@ -35,6 +35,12 @@ If `LEARNER_NOTES_DIR` is not set, the agent falls back to:
 | Windows | `%USERPROFILE%\Documents\LearnerNotes` |
 | Linux / macOS | `$HOME/Documents/LearnerNotes` |
 
+## Hooks
+
+| Event | Script | What it does |
+|-------|--------|--------------|
+| `SessionStart` | `inject-learner-notes-dir.ps1` / `.sh` | Reads `LEARNER_NOTES_DIR` (or uses the platform default) and injects the resolved path into the agent context as `additionalContext`. |
+
 ## Agents
 
 | Agent | File | Description |
