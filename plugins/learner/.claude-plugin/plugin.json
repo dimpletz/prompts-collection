@@ -19,6 +19,5 @@
   ],
   "agents": [
     "./agents"
-  ],
-  "hooks": "./hooks/hooks.json"
+  ]
 }

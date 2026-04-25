@@ -93,7 +93,6 @@ Topic files are always lowercase, with spaces replaced by hyphens, and stripped 
 | Environment Variable | Default | Description |
 |---------------------|---------|-------------|
 | `LEARNER_NOTES_DIR` | `%USERPROFILE%\Documents\LearnerNotes` (Windows) / `$HOME/Documents/LearnerNotes` (Linux/macOS) | Root directory where all topic note files are stored. |
-| `LEARNER_NAME` | *(agent asks if not set)* | Learner name used as the author in the note header. |
 
 ## Author
 
