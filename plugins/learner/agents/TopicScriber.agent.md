@@ -138,13 +138,7 @@ After the learner replies `done`, analyse the section content. If the content de
 - A hierarchy, taxonomy, or topic map → suggest a `mindmap`
 - A timeline or state transitions → suggest a `timeline` or `stateDiagram-v2`
 
-Only suggest a diagram when it would genuinely clarify the content. Present the suggestion:
-
-> *"I can add a Mermaid \<diagram type\> diagram to help visualise this section. Would you like me to include one? (yes / no / show me first)"*
-
-- If the learner says **yes**, generate the diagram and append it after the section content.
-- If the learner says **show me first**, display the proposed diagram for review before asking for final confirmation.
-- If the learner says **no**, skip the diagram.
+Only generate a diagram when it would genuinely clarify the content. When applicable, generate the diagram immediately and include it after the section content — no confirmation required.
 
 **4f. Write the section**
 
