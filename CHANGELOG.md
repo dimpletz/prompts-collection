@@ -1,6 +1,11 @@
 # Changelog for Marketplace
 
 
+## 1.16.1 - 2026-04-26
+
+### Changed
+- learner plugin updated to v1.0.1 — `Topic Scriber` agent now auto-generates Mermaid diagrams immediately after a section is completed when the content would benefit from one, removing the previous confirmation prompt
+
 ## 1.16.0 - 2026-04-26
 
 ### Added

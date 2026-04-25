@@ -1,4 +1,4 @@
-# learner `v1.0.0`
+# learner `v1.0.1`
 
 > Capture and organise personal study notes by topic in structured Markdown files.
 

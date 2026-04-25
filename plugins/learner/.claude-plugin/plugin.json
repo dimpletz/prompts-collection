@@ -1,7 +1,7 @@
 {
   "name": "learner",
   "description": "Learner is a collection of agents that help you capture and organise personal study notes by topic in structured Markdown files.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Dimpletz"
   },
