@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.15.0`
+## Plugins `v1.16.0`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -27,6 +27,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [meeting-note-taker](plugins/meeting-note-taker/) `v1.1.2` | Guides you through structured meeting note capture and produces a formatted summary with optional Q&A, actions, and Mermaid diagrams saved to a configurable directory. | [Meeting Note Taker](plugins/meeting-note-taker/agents/MeetingNoteTaker.agent.md) | — | `SessionStart` |
 | [python-user](plugins/python-user/) `v1.0.0` | Injects `DEFAULT_PYTHON_VERSION` into the agent context at session start, checks whether Python is installed and prompts the agent to offer installation if missing, and provides a skill to download and install Python from the official FTP server. | — | [Python Installer](plugins/python-user/skills/python-installer/SKILL.md) | `SessionStart` |
 | [poetry-user](plugins/poetry-user/) `v1.0.0` | Detects whether the current workspace uses Poetry (via `poetry.lock`), injects context instructing the agent to prefer `poetry` commands, and automatically installs Poetry via pip if it is not already installed. | — | [VS Code Poetry Configurator](plugins/poetry-user/skills/vscode-poetry-configurator/SKILL.md) | `SessionStart` |
+| [learner](plugins/learner/) `v1.0.0` | Agents for capturing and organising personal study notes by topic in structured Markdown files with sections, Mermaid diagrams, and a table of contents. | [Topic Scriber](plugins/learner/agents/TopicScriber.agent.md) | — | `SessionStart` |
 
 ## Agents
 
@@ -76,6 +77,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | Agent | Plugin | Description |
 |-------|--------|-------------|
 | [Meeting Note Taker](plugins/meeting-note-taker/agents/MeetingNoteTaker.agent.md) | meeting-note-taker | Interactive agent that guides you through structured meeting note capture and produces a formatted document with a prose summary, optional Mermaid diagrams, Q&A table, actions checklist, facilitators list, attendees list, and verbatim original notes — all saved to a configurable directory. |
+| [Topic Scriber](plugins/learner/agents/TopicScriber.agent.md) | learner | Interactive agent that guides the learner through creating and updating topic-based study notes, capturing text, pasted content, and images, then writing structured Markdown files with named sections, optional Mermaid diagrams, and a table of contents. |
 
 ## Custom Instructions
 
@@ -121,6 +123,7 @@ Hooks are scripts that run automatically at specific points in the agent lifecyc
 | [python-user](plugins/python-user/) | `SessionStart` | Injects `DEFAULT_PYTHON_VERSION` into the agent context (falls back to `3.14.4`). Checks whether Python is installed; if not, injects a permission-request prompt instructing the agent to offer installation via the python-installer skill. |
 | [poetry-user](plugins/poetry-user/) | `SessionStart` | Detects `poetry.lock` in the workspace and injects context instructing the agent to prefer `poetry` commands. If `poetry.lock` is present but Poetry is not installed, automatically installs it via `pip`; injects success, failure, or "poetry requires python" messages as appropriate. |
 | [git-manager](plugins/git-manager/) | `SessionStart`, `SubagentStart` | Reads the `GIT_DIFF_DIR` environment variable and injects its value into agent context so generated diff files are saved to the configured directory. |
+| [learner](plugins/learner/) | `SessionStart` | Reads the `LEARNER_NOTES_DIR` environment variable (falls back to `%USERPROFILE%\Documents\LearnerNotes` on Windows or `$HOME/Documents/LearnerNotes` on Linux/macOS) and injects the resolved path into the agent context. |
 
 ### Hook events reference
 

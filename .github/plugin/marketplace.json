@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.15.0",
+    "version": "1.16.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -109,6 +109,12 @@
       "name": "poetry-user",
       "source": "poetry-user",
       "description": "Poetry User is a plugin that detects whether the current workspace uses Poetry (via poetry.lock), injects context instructing the agent to prefer poetry commands, and automatically installs Poetry via pip if it is not already installed.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "learner",
+      "source": "learner",
+      "description": "Learner is a collection of agents that help you capture and organise personal study notes by topic in structured Markdown files.",
       "version": "1.0.0"
     }
   ]
