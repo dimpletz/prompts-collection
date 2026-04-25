@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.16.1",
+    "version": "1.17.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -42,8 +42,8 @@
     {
       "name": "ai-engineer",
       "source": "ai-engineer",
-      "description": "AI Engineer is a collection of skills that help you create and optimize VS Code agents and skills.",
-      "version": "1.1.0"
+      "description": "AI Engineer is a collection of skills that help you create and optimize VS Code agents, skills, hooks, and plugins.",
+      "version": "1.2.0"
     },
     {
       "name": "php-developer",

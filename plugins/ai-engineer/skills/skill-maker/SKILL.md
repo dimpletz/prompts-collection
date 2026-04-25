@@ -13,6 +13,7 @@ This **skill** is for engineers, tech leads, and prompt designers who need to de
 - **skill_intent** (required): A short description of what the new skill should achieve and where it will run (e.g. “review PRs for Java services in repo X”).
 - **primary_user** (optional): Who will use the skill (role, experience level, constraints); if omitted, assume “software engineer with mid-senior experience in the target domain”.
 - **operating_context** (optional): Scope and boundaries: codebase, document types, tools available (RAG, tests, CI), latency/quality trade-offs; if omitted, infer from intent with conservative assumptions.
+- **plugin_name** (optional): The name of the plugin this skill belongs to (e.g. `developer`, `git-manager`). If provided, the skill file is placed inside the plugin directory (`plugins/<plugin-name>/skills/<skill-name>/SKILL.md`). If omitted, the skill is saved at workspace level (`.agents/skills/<skill-name>/SKILL.md`). Do not infer or ask — default to workspace level when not provided.
 
 ## Task priorities
 
@@ -39,7 +40,10 @@ This **skill** is for engineers, tech leads, and prompt designers who need to de
    - Fill the SKILL.md template sections: frontmatter (name, description), human-readable overview, Inputs, Task priorities, Workflow, and Output format.
    - Use precise, operational language (“must”, “never”, “only when”) rather than vague suggestions, and keep sections short but unambiguous.
    - **CRITICAL – NO CODE FENCES**: The generated SKILL.md content **must never** be wrapped in any code fence — not ` ```skill `, not ` ```markdown `, not ` ``` `, not any other fence. The file must start directly with `---` (YAML frontmatter) and contain only plain Markdown. Wrapping in any code fence is always wrong and must not happen under any circumstances.
-   - **CRITICAL – SAVE LOCATION**: You **must** create the file at exactly `.agents/skills/<skill-name>/SKILL.md` inside the workspace root (e.g. if the skill name is `foo-bar`, the path is `.agents/skills/foo-bar/SKILL.md`). Use the file-creation tool to write it — do **not** skip, defer, or ask the user to do it. Create the directory if it does not exist. Saving anywhere else (e.g. `.github/skills/`) is wrong.
+   - **CRITICAL – SAVE LOCATION**: You **must** create the file using the file-creation tool — do **not** skip, defer, or ask the user to do it. Create the directory if it does not exist. The path depends on scope:
+     - **Plugin scope** (`plugin_name` provided): `plugins/<plugin-name>/skills/<skill-name>/SKILL.md` (e.g. `plugins/developer/skills/foo-bar/SKILL.md`)
+     - **Workspace scope** (`plugin_name` omitted): `.agents/skills/<skill-name>/SKILL.md` (e.g. `.agents/skills/foo-bar/SKILL.md`)
+     Saving to `.github/skills/` or any other location is wrong.
    
 4. **Step 4 – Summarize and flag limits**  
    - At the end of SKILL.md, explicitly call out assumptions (e.g. “assumes tests exist”, “assumes access to git diff”) and known limits (e.g. “does not handle binary files”).
@@ -60,7 +64,7 @@ Always respond using this structure:
 - Any important behavioral notes (safety, performance, compliance).
 
 ## Recommendations
-- The generated SKILL.md has already been saved to `.agents/skills/<skill-name>/SKILL.md` in the workspace root (done as part of Step 3 — mandatory). It is a plain Markdown file starting with `---` frontmatter; it contains no code fences.
+- The generated SKILL.md has already been saved (done as part of Step 3 — mandatory): to `plugins/<plugin-name>/skills/<skill-name>/SKILL.md` if a plugin name was provided, or to `.agents/skills/<skill-name>/SKILL.md` at workspace level otherwise. It is a plain Markdown file starting with `---` frontmatter; it contains no code fences.
 - Concrete next actions for the user (e.g. how to plug the skill into their AI assistant).
 - Optional suggestions for test scenarios and future extensions.
 

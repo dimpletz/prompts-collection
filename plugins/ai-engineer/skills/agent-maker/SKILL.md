@@ -16,6 +16,7 @@ This **skill** is for developers and prompt engineers who need to create well-st
 - **agent_name** (optional): The display name for the agent in Title Case (e.g. "Database Migration Generator"). If omitted, derive a concise, readable title from the intent. The PascalCase variant is used only for the file name (e.g. `DatabaseMigrationGenerator.agent.md`).
 - **target_audience** (optional): Who will interact with the agent (e.g. "backend engineers", "QA testers"). If omitted, assume a regular user with no specialized technical background.
 - **tools** (optional): Specific VS Code tools the agent should be allowed or required to use (e.g. `web`, `edit`, `agent`, `edit`, `read`, `execute`, `search`). If omitted, do not restrict tools — let the agent use whatever is available.
+- **plugin_name** (optional): The name of the plugin this agent belongs to (e.g. `developer`, `git-manager`). If provided, the agent file is placed inside the plugin directory (`plugins/<plugin-name>/agents/`). If omitted, the agent is saved at workspace level (`.github/agents/`). Do not infer or ask — default to workspace level when not provided.
 
 ## Task Priorities
 
@@ -46,6 +47,15 @@ This **skill** is for developers and prompt engineers who need to create well-st
   - The scope boundary — what the agent should refuse to do.
   Keep questions concise (max 3–4 at a time). Do not ask about information that can be reasonably inferred from the intent.
 - **Tool preference**: Always use the `vscode/askQuestions` tool to ask clarifying questions whenever it is available. Prefer it over inline prose questions in all cases — it provides a structured, user-friendly interaction. Only fall back to asking questions in plain text if `vscode/askQuestions` is not available.
+
+### Step 1b – Determine Scope
+
+Before writing any files, decide which scope applies:
+
+| Condition | Scope | Save location |
+|---|---|---|
+| `plugin_name` provided | **Plugin** | `plugins/<plugin-name>/agents/<AgentName>.agent.md` |
+| `plugin_name` omitted | **Workspace** | `.github/agents/<AgentName>.agent.md` |
 
 ### Step 2 – Compose the Agent File
 
@@ -173,7 +183,9 @@ Before delivering, verify the generated file:
 ### Step 4 – Save the File(s)
 
 - **File name**: `<AgentName>.agent.md` where `<AgentName>` is the PascalCase version of the agent name with spaces removed (e.g. name `Database Migration Generator` → file `DatabaseMigrationGenerator.agent.md`).
-- **Save location**: Always place the file in the `.github/agents/` directory.
+- **Save location**: Determined by scope (see Step 1b):
+  - **Plugin scope**: `plugins/<plugin-name>/agents/<AgentName>.agent.md`
+  - **Workspace scope**: `.github/agents/<AgentName>.agent.md`
 - **No code fences**: Each file must start directly with `---` (YAML frontmatter). Never wrap output in code fences.
 
 ### Step 5 – Optimize the Agent (MANDATORY when agent optimizer skill is available)
@@ -210,5 +222,5 @@ After creating the agent file(s), respond with:
 
 - Assumes the target environment is VS Code with GitHub Copilot agent support (`.agent.md` files).
 - Does not generate tool implementations or MCP server configurations — only the agent specification.
-- The generated agent file is always placed in the `.github/agents/` directory. This directory will be created if it does not already exist.
+- When `plugin_name` is provided, the agent file is placed in `plugins/<plugin-name>/agents/`. Otherwise it goes in `.github/agents/`. The target directory will be created if it does not already exist.
 - Does not validate whether referenced tools (e.g. `fetch`, `execute`) are actually available in the user's environment.

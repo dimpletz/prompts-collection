@@ -1,6 +1,16 @@
 # Changelog for Marketplace
 
 
+## 1.17.0 - 2026-04-26
+
+### Added
+- ai-engineer plugin updated to v1.2.0 — adds `hook-maker` skill for creating VS Code Copilot agent hook configurations (`hooks.json` and companion shell/PowerShell scripts) for any lifecycle event (`SessionStart`, `SubagentStart`, `PostToolUse`)
+- ai-engineer plugin updated to v1.2.0 — adds `plugin-maker` skill that scaffolds a complete VS Code Copilot agent plugin with the correct manifest (`.claude-plugin/plugin.json` for hook-based plugins, `plugin/plugin.json` for skill/agent-only plugins), directory structure, README, and marketplace registration
+- ai-engineer plugin updated to v1.2.0 — adds `marketplace-maker` skill that registers, synchronizes, and updates the project's plugins in the VS Code Chat Plugin Marketplace by keeping `marketplace.json` and the global `README.md` in sync with the actual plugin contents
+
+### Changed
+- ai-engineer plugin updated to v1.2.0 — plugin description updated to reflect the expanded scope (hooks, plugins, and marketplace management in addition to agents, skills, and custom instructions)
+
 ## 1.16.1 - 2026-04-26
 
 ### Changed
