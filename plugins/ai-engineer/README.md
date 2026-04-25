@@ -16,9 +16,9 @@ All capabilities are provided as **skills** — invoke them by describing your i
 
 | Skill | Invoke when… |
 |-------|--------------|
-| **Agent Maker** | You want to create a new `.agent.md` file for a custom VS Code agent. |
+| **Agent Maker** | You want to create a new `.agent.md` file for a custom VS Code agent, either at workspace level (`.github/agents/`) or inside a specific plugin directory. |
 | **Agent Optimizer** | You want to improve, refactor, or decompose an existing `.agent.md` into an orchestrator + subagent architecture. |
-| **Skill Maker** | You want to design a new `SKILL.md` file for an AI skill in a consistent, production-ready way. |
+| **Skill Maker** | You want to design a new `SKILL.md` file for an AI skill, either at workspace level (`.agents/skills/`) or inside a specific plugin directory. |
 | **Custom Instruction Maker** | You want to create an `AGENTS.md`, `copilot-instructions.md`, or `CLAUDE.md` instruction file that follows the Purpose → Tree → Rules structure. |
 | **Hook Maker** | You want to create a lifecycle hook (`hooks.json` + scripts) that runs automatically at session start, subagent start, or after tool use. |
 | **Plugin Maker** | You want to scaffold a new plugin with a `plugin.json` manifest, README, and the correct directory structure. Always uses `.claude-plugin/plugin.json` for hook-based plugins. |
@@ -40,15 +40,15 @@ graph TD
 
 ### Agent Maker
 
-Creates well-structured, production-ready VS Code agent files (`.agent.md`) with required frontmatter fields and mandatory body sections. Enforces consistent structure while allowing domain-specific flexibility.
+Creates well-structured, production-ready VS Code agent files (`.agent.md`) with required frontmatter fields and mandatory body sections. Saves to `plugins/<plugin-name>/agents/` when a plugin name is provided, or to `.github/agents/` at workspace level. Enforces consistent structure while allowing domain-specific flexibility.
 
 ### Agent Optimizer
 
-Analyzes and improves existing VS Code agent files. Covers quality analysis, guardrail strengthening, workflow optimization, and decomposing monolithic agents into orchestrator + subagent architectures.
+Analyzes and improves existing VS Code agent files. Covers quality analysis, guardrail strengthening, workflow optimization, and decomposing monolithic agents into orchestrator + subagent architectures. Preserves the original file's scope — saves optimized files in the same directory as the source (plugin or workspace).
 
 ### Skill Maker
 
-A meta-skill for designing new `SKILL.md` files. Clarifies purpose, inputs, priorities, and workflow so that downstream assistants behave predictably and are easy to maintain.
+A meta-skill for designing new `SKILL.md` files. Clarifies purpose, inputs, priorities, and workflow so that downstream assistants behave predictably and are easy to maintain. Saves to `plugins/<plugin-name>/skills/<skill-name>/SKILL.md` when a plugin name is provided, or to `.agents/skills/<skill-name>/SKILL.md` at workspace level.
 
 ### Custom Instruction Maker
 

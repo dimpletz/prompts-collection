@@ -175,7 +175,7 @@ Before delivering, verify **each** file (orchestrator and all subagents):
 
 - Save all modified or new files.
 - **File name**: `<AgentName>.agent.md` where `<AgentName>` is the PascalCase version of the agent name with spaces removed. Subagents follow the same convention with their phase appended.
-- **Save location**: Place all files in the same directory as the original agent. If the original is in `.github/agents/`, save there.
+- **Save location**: Place all files in the same directory as the original agent — this preserves the scope automatically. If the original is in `plugins/<plugin-name>/agents/`, save there. If the original is in `.github/agents/`, save there. Do not move files to a different directory.
 - **No code fences**: Each file must start directly with `---` (YAML frontmatter). Never wrap output in code fences.
 
 ## Output Format
