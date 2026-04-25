@@ -1,6 +1,17 @@
 # Changelog for Marketplace
 
 
+## 1.16.1 - 2026-04-26
+
+### Changed
+- learner plugin updated to v1.0.1 — `Topic Scriber` agent now auto-generates Mermaid diagrams immediately after a section is completed when the content would benefit from one, removing the previous confirmation prompt
+
+## 1.16.0 - 2026-04-26
+
+### Added
+- learner plugin (v1.0.0) — adds `Topic Scriber` agent that guides learners through creating and updating personal study notes organised by topic; captures typed text, pasted content, and images then writes structured Markdown files with named sections, Mermaid diagrams, and a table of contents; one Markdown file per topic stored in a configurable notes directory
+- learner plugin (v1.0.0) — adds `SessionStart` hook (`inject-learner-notes-dir`) that reads the `LEARNER_NOTES_DIR` environment variable and injects its value into the agent context so the Topic Scriber agent knows where to store notes without prompting
+
 ## 1.15.0 - 2026-04-21
 
 ### Added

@@ -1,0 +1,23 @@
+{
+  "name": "learner",
+  "description": "Learner is a collection of agents that help you capture and organise personal study notes by topic in structured Markdown files.",
+  "version": "1.0.1",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "learner",
+    "topic",
+    "notes",
+    "study",
+    "knowledge-base",
+    "markdown",
+    "education",
+    "productivity"
+  ],
+  "agents": [
+    "./agents"
+  ]
+}
