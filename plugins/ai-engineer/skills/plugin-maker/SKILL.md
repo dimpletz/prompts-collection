@@ -130,8 +130,7 @@ Create any directories that do not already exist. Never overwrite existing files
 ```
 
 - Do **not** reference the hooks directory in `plugin.json` — the runtime auto-discovers `hooks/hooks.json`.
-- Skills and agents, if present, are referenced relative to the plugin root: `"./skills/<name>"`, `"./agents"`.
-- Note: skill paths in `.claude-plugin/plugin.json` are relative to the `.claude-plugin/` directory, so use `"../skills/<name>"`.
+- Skills and agents, if present, are referenced with paths relative to the plugin root: `"./skills/<name>"`, `"./agents"`.
 
 ### Step 4 – Write the Plugin README.md
 
