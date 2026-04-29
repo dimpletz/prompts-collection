@@ -1,4 +1,4 @@
-# learner `v1.0.1`
+# learner `v1.1.0`
 
 > Capture and organise personal study notes by topic in structured Markdown files.
 
@@ -9,10 +9,11 @@ The **learner** plugin provides a conversational agent that helps you build and 
 Each session follows a guided flow:
 
 1. Identify the topic (or provide it in your opening message)
-2. Choose to update an existing note or start a fresh one
-3. Add or continue named sections at your own pace
-4. Confirm when each section is done — the agent writes and saves it immediately
-5. Optionally enrich sections with Mermaid diagrams (suggested automatically when relevant)
+2. Optionally specify a sub-directory under your notes folder (any depth, e.g. `work/docker`)
+3. Choose to update an existing note or start a fresh one
+4. Add or continue named sections at your own pace
+5. Confirm when each section is done — the agent writes and saves it immediately
+6. Optionally enrich sections with Mermaid diagrams (suggested automatically when relevant)
 
 ## Prerequisites
 
@@ -93,6 +94,10 @@ Topic files are always lowercase, with spaces replaced by hyphens, and stripped 
 | Environment Variable | Default | Description |
 |---------------------|---------|-------------|
 | `LEARNER_NOTES_DIR` | `%USERPROFILE%\Documents\LearnerNotes` (Windows) / `$HOME/Documents/LearnerNotes` (Linux/macOS) | Root directory where all topic note files are stored. |
+
+### Sub-directory Support
+
+At the start of each session the agent asks whether you want to save notes in a sub-directory under the resolved notes folder. The sub-directory can be any number of levels deep (e.g. `work/docker` or `school/math/calculus`). If you leave it blank, notes are saved directly in the root notes folder. The agent creates all intermediate directories automatically.
 
 ## Author
 
