@@ -1,6 +1,11 @@
 # Changelog for Marketplace
 
 
+## 1.18.0 - 2026-04-30
+
+### Changed
+- learner plugin updated to v1.1.0 — `Topic Scriber` agent now asks the learner for an optional sub-directory at the start of each session; the sub-directory is created under the resolved notes directory and can be any number of levels deep (e.g. `work/docker` or `school/math/calculus`); all topic files for the session are saved in the effective save directory; if no sub-directory is provided, notes are saved directly in the root notes folder
+
 ## 1.17.0 - 2026-04-26
 
 ### Added
