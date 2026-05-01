@@ -1,6 +1,11 @@
 # Changelog for Marketplace
 
 
+## 1.19.0 - 2026-05-01
+
+### Changed
+- ai-engineer plugin updated to v1.3.0 — `plugin-maker` skill now treats all plugin components (agents, skills, hooks, MCP) as optional, allowing minimal plugins to be scaffolded without requiring every component type
+
 ## 1.18.0 - 2026-04-30
 
 ### Changed
