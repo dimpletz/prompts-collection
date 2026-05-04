@@ -1,6 +1,16 @@
 # Changelog for Marketplace
 
 
+## 1.20.0 - 2026-05-04
+
+### Added
+- code-reviewer plugin (v1.0.0) — adds `Code Reviewer` orchestrator agent that drives a full diff-based code review: splits the diff with the `diff-chunker` skill, dispatches the `Language Rules Auditor` sub-agent for each chunk, and produces a structured Markdown report saved to `CODE_REVIEW_DIFF_DIR` or `<workspace>/code-reviews/`
+- code-reviewer plugin (v1.0.0) — adds `Language Rules Auditor` sub-agent that reviews all files in a diff chunk against cross-cutting and language-specific rule sets (C#, Java, JavaScript, Magento, PHP, Python), falling back to built-in expertise for unmatched file types, and appends findings to the shared report via the `code-review-report-appender` skill
+- code-reviewer plugin (v1.0.0) — adds `review-rules-provider` skill that loads and concatenates cross-cutting and language-specific review rules from `config/rules/` for a given set of languages
+- code-reviewer plugin (v1.0.0) — adds `diff-chunker` skill that splits an oversized diff file into smaller chunk files
+- code-reviewer plugin (v1.0.0) — adds `code-review-report-appender` skill that appends findings Markdown to the shared review report file
+- code-reviewer plugin (v1.0.0) — adds `SessionStart` hook (`inject-configs`) that injects `CODE_REVIEW_DIFF_CHUNK_MAX_LINES` and related config into the agent context; includes PowerShell and shell script variants
+
 ## 1.19.0 - 2026-05-01
 
 ### Changed
