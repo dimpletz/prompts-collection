@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.20.0`
+## Plugins `v1.20.1`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -28,7 +28,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [python-user](plugins/python-user/) `v1.0.0` | Injects `DEFAULT_PYTHON_VERSION` into the agent context at session start, checks whether Python is installed and prompts the agent to offer installation if missing, and provides a skill to download and install Python from the official FTP server. | — | [Python Installer](plugins/python-user/skills/python-installer/SKILL.md) | `SessionStart` |
 | [poetry-user](plugins/poetry-user/) `v1.0.0` | Detects whether the current workspace uses Poetry (via `poetry.lock`), injects context instructing the agent to prefer `poetry` commands, and automatically installs Poetry via pip if it is not already installed. | — | [VS Code Poetry Configurator](plugins/poetry-user/skills/vscode-poetry-configurator/SKILL.md) | `SessionStart` |
 | [learner](plugins/learner/) `v1.1.0` | Agents for capturing and organising personal study notes by topic in structured Markdown files with sections, Mermaid diagrams, and a table of contents. | [Topic Scriber](plugins/learner/agents/TopicScriber.agent.md) | — | `SessionStart` |
-| [code-reviewer](plugins/code-reviewer/) `v1.0.0` | Agents for performing comprehensive, evidence-based code quality reviews across multiple programming languages and frameworks. | [Code Reviewer](plugins/code-reviewer/agents/CodeReviewer.agent.md), [Language Rules Auditor](plugins/code-reviewer/agents/LanguageRulesAuditor.agent.md), [Code Quality Reviewer](plugins/code-reviewer/agents/CodeQualityReviewer.agent.md), [Comprehensive Code Quality Reviewer](plugins/code-reviewer/agents/ComprehensiveCodeQualityReviewer.agent.md), [Universal Code Quality Reviewer](plugins/code-reviewer/agents/UniversalCodeQualityReviewer.agent.md) | [Diff Chunker](plugins/code-reviewer/skills/diff-chunker/SKILL.md), [Review Rules Provider](plugins/code-reviewer/skills/review-rules-provider/SKILL.md) | `SessionStart`, `SubagentStop` |
+| [code-reviewer](plugins/code-reviewer/) `v1.0.1` | Agents for performing comprehensive, evidence-based code quality reviews across multiple programming languages and frameworks. | [Code Reviewer](plugins/code-reviewer/agents/CodeReviewer.agent.md), [Language Rules Auditor](plugins/code-reviewer/agents/LanguageRulesAuditor.agent.md), [Code Quality Reviewer](plugins/code-reviewer/agents/CodeQualityReviewer.agent.md), [Comprehensive Code Quality Reviewer](plugins/code-reviewer/agents/ComprehensiveCodeQualityReviewer.agent.md), [Universal Code Quality Reviewer](plugins/code-reviewer/agents/UniversalCodeQualityReviewer.agent.md) | [Diff Chunker](plugins/code-reviewer/skills/diff-chunker/SKILL.md), [Review Rules Provider](plugins/code-reviewer/skills/review-rules-provider/SKILL.md) | `SessionStart`, `SubagentStop` |
 
 ## Agents
 

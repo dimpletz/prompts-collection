@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.20.0",
+    "version": "1.20.1",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -121,7 +121,7 @@
       "name": "code-reviewer",
       "source": "code-reviewer",
       "description": "Code Reviewer is a collection of agents for performing comprehensive, evidence-based code quality reviews across multiple programming languages and frameworks.",
-      "version": "1.0.0"
+      "version": "1.0.1"
     }
   ]
 }
