@@ -19,6 +19,9 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/*/hooks/ — hook configuration files (hooks.json)
 - plugins/*/scripts/ — hook scripts referenced by hooks.json
 - plugins/poetry-user/ — detects poetry.lock and injects Poetry usage context; auto-installs Poetry via pip
+- plugins/code-reviewer/agents/LanguageRulesAuditor.agent.md — sub-agent that applies review rules to diff chunks; dispatched by Code Reviewer orchestrator
+- plugins/code-reviewer/skills/review-rules-provider/ — skill that loads and concatenates cross-cutting + language-specific review rules
+- plugins/code-reviewer/skills/code-review-report-appender/ — skill that appends findings markdown to the shared report file
 - custom-instructions/ — global custom instruction files
 - CHANGELOG.md — marketplace changelog
 - README.md — repo overview, plugin table, agent/skill catalog, usage guide
