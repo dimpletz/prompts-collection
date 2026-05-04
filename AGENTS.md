@@ -18,6 +18,12 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/*/.claude-plugin/ — plugin.json manifest for plugins that include hooks
 - plugins/*/hooks/ — hook configuration files (hooks.json)
 - plugins/*/scripts/ — hook scripts referenced by hooks.json
+- plugins/technical-writer/ — agents for creating how-to guides, quick reference guides, user guides, and document reviews
+- plugins/technical-writer/.claude-plugin/plugin.json — hook-based plugin manifest
+- plugins/technical-writer/agents/DocumentReviewer.agent.md — reviews documents from URLs or attachments and produces a multi-section structured Markdown report
+- plugins/technical-writer/hooks/hooks.json — SessionStart hook that injects DOC_REVIEWER_DIR into agent context
+- plugins/technical-writer/scripts/inject-doc-dir.ps1 — Windows hook script; reads DOC_REVIEWER_DIR env var
+- plugins/technical-writer/scripts/inject-doc-dir.sh — Linux/macOS hook script; reads DOC_REVIEWER_DIR env var
 - plugins/poetry-user/ — detects poetry.lock and injects Poetry usage context; auto-installs Poetry via pip
 - plugins/code-reviewer/agents/LanguageRulesAuditor.agent.md — sub-agent that applies review rules to diff chunks; dispatched by Code Reviewer orchestrator
 - plugins/code-reviewer/skills/review-rules-provider/ — skill that loads and concatenates cross-cutting + language-specific review rules

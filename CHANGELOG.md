@@ -1,5 +1,13 @@
 # Changelog for Marketplace
 
+## 1.21.0 - 2026-05-04
+
+### Added
+- technical-writer plugin updated to v1.1.0 — adds `Document Reviewer` agent that reviews documents from URLs or attachments and produces a structured multi-section Markdown report (summary, observations, clarity, structure, concerns, recommendations, overall 1–5 rating); report saved to `DOC_REVIEWER_DIR` or `<workspace root>/doc-reviews/`
+- technical-writer plugin updated to v1.1.0 — adds `SessionStart` hook (`inject-doc-dir`) that reads the `DOC_REVIEWER_DIR` environment variable and injects it into agent context; includes PowerShell and shell script variants
+
+### Changed
+- technical-writer plugin updated to v1.1.0 — migrated from agent-only manifest (`plugin/plugin.json`) to hook-based manifest (`.claude-plugin/plugin.json`) to support the new `SessionStart` hook
 
 ## 1.20.1 - 2026-05-04
 
