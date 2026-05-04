@@ -21,7 +21,7 @@ This **skill** is for developers who need to package VS Code Copilot agents, ski
 - **license** (optional): The SPDX license identifier (e.g. `MIT`, `Apache-2.0`). If omitted, the `"license"` field is excluded from `plugin.json`.
 - **author** (optional): The author name to include in the manifest. If omitted, check the author name from the context. If nothing was found, ask the user.
 
-> **Component requirement**: Before proceeding, confirm that the plugin includes at least one component — agent, skill, hook, or MCP server. If none is specified, ask the user which component(s) to create alongside the plugin scaffold.
+> **Component requirement**: Components are optional. If no component is specified, scaffold the plugin directory structure only — no `skills`, `agents`, `hooks`, or `mcpServers` fields will be added to `plugin.json`.
 
 ## Task Priorities
 
@@ -36,15 +36,15 @@ This **skill** is for developers who need to package VS Code Copilot agents, ski
 
 ## Workflow
 
-### Step 0 – Confirm at Least One Component
+### Step 0 – Identify Components (Optional)
 
-Before any scaffolding, verify that the request includes at least one of:
+Check whether the request includes any of:
 - A **skill** (with a `SKILL.md`)
 - An **agent** (with a `.agent.md` file)
 - A **hook** (with `hooks/hooks.json` and at least one script)
 - An **MCP server** (with a `.mcp.json`)
 
-If none is specified, ask the user: *"What component(s) should this plugin include — at least one agent, skill, hook, or MCP server is required."*
+If none is specified, proceed with scaffolding the plugin directory structure only. Do not ask the user for a component.
 
 ### Step 1 – Understand the Request
 
@@ -209,7 +209,7 @@ Before delivering, verify:
 
 1. **Manifest location** — Every plugin uses `.claude-plugin/plugin.json`. No other manifest location is used.
 2. **Required field** — `name` is present, kebab-case, and max 64 characters with no slashes, colons, or namespace prefixes.
-3. **Component presence** — At least one of `skills`, `agents`, `hooks`, or `mcpServers` is present.
+3. **Component presence** — If no components were specified, `plugin.json` omits `skills`, `agents`, `hooks`, and `mcpServers` fields — this is valid.
 4. **Skill paths** — Each path in `"skills"` resolves to a directory containing a `SKILL.md` file.
 5. **Agent paths** — Each path in `"agents"` resolves to a directory containing `.agent.md` files.
 6. **MCP config** — If `mcpServers` is set, `.mcp.json` exists at the plugin root with a top-level `mcpServers` object.

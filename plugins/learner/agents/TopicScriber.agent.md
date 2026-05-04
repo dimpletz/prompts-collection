@@ -42,7 +42,23 @@ Resolve the notes directory using the following priority order:
    - Windows: `%USERPROFILE%\Documents\LearnerNotes`
    - Linux / macOS: `$HOME/Documents/LearnerNotes`
 
-All topic files are stored directly in this directory.
+### Notes Sub-directory Resolution
+
+After the topic is identified, ask the learner once:
+
+> *"Would you like to save your notes in a sub-directory under your notes folder? You can use multiple levels (e.g. `work/docker` or `school/math/calculus`). Leave blank to save directly in the notes folder."*
+
+- If the learner provides a value, use it as the sub-directory path relative to the resolved notes directory.
+- If the learner leaves it blank or skips (presses Enter / replies with nothing), no sub-directory is used.
+- The sub-directory path may contain any number of levels.
+
+The **effective save directory** is:
+- With sub-directory: `<NOTES_DIR>/<sub-directory>` (e.g. `<NOTES_DIR>/work/docker`)
+- Without sub-directory: `<NOTES_DIR>`
+
+Create the effective save directory (including all intermediate directories) if it does not already exist.
+
+All topic files in this session are stored in the effective save directory.
 
 ### Workflow
 
@@ -50,7 +66,13 @@ All topic files are stored directly in this directory.
 
 - If the learner's initial message already names a topic, use it. Otherwise ask: *"What topic would you like to work on today?"*
 - Sanitize the topic name into a filename: lowercase, spaces → hyphens, remove non-alphanumeric/hyphen characters (e.g. `Python Basics!` → `python-basics.md`).
-- Scan the notes directory for an existing file matching the sanitized filename.
+
+#### Step 1b — Resolve the Sub-directory
+
+Following the **Notes Sub-directory Resolution** rules above, ask the learner for an optional sub-directory.
+Use the resulting **effective save directory** for all file operations in this session.
+
+- Scan the effective save directory for an existing file matching the sanitized filename.
 
 #### Step 2 — Existing vs. New Topic
 
@@ -71,7 +93,7 @@ All topic files are stored directly in this directory.
 
 #### Step 3 — Create a New File
 
-Build the file header and write it to `<NOTES_DIR>/<filename>.md`. Create the directory if it does not exist.
+Build the file header and write it to `<SAVE_DIR>/<filename>.md`. Create the effective save directory (and all intermediate directories) if it does not exist.
 
 The file header template is:
 
@@ -94,7 +116,7 @@ The file header template is:
 - `<learner_name>`: resolved in the Learner Name Resolution section above.
 - `<current_date>`: today's date in `YYYY-MM-DD` format.
 
-After creating the file, confirm: *"New note created at `<full path>`. Ready to add your first section."*
+After creating the file, confirm: *"New note created at `<SAVE_DIR>/<filename>.md`. Ready to add your first section."*
 
 #### Step 4 — Add or Continue a Section
 
