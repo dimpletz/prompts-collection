@@ -1,7 +1,7 @@
 {
   "name": "code-reviewer",
   "description": "Code Reviewer is a collection of agents for performing comprehensive, evidence-based code quality reviews across multiple programming languages and frameworks.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Ron Webb"
   },

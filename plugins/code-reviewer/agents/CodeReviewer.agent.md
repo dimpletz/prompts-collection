@@ -124,6 +124,13 @@ Create the report file at the full report path computed in Step 3. Write the fol
 
 -----
 
+| Severity | Label |
+|----------|-------|
+| 🔵 | Info |
+| 🟢 | Minor |
+| 🟡 | Major |
+| 🔴 | Critical |
+
 ```
 
 Where `<reviewer-name>` is `DEVELOPER_NAME` from context or `Code Review Agent` if not available, and `<YYYY-MM-DD HH-mm>` is the current date-time.
