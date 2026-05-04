@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.20.1`
+## Plugins `v1.21.0`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -18,7 +18,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [ai-engineer](plugins/ai-engineer/) `v1.3.0` | Skills for creating and optimizing VS Code agents, skills, hooks, plugins, and custom instruction files. | — | [Agent Maker](plugins/ai-engineer/skills/agent-maker/SKILL.md), [Agent Optimizer](plugins/ai-engineer/skills/agent-optimizer/SKILL.md), [Custom Instruction Maker](plugins/ai-engineer/skills/custom-instruction-maker/SKILL.md), [Skill Maker](plugins/ai-engineer/skills/skill-maker/SKILL.md), [Hook Maker](plugins/ai-engineer/skills/hook-maker/SKILL.md), [Plugin Maker](plugins/ai-engineer/skills/plugin-maker/SKILL.md), [Marketplace Maker](plugins/ai-engineer/skills/marketplace-maker/SKILL.md) | — |
 | [php-developer](plugins/php-developer/) `v1.0.0` | Agents for generating and maintaining unit tests for PHP applications. | [PHP Unit Test Generator](plugins/php-developer/agents/PHPUnitTestGenerator.agent.md) | — | — |
 | [software-evaluator](plugins/software-evaluator/) `v1.0.0` | Agents for evaluating cloud-native applications and software procurement decisions. | [Cloud Native App Evaluator](plugins/software-evaluator/agents/CloudNativeAppEvaluator.agent.md), [Software Procurement Evaluator](plugins/software-evaluator/agents/SoftwareProcurementEvaluator.agent.md) | — | — |
-| [technical-writer](plugins/technical-writer/) `v1.0.0` | Agents for creating how-to documents, quick reference guides, and user guides. | [HowTo Document Generator](plugins/technical-writer/agents/HowToDocumentGenerator.agent.md), [Quick Reference Guide Generator](plugins/technical-writer/agents/QuickReferenceGuideGenerator.agent.md), [User Guide Generator](plugins/technical-writer/agents/UserGuideGenerator.agent.md) | — | — |
+| [technical-writer](plugins/technical-writer/) `v1.1.0` | Agents for creating how-to documents, quick reference guides, user guides, and structured document reviews. | [HowTo Document Generator](plugins/technical-writer/agents/HowToDocumentGenerator.agent.md), [Quick Reference Guide Generator](plugins/technical-writer/agents/QuickReferenceGuideGenerator.agent.md), [User Guide Generator](plugins/technical-writer/agents/UserGuideGenerator.agent.md), [Document Reviewer](plugins/technical-writer/agents/DocumentReviewer.agent.md) | — | `SessionStart` |
 | [tester](plugins/tester/) `v1.0.0` | Agents for generating comprehensive test cases. | [Test Case Generator](plugins/tester/agents/TestCaseGenerator.agent.md) | — | — |
 | [python-developer](plugins/python-developer/) `v1.3.0` | Hook that auto-formats all Python files with `black` and lints all non-test Python files with `pylint` after every file modification. | — | — | `PostToolUse` |
 | [current-date-injector](plugins/current-date-injector/) `v1.3.0` | Hook that injects the commands to obtain the current date and current time in 24-hr format with timezone into the agent context at session start. | — | — | `SessionStart`, `SubagentStart` |
@@ -41,6 +41,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [Release Notes Generator](plugins/developer/agents/ReleaseNotesGenerator.agent.md) | developer | Creates comprehensive, professional release notes based on module specifications, Jira tickets, and user-provided details. Produces clear documentation for technical and non-technical stakeholders. |
 | [Solution Design Generator](plugins/analyst/agents/SolutionDesignGenerator.agent.md) | analyst | Creates comprehensive solution design documents with detailed architecture diagrams, data flows, and technical specifications. Specialized in enterprise-grade designs with Mermaid diagrams and industry best practices. |
 | [User Guide Generator](plugins/technical-writer/agents/UserGuideGenerator.agent.md) | technical-writer | Creates clear, comprehensive user guides for non-technical users and business stakeholders. Translates complex technical functionality into simple, step-by-step instructions with visual aids and practical examples. |
+| [Document Reviewer](plugins/technical-writer/agents/DocumentReviewer.agent.md) | technical-writer | Reviews documents from URLs or attachments and produces a structured Markdown report with summary, observations (spelling, fact check, completeness), clarity and readability analysis, structure and organization evaluation, concerns, priority-ranked recommendations, and an overall 1–5 rating per dimension. |
 
 ### Requirement & Planning Tools
 
@@ -136,6 +137,7 @@ Hooks are scripts that run automatically at specific points in the agent lifecyc
 | [git-manager](plugins/git-manager/) | `SessionStart`, `SubagentStart` | Reads the `GIT_DIFF_DIR` environment variable and injects its value into agent context so generated diff files are saved to the configured directory. |
 | [learner](plugins/learner/) | `SessionStart` | Reads the `LEARNER_NOTES_DIR` environment variable (falls back to `%USERPROFILE%\Documents\LearnerNotes` on Windows or `$HOME/Documents/LearnerNotes` on Linux/macOS) and injects the resolved path into the agent context. |
 | [code-reviewer](plugins/code-reviewer/) | `SessionStart`, `SubagentStop` | Reads `CODE_REVIEW_DIFF_CHUNK_MAX_LINES` (falls back to `500`), `CODE_REVIEW_IGNORE_FILE` (optional), and `CODE_REVIEW_REPORT_DIR` (optional) environment variables and injects their values into agent context. `CODE_REVIEW_DIFF_CHUNK_MAX_LINES` is used by the `diff-chunker` skill; `CODE_REVIEW_REPORT_DIR` tells the `Code Reviewer` agent where to save its report. On `SubagentStop`, when a Language Rules Auditor completes, appends its findings output to the report file located via a temporary state file written by the orchestrator. |
+| [technical-writer](plugins/technical-writer/) | `SessionStart` | Reads the `DOC_REVIEWER_DIR` environment variable and injects it into agent context. If not set, the Document Reviewer agent falls back to `<workspace root>/doc-reviews/` as the report output directory. |
 
 ### Hook events reference
 
