@@ -38,7 +38,7 @@ This **skill** is for developers and prompt engineers who need to create well-st
   - **Generative**: creates artifacts (code, docs, configs)
   - **Evaluative**: reviews, critiques, or validates
   - **Transformative**: refactors, converts, or migrates
-  - **Orchestrative**: plans, routes, or chains multiple steps via non-user-facing subagents
+  - **Orchestrative**: plans, routes, or chains multiple steps where the orchestrator is user-facing and subagents are non-user-facing
 - Determine the domain, target audience, and any tool requirements from the inputs or infer them conservatively.
 - **Ask clarifying questions** if any of the following are ambiguous or missing and cannot be reliably inferred:
   - What specific tools the agent needs (e.g. does it need web access? terminal execution? file editing?).
