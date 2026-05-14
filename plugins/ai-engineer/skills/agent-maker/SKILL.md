@@ -39,6 +39,7 @@ This **skill** is for developers and prompt engineers who need to create well-st
   - **Evaluative**: reviews, critiques, or validates
   - **Transformative**: refactors, converts, or migrates
   - **Orchestrative**: plans, routes, or chains multiple steps where the orchestrator is user-facing and subagents are non-user-facing
+- **Interactive mode is intentionally excluded**: generated agents must not be directly user-interactive; user interaction belongs to the orchestrator.
 - Determine the domain, target audience, and any tool requirements from the inputs or infer them conservatively.
 - **Ask clarifying questions** if any of the following are ambiguous or missing and cannot be reliably inferred:
   - What specific tools the agent needs (e.g. does it need web access? terminal execution? file editing?).
@@ -129,6 +130,7 @@ Tailor each guardrail to the agent's specific domain — generic guardrails are 
 For orchestrator/subagent architectures, guardrails must also include:
 - **Interaction boundary**: Subagents must never interact with the user directly. Only the orchestrator is allowed to ask questions, request confirmations, or present final user-facing results.
 - **Delegation boundary**: Orchestrators must delegate objectives, constraints, and context only. They must not instruct subagents how to perform their core job step-by-step, and must not prescribe the subagent's output presentation format.
+- **Error escalation**: When subagents hit ambiguity or errors, they must return structured uncertainty/error context to the orchestrator instead of attempting direct user clarification.
 
 ##### C.3 Workflow / Process (MANDATORY)
 

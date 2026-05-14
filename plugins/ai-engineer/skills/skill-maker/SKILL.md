@@ -45,7 +45,7 @@ This **skill** is for engineers, tech leads, and prompt designers who need to de
       - **Plugin scope** (`plugin_name` provided): `plugins/<plugin-name>/skills/<skill-name>/SKILL.md` (e.g. `plugins/developer/skills/foo-bar/SKILL.md`)
       - **Workspace scope** (`plugin_name` omitted): `.agents/skills/<skill-name>/SKILL.md` (e.g. `.agents/skills/foo-bar/SKILL.md`)
    Saving to `.github/skills/` or any other location is wrong.
-   - **CRITICAL – SKILL SCRIPT LOCATION**: If the skill includes companion scripts, place them inside the same skill directory:
+   - **CRITICAL – SKILL SCRIPT LOCATION**: If the skill includes companion scripts, place them inside the same skill directory. The canonical subdirectory name is always `scripts/`:
       - **Plugin scope**: `plugins/<plugin-name>/skills/<skill-name>/scripts/<script-file>`
       - **Workspace scope**: `.agents/skills/<skill-name>/scripts/<script-file>`
       Never place skill companion scripts in `plugins/<plugin-name>/scripts/` or any other plugin-level scripts directory.
