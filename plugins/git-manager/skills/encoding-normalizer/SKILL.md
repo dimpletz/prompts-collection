@@ -44,7 +44,13 @@ If `file_path` is missing, ask the user before proceeding. Do not guess the file
    git diff --cached --name-only -- <file_path>
    ```
 
-4. Read the previous committed blob from `<reference_commit>:<file_path>`. If the path does not exist in the reference commit, stop and tell the user this skill only restores files that already exist in Git history.
+4. Read the previous committed blob from `<reference_commit>:<file_path>` with:
+
+   ```bash
+   git show <reference_commit>:<file_path>
+   ```
+
+   If the path does not exist in the reference commit, stop and tell the user this skill only restores files that already exist in Git history.
 5. Treat the file as **text-only**. If Git reports it as binary, or if the previous committed blob cannot be decoded as text, stop and report that manual handling is required.
 
 ### Step 2 – Check whether the diff is only line-ending churn
@@ -68,7 +74,7 @@ git diff --ignore-cr-at-eol --ignore-space-at-eol <reference_commit> -- <file_pa
   git add -- <file_path>
   ```
 
-This is the required behavior for pure line-ending churn: **git revert the file back to the committed content**.
+This is the required behavior for pure line-ending churn: **restore the file from the committed content instead of keeping the line-ending-only diff**.
 
 ### Step 3 – Check for mixed-encoding corruption
 

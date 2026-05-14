@@ -68,8 +68,8 @@ The `<YYYY-MM-DD-HH-MM>` timestamp in all filenames must be obtained from the sy
    - `commit_sha` for `commit`
 3. Set `remote` to `origin` if not specified.
 4. Determine the output directory:
-    - If `GIT_DIFF_DIR` is in context, use that directory. Verify it exists; if not, create it or ask the user — do not silently fall back.
-    - Otherwise, use the current workspace root (result of `git rev-parse --show-toplevel`).
+   - If `GIT_DIFF_DIR` is in context, use that directory. Verify it exists; if not, create it or ask the user — do not silently fall back.
+   - Otherwise, use the current workspace root (result of `git rev-parse --show-toplevel`).
 
 ### Step 1 – Fetch the Target Branch
 
