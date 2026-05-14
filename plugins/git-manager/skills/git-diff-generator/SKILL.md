@@ -12,7 +12,7 @@ Produces a `.diff` file for one of several Git diff scenarios: a whole branch ve
 
 - **source** (required, choose **exactly one**):
   - `pr_id` — a pull request number (integer, e.g. `42`)
-  - `current_branch` — diff the currently checked-out local branch tip as a whole branch against `target_branch`
+  - `current_branch` — diff the currently checked-out local branch against `target_branch`
   - `remote_branch` — a branch name on the remote (string, e.g. `feature/my-feature`; do **not** include the remote prefix)
   - `first_commit` — use the repository's very first (root) commit as the source (no value needed; keyword only)
   - `commit_range` — diff between two commits using `from_commit` and `to_commit`
@@ -113,7 +113,7 @@ git branch -D PR<pr_id>
 
 Do not skip this step. If deletion fails, report the error but still deliver the diff file.
 
-### Step 2B – Scenario: Current Local Branch (Whole Branch Diff)
+### Step 2B – Scenario: Current Local Branch
 
 Use when `current_branch` is the source type and the user wants the diff for the whole checked-out branch, represented by its current tip (last commit) against `target_branch`.
 

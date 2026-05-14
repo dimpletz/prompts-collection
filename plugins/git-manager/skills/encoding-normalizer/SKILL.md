@@ -83,9 +83,38 @@ This is the required behavior for pure line-ending churn: **restore the file fro
 Use this step only when Step 2 shows there are real byte-level changes.
 
 1. Inspect the current working tree bytes and the reference-commit bytes with a charset detector (`file`, Python, or another installed text-decoding tool).
+   
+   Example with Python:
+
+   ```bash
+   python - <<'PY'
+   from pathlib import Path
+   data = Path("<file_path>").read_bytes()
+   for encoding in ("utf-8", "utf-8-sig", "cp1252", "iso-8859-1"):
+       try:
+           text = data.decode(encoding)
+           print(f"{encoding}: ok; replacement_char={'�' in text}")
+       except UnicodeDecodeError as exc:
+           print(f"{encoding}: decode_error at byte {exc.start}")
+   PY
+   ```
+
+   Treat `UnicodeDecodeError`, unexpected `�` replacement characters, or a working-tree decode result that differs from the cleanly decoded reference blob as evidence of mixed-encoding corruption.
 2. If the working tree file contains decode errors, replacement characters, or mixed encodings while the reference blob cleanly decodes as a single text encoding, treat the file as a mixed-encoding case.
 3. Determine the encoding used by the reference commit. Prefer the previous committed file's successfully decoded encoding as the target encoding.
 4. Re-save the working tree file using that same encoding, preserving the intended text content and the newline style already stored in Git history.
+
+   Example with Python after detecting `<working_tree_encoding>`, `<reference_encoding>`, and the reference newline style:
+
+   ```bash
+   python - <<'PY'
+   from pathlib import Path
+   path = Path("<file_path>")
+   text = path.read_text(encoding="<working_tree_encoding>", errors="strict")
+   with path.open("w", encoding="<reference_encoding>", newline="<reference_newline>") as handle:
+       handle.write(text)
+   PY
+   ```
 5. Re-check the diff. If only encoding noise was removed and the intended content now matches the reference-encoding representation, keep the normalized file. If the rewrite changes real content unexpectedly, stop and tell the user.
 
 ### Step 4 – Validate the result
