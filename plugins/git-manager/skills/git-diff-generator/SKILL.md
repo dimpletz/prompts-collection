@@ -15,8 +15,8 @@ Produces a `.diff` file for one of several Git diff scenarios: a whole branch ve
   - `current_branch` — diff the currently checked-out local branch against `target_branch`
   - `remote_branch` — a branch name on the remote (string, e.g. `feature/my-feature`; do **not** include the remote prefix)
   - `first_commit` — use the repository's very first (root) commit as the source (no value needed; keyword only)
-  - `commit_range` — diff between two commits using `from_commit` and `to_commit`
-  - `commit` — diff for exactly one commit using `commit_sha`
+  - `commit_range` — produce a two-dot diff showing all changes between `from_commit` and `to_commit`
+  - `commit` — show the changes introduced by exactly one commit using `commit_sha`
   - `staged` — diff the currently staged files in the index (no value needed; keyword only)
 - **target_branch** (required for `pr_id`, `current_branch`, and `remote_branch`): the branch to diff against (e.g. `main`, `develop`). Do **not** include the remote prefix — it will always be fetched and referenced as `<remote>/<target_branch>`. Not used for `first_commit`, `commit_range`, `commit`, or `staged`.
 - **from_commit** (required when source is `commit_range`): the older boundary commit or ref.

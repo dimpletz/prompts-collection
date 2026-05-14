@@ -11,7 +11,7 @@ Detects whether a tracked text file changed only because of line-ending churn or
 ## Inputs
 
 - **file_path** (required): Path to the tracked file that needs inspection.
-- **reference_commit** (optional): Commit to compare against when the user wants a baseline other than `HEAD`. Defaults to `HEAD`.
+- **reference_commit** (optional): Commit to compare against when the user wants a baseline other than `HEAD`. If not specified, use `HEAD`.
 - **restore_to_index** (optional): When `true`, also re-stage the normalized file if it was staged before. Defaults to `true` when the file was already staged, otherwise `false`.
 
 If `file_path` is missing, ask the user before proceeding. Do not guess the file.
@@ -99,7 +99,7 @@ Use this step only when Step 2 shows there are real byte-level changes.
    PY
    ```
 
-   Treat `UnicodeDecodeError`, unexpected `�` replacement characters, or a working tree decode result that differs from the cleanly decoded reference blob as evidence of mixed-encoding corruption.
+   Treat `UnicodeDecodeError`, unexpected replacement characters, or a working tree decode result that differs from the cleanly decoded reference blob as evidence of mixed-encoding corruption. The `�` check in this example is only a simplified signal; use stricter decode-error handling when available.
 2. If the working tree file contains decode errors, replacement characters, or mixed encodings while the reference blob cleanly decodes as a single text encoding, treat the file as a mixed-encoding case.
 3. Determine the encoding used by the reference commit. Prefer the previous committed file's successfully decoded encoding as the target encoding.
 4. Re-save the working tree file using that same encoding, preserving the intended text content and the newline style already stored in Git history.
