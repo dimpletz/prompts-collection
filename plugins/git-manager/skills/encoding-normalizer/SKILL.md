@@ -83,7 +83,7 @@ This is the required behavior for pure line-ending churn: **restore the file fro
 Use this step only when Step 2 shows there are real byte-level changes.
 
 1. Inspect the current working tree bytes and the reference-commit bytes with a charset detector (`file`, Python, or another installed text-decoding tool).
-   
+
    Example with Python:
 
    ```bash
@@ -99,18 +99,18 @@ Use this step only when Step 2 shows there are real byte-level changes.
    PY
    ```
 
-   Treat `UnicodeDecodeError`, unexpected `�` replacement characters, or a working-tree decode result that differs from the cleanly decoded reference blob as evidence of mixed-encoding corruption.
+   Treat `UnicodeDecodeError`, unexpected `�` replacement characters, or a working tree decode result that differs from the cleanly decoded reference blob as evidence of mixed-encoding corruption.
 2. If the working tree file contains decode errors, replacement characters, or mixed encodings while the reference blob cleanly decodes as a single text encoding, treat the file as a mixed-encoding case.
 3. Determine the encoding used by the reference commit. Prefer the previous committed file's successfully decoded encoding as the target encoding.
 4. Re-save the working tree file using that same encoding, preserving the intended text content and the newline style already stored in Git history.
 
-   Example with Python after detecting `<working_tree_encoding>`, `<reference_encoding>`, and the reference newline style:
+   Example with Python after detecting `<working-tree-encoding>`, `<reference_encoding>`, and the reference newline style:
 
    ```bash
    python - <<'PY'
    from pathlib import Path
    path = Path("<file_path>")
-   text = path.read_text(encoding="<working_tree_encoding>", errors="strict")
+   text = path.read_text(encoding="<working-tree-encoding>", errors="strict")
    with path.open("w", encoding="<reference_encoding>", newline="<reference_newline>") as handle:
        handle.write(text)
    PY
