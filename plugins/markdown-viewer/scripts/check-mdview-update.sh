@@ -18,13 +18,13 @@ done
 INSTALLED_LINE=$("$PYTHON_CMD" -m pip show markdown-viewer-app 2>/dev/null | grep '^Version:')
 [ -z "$INSTALLED_LINE" ] && exit 0
 
-INSTALLED_VER=$(printf '%s' "$INSTALLED_LINE" | awk '{print $2}')
+INSTALLED_VER=$(printf '%s' "$INSTALLED_LINE" | awk '{print $2}' | tr '"\\' "''")
 
 # Check for an outdated package.
 OUTDATED=$("$PYTHON_CMD" -m pip list --outdated 2>/dev/null | grep '^markdown-viewer-app ')
 [ -z "$OUTDATED" ] && exit 0
 
-LATEST_VER=$(printf '%s' "$OUTDATED" | awk '{print $3}')
+LATEST_VER=$(printf '%s' "$OUTDATED" | awk '{print $3}' | tr '"\\' "''")
 
 MSG="A new version of markdown-viewer-app is available (installed: ${INSTALLED_VER}, latest: ${LATEST_VER}). Before executing the mdview command, notify the user that a new version is available. Offer to upgrade it and use the following pip command to upgrade: pip install --upgrade markdown-viewer-app"
 printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$MSG"
