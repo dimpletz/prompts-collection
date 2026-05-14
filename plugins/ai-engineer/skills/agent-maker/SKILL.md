@@ -39,7 +39,7 @@ This **skill** is for developers and prompt engineers who need to create well-st
   - **Evaluative**: reviews, critiques, or validates
   - **Transformative**: refactors, converts, or migrates
   - **Orchestrative**: plans, routes, or chains multiple steps where the orchestrator is user-facing and subagents are non-user-facing
-- **Interactive mode is intentionally excluded**: generated agents must not be directly user-interactive; user interaction belongs to the orchestrator.
+- **Subagent interaction restriction**: subagents generated for orchestrator/subagent architectures must not be directly user-interactive; user interaction belongs to the orchestrator.
 - Determine the domain, target audience, and any tool requirements from the inputs or infer them conservatively.
 - **Ask clarifying questions** if any of the following are ambiguous or missing and cannot be reliably inferred:
   - What specific tools the agent needs (e.g. does it need web access? terminal execution? file editing?).
