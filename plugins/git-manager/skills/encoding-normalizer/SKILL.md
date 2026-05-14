@@ -31,6 +31,8 @@ If `file_path` is missing, ask the user before proceeding. Do not guess the file
 
 ### Step 1 – Verify the file can be normalized safely
 
+0. If **reference_commit** is not provided, set it to `HEAD` before running the remaining steps.
+
 1. Confirm the file is tracked:
 
    ```bash
