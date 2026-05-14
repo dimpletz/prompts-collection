@@ -25,6 +25,10 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/technical-writer/scripts/inject-doc-dir.ps1 — Windows hook script; reads DOC_REVIEWER_DIR env var
 - plugins/technical-writer/scripts/inject-doc-dir.sh — Linux/macOS hook script; reads DOC_REVIEWER_DIR env var
 - plugins/poetry-user/ — detects poetry.lock and injects Poetry usage context; auto-installs Poetry via pip
+- plugins/ai-engineer/.claude-plugin/plugin.json — hook-based plugin manifest for ai-engineer
+- plugins/ai-engineer/hooks/hooks.json — SessionStart/SubagentStart hooks that inject temporary-script guidance for large-file handling
+- plugins/ai-engineer/scripts/inject-temporary-script-guidance.sh — Linux/macOS hook script for temporary-script guidance
+- plugins/ai-engineer/scripts/inject-temporary-script-guidance.ps1 — Windows hook script for temporary-script guidance
 - plugins/code-reviewer/agents/LanguageRulesAuditor.agent.md — sub-agent that applies review rules to diff chunks; dispatched by Code Reviewer orchestrator
 - plugins/code-reviewer/skills/review-rules-provider/ — skill that loads and concatenates cross-cutting + language-specific review rules
 - plugins/code-reviewer/skills/code-review-report-appender/ — skill that appends findings markdown to the shared report file
@@ -71,3 +75,4 @@ using the `dimpletz/prompts-collection` marketplace source.
 
 - Hook-based plugins require a row in both the Plugins table AND the Hooks section table in README.md; omitting the Hooks row was caught on review (learned 2026-04-19)
 - Agents and Skills sections in README.md are standalone catalogs that must be kept in sync with the Plugins table; sub-agents and new skills were missing from their catalog sections (learned 2026-04-19)
+- Skill companion scripts must live under each skill directory (`skills/<skill-name>/scripts/`) rather than plugin-level `scripts/` (learned 2026-05-14)
