@@ -1,24 +1,30 @@
 ---
 name: git-diff-generator
 description: >
-  Generates a diff file comparing a source (pull request ID, current local branch, remote branch, or first commit) against a target branch. Use this skill whenever you need to produce a diff file based on a PR, locally checked-out branch, remote branch, or the repository's first commit versus a target branch. Do NOT use this skill for merging, resolving conflicts, or reviewing code inline.
+  Generates a diff file for a whole branch, a pull request, a remote branch, a commit range, a single commit, the first commit, or staged files. Use this skill whenever you need a saved `.diff` artifact from Git history or the index. Do NOT use this skill for merging, resolving conflicts, or reviewing code inline.
 ---
 
 # Git Diff Generator
 
-Produces a `.diff` file comparing a source ref (pull request, current local branch, remote branch, or the repository's first commit) against a target branch, using three-dot (`A...B`) diff semantics to capture only the changes introduced by the source.
+Produces a `.diff` file for one of several Git diff scenarios: a whole branch versus a target branch, a pull request, a remote branch, a commit range, a single commit, the repository's first commit, or the current staged changes.
 
 ## Inputs
 
 - **source** (required, choose **exactly one**):
   - `pr_id` — a pull request number (integer, e.g. `42`)
-  - `current_branch` — use the currently checked-out local branch (no value needed; keyword only)
+  - `current_branch` — diff the currently checked-out local branch tip as a whole branch against `target_branch`
   - `remote_branch` — a branch name on the remote (string, e.g. `feature/my-feature`; do **not** include the remote prefix)
   - `first_commit` — use the repository's very first (root) commit as the source (no value needed; keyword only)
-- **target_branch** (required unless source is `first_commit`): the branch to diff against (e.g. `main`, `develop`). Do **not** include the remote prefix — it will always be fetched and referenced as `<remote>/<target_branch>`. Not used when source is `first_commit`.
+  - `commit_range` — diff between two commits using `from_commit` and `to_commit`
+  - `commit` — diff for exactly one commit using `commit_sha`
+  - `staged` — diff the currently staged files in the index (no value needed; keyword only)
+- **target_branch** (required for `pr_id`, `current_branch`, and `remote_branch`): the branch to diff against (e.g. `main`, `develop`). Do **not** include the remote prefix — it will always be fetched and referenced as `<remote>/<target_branch>`. Not used for `first_commit`, `commit_range`, `commit`, or `staged`.
+- **from_commit** (required when source is `commit_range`): the older boundary commit or ref.
+- **to_commit** (required when source is `commit_range`): the newer boundary commit or ref.
+- **commit_sha** (required when source is `commit`): the single commit to diff.
 - **remote** (optional, default: `origin`): the remote repository name (e.g. `origin`, `upstream`).
 
-If `source` is missing, **ask the user** before proceeding. If `target_branch` is missing and source is not `first_commit`, **ask the user** before proceeding. Do not guess or use defaults for these inputs.
+If `source` is missing, **ask the user** before proceeding. If the selected source mode requires `target_branch`, `from_commit`, `to_commit`, or `commit_sha` and the value is missing, **ask the user** before proceeding. Do not guess these inputs.
 
 ## Output Location
 
@@ -44,10 +50,10 @@ The `<YYYY-MM-DD-HH-MM>` timestamp in all filenames must be obtained from the sy
 
 ## Task Priorities
 
-1. **Priority 1 – Correct diff content**: Use `git diff <remote>/<target_branch>...<source_ref>` (three-dot) so the diff captures only the changes introduced by the source and not unrelated commits on the target. **Exception**: for the `first_commit` scenario, use `git diff 4b825dc642cb6eb9a060e54bf8d69288fbee4904..<first_commit_sha>` (two-dot against Git's empty tree) — the root commit has no parent and no target branch applies.
-2. **Priority 2 – Always fetch target branch**: Always run `git fetch <remote> <target_branch>` before generating any diff. The target branch reference must always come from the named remote.
-3. **Priority 3 – Always use `git-pr-cloner` for PR fetching**: Whenever a `pr_id` is the source, **never** run a manual `git fetch pull/...` command. Always delegate to the `git-pr-cloner` skill. This is non-negotiable — it ensures consistent branch naming (`PR<id>`), platform detection, and prerequisite checks.
-4. **Priority 4 – Always generate a fresh diff file**: Never read or load an existing diff file from the output directory unless the user explicitly asks. Every invocation must produce a new diff file, overwriting any existing file with the same name.
+1. **Priority 1 – Correct diff semantics**: Use the Git command that matches the requested scenario. Whole-branch, PR, and remote-branch comparisons use three-dot semantics; commit ranges use two-dot semantics; single-commit diffs compare the commit to its parent; staged diffs use `--cached`; the first commit diffs against Git's empty tree.
+2. **Priority 2 – Always fetch target branches before branch-based comparisons**: For `pr_id`, `current_branch`, and `remote_branch`, always run `git fetch <remote> <target_branch>` before generating the diff.
+3. **Priority 3 – Always use `git-pr-cloner` for PR fetching**: Whenever a `pr_id` is the source, **never** run a manual `git fetch pull/...` command. Always delegate to the `git-pr-cloner` skill.
+4. **Priority 4 – Always generate a fresh diff file**: Never reuse an old diff artifact unless the user explicitly asks for it.
 5. **Priority 5 – Safe file output**: Sanitize all filename components; confirm `GIT_DIFF_DIR` exists before writing there.
 6. **Priority 6 – Clean up temporary branches**: After generating a PR diff, always delete the local `PR<id>` branch.
 
@@ -55,12 +61,15 @@ The `<YYYY-MM-DD-HH-MM>` timestamp in all filenames must be obtained from the sy
 
 ### Step 0 – Validate Inputs
 
-1. Confirm that exactly one source type is provided (`pr_id`, `current_branch`, `remote_branch`, or `first_commit`). If none or more than one is provided, ask the user to clarify.
-2. Confirm that `target_branch` is provided, unless source is `first_commit` (it is not needed in that scenario). If missing and source is not `first_commit`, ask the user.
+1. Confirm that exactly one source type is provided (`pr_id`, `current_branch`, `remote_branch`, `first_commit`, `commit_range`, `commit`, or `staged`). If none or more than one is provided, ask the user to clarify.
+2. Validate scenario-specific required inputs:
+   - `target_branch` for `pr_id`, `current_branch`, and `remote_branch`
+   - `from_commit` and `to_commit` for `commit_range`
+   - `commit_sha` for `commit`
 3. Set `remote` to `origin` if not specified.
 4. Determine the output directory:
-   - If `GIT_DIFF_DIR` is in context, use that directory. Verify it exists; if not, create it or ask the user — do not silently fall back.
-   - Otherwise, use the current workspace root (result of `git rev-parse --show-toplevel`).
+    - If `GIT_DIFF_DIR` is in context, use that directory. Verify it exists; if not, create it or ask the user — do not silently fall back.
+    - Otherwise, use the current workspace root (result of `git rev-parse --show-toplevel`).
 
 ### Step 1 – Fetch the Target Branch
 
@@ -72,7 +81,7 @@ git fetch <remote> <target_branch>
 
 This ensures `<remote>/<target_branch>` reflects the latest state.
 
-> **Skip this step** when source is `first_commit` — no target branch ref is needed.
+> **Skip this step** when source is `first_commit`, `commit_range`, `commit`, or `staged` — no target branch ref is needed.
 
 ### Step 2A – Scenario: PR ID
 
@@ -104,9 +113,9 @@ git branch -D PR<pr_id>
 
 Do not skip this step. If deletion fails, report the error but still deliver the diff file.
 
-### Step 2B – Scenario: Current Local Branch
+### Step 2B – Scenario: Current Local Branch (Whole Branch Diff)
 
-Use when `current_branch` is the source type.
+Use when `current_branch` is the source type and the user wants the diff for the whole checked-out branch, represented by its current tip (last commit) against `target_branch`.
 
 **2B-1. Detect the current branch:**
 
@@ -194,6 +203,77 @@ git diff 4b825dc642cb6eb9a060e54bf8d69288fbee4904..<first_commit_sha> > "<output
 
 > **Why two-dot and not three-dot**: Three-dot finds the merge base between the two refs. The empty tree has no concept of a merge base, so three-dot would behave incorrectly here. Two-dot simply compares the two trees directly, which is what we want.
 
+### Step 2E – Scenario: Commit Range
+
+Use when `commit_range` is the source type.
+
+**2E-1. Verify both refs resolve successfully:**
+
+```bash
+git rev-parse --verify <from_commit>
+git rev-parse --verify <to_commit>
+```
+
+**2E-2. Assemble the filename:**
+
+```
+commits-<sanitized_from_commit>-<sanitized_to_commit>-<YYYY-MM-DD-HH-MM>.diff
+```
+
+**2E-3. Generate the diff using two-dot commit-range semantics:**
+
+```bash
+git diff <from_commit>..<to_commit> > "<output_dir>/<filename>"
+```
+
+### Step 2F – Scenario: Single Commit
+
+Use when `commit` is the source type.
+
+**2F-1. Verify the commit resolves successfully:**
+
+```bash
+git rev-parse --verify <commit_sha>
+```
+
+**2F-2. Assemble the filename:**
+
+```
+commit-<sanitized_commit_sha>-<YYYY-MM-DD-HH-MM>.diff
+```
+
+**2F-3. Generate the diff for that one commit against its first parent:**
+
+```bash
+git diff <commit_sha>^! > "<output_dir>/<filename>"
+```
+
+Use `^!` so the diff shows exactly the patch introduced by that commit.
+
+### Step 2G – Scenario: Staged Files
+
+Use when `staged` is the source type.
+
+**2G-1. Confirm there are staged changes:**
+
+```bash
+git diff --cached --quiet
+```
+
+If the command reports no staged changes, stop and tell the user there is nothing staged to diff.
+
+**2G-2. Assemble the filename:**
+
+```
+staged-<YYYY-MM-DD-HH-MM>.diff
+```
+
+**2G-3. Generate the staged diff:**
+
+```bash
+git diff --cached > "<output_dir>/<filename>"
+```
+
 ### Step 3 – Verify the Diff File
 
 After writing:
@@ -203,8 +283,8 @@ After writing:
 
 ## Common Pitfalls to Avoid
 
-- **Not fetching the target branch first**: Always run `git fetch <remote> <target_branch>` before diffing. Stale local refs produce wrong diffs.
-- **Two-dot vs three-dot**: Use `...` (three-dot), not `..` (two-dot) for all branch-based scenarios. Three-dot shows only what was introduced by the source branch since it diverged from the target; two-dot compares tips and can include commits already on the target. **Exception**: the `first_commit` scenario uses two-dot (`..`) against Git's empty tree (`4b825dc642cb6eb9a060e54bf8d69288fbee4904`) — this is intentional, since the empty tree has no merge base.
+- **Not fetching the target branch first**: Always run `git fetch <remote> <target_branch>` before branch-based diffs. Stale local refs produce wrong diffs.
+- **Wrong diff operator for the scenario**: Use `...` (three-dot) for whole-branch, PR, and remote-branch comparisons; `..` (two-dot) for commit ranges; `<commit>^!` for a single commit; `--cached` for staged files. The `first_commit` scenario uses two-dot against Git's empty tree.
 - **Remote prefix in filename**: Strip `origin/`, `upstream/`, etc. from branch names used in filenames. The filename must contain only the branch name without the remote prefix.
 - **Bypassing `git-pr-cloner` for PR fetching**: Never run `git fetch pull/<id>/head:PR<id>` manually. Always invoke the `git-pr-cloner` skill for any PR fetch. Running the fetch directly bypasses platform detection and safety checks.
 - **Forgetting to delete the PR branch**: Always delete `PR<id>` after a PR diff. Leaving it pollutes the local repo.
@@ -212,6 +292,7 @@ After writing:
 - **Writing to a non-existent GIT_DIFF_DIR**: Verify or create the directory before writing the diff.
 - **Reading existing diff files**: Never read or load a previously generated diff file from the output directory. Always produce a fresh diff by running the git commands — this is the default behaviour. Only examine an existing diff file if the user explicitly requests it.
 - **Multiple root commits for first_commit**: Using `git rev-list --reverse HEAD | head -1` (or `Select-Object -First 1` on PowerShell) always returns the single chronologically earliest ancestor reachable from `HEAD`, so multiple root commits do not affect the result.
+- **Trying to diff staged files with no index changes**: Check for staged content first and stop with a clear message when nothing is staged.
 
 ## Output Format
 
@@ -219,8 +300,8 @@ Always respond using this structure:
 
 ```markdown
 ## Summary
-- Source type used (PR ID / current branch / remote branch / first commit) and the value.
-- Target branch and remote used.
+- Source type used and the value(s).
+- Target branch and remote used, when applicable.
 - Diff file path and size.
 
 ## Commands Run

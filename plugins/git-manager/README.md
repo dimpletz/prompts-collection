@@ -1,6 +1,6 @@
-# Git Manager `v1.3.0`
+# Git Manager `v1.4.0`
 
-> A collection of skills for managing Git repositories, worktrees, merge conflicts, and pull requests — with context injection for diff output directories.
+> A collection of skills for managing Git repositories, worktrees, merge conflicts, pull requests, diff generation, and text normalization — with context injection for diff output directories.
 
 ## Prerequisites
 
@@ -27,7 +27,8 @@ All capabilities are provided as **skills** — describe your git task in Copilo
 | **Git Merge Auditor** | You want to verify that a target branch contains all commits and changes from a source branch. |
 | **Git Worktree Manager** | You want to create, list, move, remove, or purge a Git worktree. |
 | **Git PR Cloner** | You want to fetch a pull request locally to inspect or test it without merging. |
-| **Git Diff Generator** | You want to generate a diff file comparing a PR, local branch, remote branch, or the repository's first commit against a target branch. |
+| **Git Diff Generator** | You want to generate a diff file for a whole branch, a PR, a remote branch, a commit range, a single commit, the first commit, or staged files. |
+| **Encoding Normalizer** | You need to revert line-ending-only churn or restore a text file back to the encoding used in the previous commit. |
 
 ## Hooks
 
@@ -49,6 +50,7 @@ graph TD
     A --> D[Git Worktree Manager<br/>skills/git-worktree-manager/SKILL.md]
     A --> E[Git PR Cloner<br/>skills/git-pr-cloner/SKILL.md]
     A --> F[Git Diff Generator<br/>skills/git-diff-generator/SKILL.md]
+    A --> G[Encoding Normalizer<br/>skills/encoding-normalizer/SKILL.md]
 ```
 
 ### Git Merge Conflict Resolver
@@ -69,7 +71,11 @@ Fetches a pull request from a remote Git repository into a local tracking branch
 
 ### Git Diff Generator
 
-Generates a `.diff` file comparing a source (pull request ID, currently checked-out branch, remote branch, or the repository's first commit) against a target branch. For the `first_commit` source, diffs against Git's empty tree using two-dot semantics — no target branch is required. Uses three-dot diff semantics for all other source types. Saves the diff to `GIT_DIFF_DIR` when available, otherwise to the current workspace root. Sanitizes all filename components and always fetches the target branch from the remote before diffing.
+Generates a `.diff` file for several git workflows: whole-branch diffing from the current branch tip, pull requests, remote branches, commit ranges, single commits, the repository's first commit, and staged files. Uses three-dot semantics for branch-vs-branch comparisons, two-dot semantics for commit ranges and the first commit, `^!` for single-commit diffs, and `--cached` for staged files. Saves the diff to `GIT_DIFF_DIR` when available, otherwise to the current workspace root. Sanitizes all filename components and always fetches the target branch from the remote before branch-based diffing.
+
+### Encoding Normalizer
+
+Normalizes tracked text files when the diff is caused only by line-ending churn or mixed encodings. If the change is line-ending-only, it restores the file directly from Git. If the file has mixed encoding, it re-saves the file using the encoding from the previous committed version so Git history stays consistent.
 
 ## Author
 
