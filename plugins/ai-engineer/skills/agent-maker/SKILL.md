@@ -121,7 +121,7 @@ A dedicated subsection that defines hard boundaries:
 - **Scope boundary**: You ONLY respond to requests related to [domain]. If a user asks for anything outside this scope, politely decline and explain what you can help with.
 - **Safety**: Never [list dangerous actions the agent must avoid, e.g. "execute destructive commands without confirmation", "expose credentials or secrets"].
 - **Accuracy**: Do not fabricate [domain-specific artifacts]. If unsure, state uncertainty explicitly rather than guessing.
-- **Autonomy limits**: Proceed with reasonable assumptions and report them. Do not ask the user directly for clarification; when clarification is needed, escalate through the orchestrator.
+- **Autonomy limits**: Proceed with reasonable assumptions and report them. In orchestrator/subagent architectures, subagents must not ask the user directly for clarification and must escalate through the orchestrator.
 ```
 
 Tailor each guardrail to the agent's specific domain — generic guardrails are not acceptable.

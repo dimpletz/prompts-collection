@@ -14,7 +14,7 @@ This **skill** is for engineers, tech leads, and prompt designers who need to de
 - **primary_user** (optional): Who will use the skill (role, experience level, constraints); if omitted, assume “software engineer with mid-senior experience in the target domain”.
 - **operating_context** (optional): Scope and boundaries: codebase, document types, tools available (RAG, tests, CI), latency/quality trade-offs; if omitted, infer from intent with conservative assumptions.
 - **plugin_name** (optional): The name of the plugin this skill belongs to (e.g. `developer`, `git-manager`). If provided, the skill file is placed inside the plugin directory (`plugins/<plugin-name>/skills/<skill-name>/SKILL.md`). If omitted, the skill is saved at workspace level (`.agents/skills/<skill-name>/SKILL.md`). Do not infer or ask — default to workspace level when not provided.
-- **skill_scripts** (optional): Any companion scripts the skill needs (e.g. `.sh`, `.ps1`). If provided, scripts must be saved inside the skill directory under `scripts/`.
+- **skill_scripts** (optional): Any companion scripts the skill needs (e.g. `.sh`, `.ps1`). Provide this as a list of script filenames or relative script paths to create for the skill; scripts must be saved inside the skill directory under `scripts/`.
 
 ## Task priorities
 
