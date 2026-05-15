@@ -4,6 +4,8 @@
 
 ### Changed
 - ai-engineer plugin updated to v1.4.0 — refines lifecycle hook guidance so large, simple file handling uses direct shell/PowerShell commands and large, complex file handling uses temporary scripts in the system temp directory with cleanup after use
+- ai-engineer plugin updated to v1.4.0 — updates `hook-maker` guidance to clearly separate lifecycle hook script paths from skill companion script paths
+- ai-engineer plugin updated to v1.4.0 — updates `skill-maker` to support explicit `skill_scripts` input and enforce companion script placement under each skill’s `scripts/` directory
 
 ## 1.21.0 - 2026-05-04
 
