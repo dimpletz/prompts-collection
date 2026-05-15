@@ -8,6 +8,7 @@
 
 ### Changed
 - technical-writer plugin updated to v1.1.0 — migrated from agent-only manifest (`plugin/plugin.json`) to hook-based manifest (`.claude-plugin/plugin.json`) to support the new `SessionStart` hook
+- ai-engineer plugin updated to v1.3.1 — clarifies injected hook guidance: use direct shell/PowerShell commands for large, simple file handling and reserve temporary scripts for large, complex handling with temp-directory cleanup
 
 ## 1.20.1 - 2026-05-04
 
