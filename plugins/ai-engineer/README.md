@@ -69,7 +69,7 @@ Registers, synchronizes, and updates the project's plugins in the VS Code Chat P
 
 ### Hooks
 
-Runs on `SessionStart` and `SubagentStart` to inject guidance to use direct commands for simple file handling, and use temporary shell/PowerShell scripts for large file handling, then remove temporary scripts after use.
+Runs on `SessionStart` and `SubagentStart` to inject guidance to use direct commands for simple file handling (including large files when handling is simple), and use temporary shell/PowerShell scripts for large, complex file handling, then remove temporary scripts after use.
 
 ## Author
 
