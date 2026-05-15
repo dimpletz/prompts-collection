@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Plugins `v1.21.0`
+## Plugins `v1.22.0`
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -15,7 +15,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [dotnet-developer](plugins/dotnet-developer/) `v1.0.0` | Agents for generating and maintaining unit tests for .NET/C# applications. | [.NET Unit Test Generator](plugins/dotnet-developer/agents/DotNetUnitTestGenerator.agent.md) | — | — |
 | [git-manager](plugins/git-manager/) `v1.3.0` | Skills for managing Git repositories, worktrees, merge conflicts, pull requests, and diff generation. | — | [Git Merge Conflict Resolver](plugins/git-manager/skills/git-merge-conflict-resolver/SKILL.md), [Git Worktree Manager](plugins/git-manager/skills/git-worktree-manager/SKILL.md), [Git PR Cloner](plugins/git-manager/skills/git-pr-cloner/SKILL.md), [Git Merge Auditor](plugins/git-manager/skills/git-merge-auditor/SKILL.md), [Git Diff Generator](plugins/git-manager/skills/git-diff-generator/SKILL.md) | `SessionStart`, `SubagentStart` |
 | [leader](plugins/leader/) `v1.0.0` | Agents for creating compelling presentations and communicating ideas effectively. | [Presenter](plugins/leader/agents/Presenter.agent.md) | — | — |
-| [ai-engineer](plugins/ai-engineer/) `v1.3.0` | Skills for creating and optimizing VS Code agents, skills, hooks, plugins, and custom instruction files. | — | [Agent Maker](plugins/ai-engineer/skills/agent-maker/SKILL.md), [Agent Optimizer](plugins/ai-engineer/skills/agent-optimizer/SKILL.md), [Custom Instruction Maker](plugins/ai-engineer/skills/custom-instruction-maker/SKILL.md), [Skill Maker](plugins/ai-engineer/skills/skill-maker/SKILL.md), [Hook Maker](plugins/ai-engineer/skills/hook-maker/SKILL.md), [Plugin Maker](plugins/ai-engineer/skills/plugin-maker/SKILL.md), [Marketplace Maker](plugins/ai-engineer/skills/marketplace-maker/SKILL.md) | — |
+| [ai-engineer](plugins/ai-engineer/) `v1.4.0` | Skills for creating and optimizing VS Code agents, skills, hooks, plugins, and custom instruction files. | — | [Agent Maker](plugins/ai-engineer/skills/agent-maker/SKILL.md), [Agent Optimizer](plugins/ai-engineer/skills/agent-optimizer/SKILL.md), [Custom Instruction Maker](plugins/ai-engineer/skills/custom-instruction-maker/SKILL.md), [Skill Maker](plugins/ai-engineer/skills/skill-maker/SKILL.md), [Hook Maker](plugins/ai-engineer/skills/hook-maker/SKILL.md), [Plugin Maker](plugins/ai-engineer/skills/plugin-maker/SKILL.md), [Marketplace Maker](plugins/ai-engineer/skills/marketplace-maker/SKILL.md) | `SessionStart`, `SubagentStart` |
 | [php-developer](plugins/php-developer/) `v1.0.0` | Agents for generating and maintaining unit tests for PHP applications. | [PHP Unit Test Generator](plugins/php-developer/agents/PHPUnitTestGenerator.agent.md) | — | — |
 | [software-evaluator](plugins/software-evaluator/) `v1.0.0` | Agents for evaluating cloud-native applications and software procurement decisions. | [Cloud Native App Evaluator](plugins/software-evaluator/agents/CloudNativeAppEvaluator.agent.md), [Software Procurement Evaluator](plugins/software-evaluator/agents/SoftwareProcurementEvaluator.agent.md) | — | — |
 | [technical-writer](plugins/technical-writer/) `v1.1.0` | Agents for creating how-to documents, quick reference guides, user guides, and structured document reviews. | [HowTo Document Generator](plugins/technical-writer/agents/HowToDocumentGenerator.agent.md), [Quick Reference Guide Generator](plugins/technical-writer/agents/QuickReferenceGuideGenerator.agent.md), [User Guide Generator](plugins/technical-writer/agents/UserGuideGenerator.agent.md), [Document Reviewer](plugins/technical-writer/agents/DocumentReviewer.agent.md) | — | `SessionStart` |
@@ -128,6 +128,7 @@ Hooks are scripts that run automatically at specific points in the agent lifecyc
 | Plugin | Hook event | What it does |
 |--------|-----------|--------------|
 | [developer](plugins/developer/) | `SessionStart`, `SubagentStart` | Injects developer identity (`DEVELOPER_NAME`, `DEVELOPER_EMAIL`, `DEVELOPER_COUNTRY`) as `additionalContext` so every session and subagent knows the author without being told explicitly. Variables that are not set are silently skipped. |
+| [ai-engineer](plugins/ai-engineer/) | `SessionStart`, `SubagentStart` | Injects guidance to use direct shell/PowerShell commands for large, simple file handling (for example, searching text), and use temporary shell/PowerShell scripts for large, complex file handling. Temporary scripts should be deleted after use. |
 | [current-date-injector](plugins/current-date-injector/) | `SessionStart`, `SubagentStart` | Injects the commands to obtain the current date and the current time in 24-hr format with timezone as `additionalContext` so agents can always determine the current date and time when needed. |
 | [python-developer](plugins/python-developer/) | `PostToolUse` | After every Python file modification, runs `black` to auto-format and `pylint` to lint all non-test Python files. Missing tools produce a blocking error with installation instructions. |
 | [markdown-viewer](plugins/markdown-viewer/) | `SessionStart` | At session start, checks whether `markdown-viewer-app` is installed and installs it via `pip` if Python is available. Notifies the user if Python is not available or installation fails. |
@@ -229,4 +230,3 @@ Custom instructions can be applied in two ways:
    ```
 
 3. GitHub Copilot will automatically apply the instructions when working on matching files
-
