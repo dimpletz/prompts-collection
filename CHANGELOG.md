@@ -1,5 +1,10 @@
 # Changelog for Marketplace
 
+## 1.22.0 - 2026-05-15
+
+### Changed
+- ai-engineer plugin updated to v1.4.0 — refines lifecycle hook guidance so large, simple file handling uses direct shell/PowerShell commands and large, complex file handling uses temporary scripts in the system temp directory with cleanup after use
+
 ## 1.21.0 - 2026-05-04
 
 ### Added
@@ -8,7 +13,6 @@
 
 ### Changed
 - technical-writer plugin updated to v1.1.0 — migrated from agent-only manifest (`plugin/plugin.json`) to hook-based manifest (`.claude-plugin/plugin.json`) to support the new `SessionStart` hook
-- ai-engineer plugin updated to v1.3.1 — clarifies injected hook guidance: use direct shell/PowerShell commands for large, simple file handling and reserve temporary scripts for large, complex handling with temp-directory cleanup
 
 ## 1.20.1 - 2026-05-04
 
