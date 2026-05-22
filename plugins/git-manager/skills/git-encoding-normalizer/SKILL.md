@@ -1,10 +1,10 @@
 ---
-name: encoding-normalizer
+name: git-encoding-normalizer
 description: >
   Normalizes tracked text files whose diffs are caused only by line-ending churn or mixed text encodings. Use this skill when a Git diff looks suspiciously large because of CRLF/LF-only changes or when a text file has been saved with inconsistent encoding. Do NOT use it for binary files, content rewrites, or merge conflict resolution.
 ---
 
-# Encoding Normalizer
+# Git Encoding Normalizer
 
 Detects whether a tracked text file changed only because of line-ending churn or mixed text encodings, then restores the file to the encoding and newline style that should be kept in Git history.
 

@@ -12,7 +12,7 @@
     "./skills/git-pr-cloner",
     "./skills/git-merge-auditor",
     "./skills/git-diff-generator",
-    "./skills/encoding-normalizer"
+    "./skills/git-encoding-normalizer"
   ],
   "hooks": "./hooks/hooks.json"
 }

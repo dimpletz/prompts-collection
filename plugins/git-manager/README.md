@@ -28,7 +28,7 @@ All capabilities are provided as **skills** — describe your git task in Copilo
 | **Git Worktree Manager** | You want to create, list, move, remove, or purge a Git worktree. |
 | **Git PR Cloner** | You want to fetch a pull request locally to inspect or test it without merging. |
 | **Git Diff Generator** | You want to generate a diff file for a whole branch, a PR, a remote branch, a commit range, a single commit, the first commit, or staged files. |
-| **Encoding Normalizer** | You need to revert line-ending-only churn or restore a text file back to the encoding used in the previous commit. |
+| **Git Encoding Normalizer** | You need to revert line-ending-only churn or restore a text file back to the encoding used in the previous commit. |
 
 ## Hooks
 
@@ -50,7 +50,7 @@ graph TD
     A --> D[Git Worktree Manager<br/>skills/git-worktree-manager/SKILL.md]
     A --> E[Git PR Cloner<br/>skills/git-pr-cloner/SKILL.md]
     A --> F[Git Diff Generator<br/>skills/git-diff-generator/SKILL.md]
-    A --> G[Encoding Normalizer<br/>skills/encoding-normalizer/SKILL.md]
+    A --> G[Git Encoding Normalizer<br/>skills/git-encoding-normalizer/SKILL.md]
 ```
 
 ### Git Merge Conflict Resolver
@@ -73,7 +73,7 @@ Fetches a pull request from a remote Git repository into a local tracking branch
 
 Generates a `.diff` file for several git workflows: whole-branch diffing from the current branch tip, pull requests, remote branches, commit ranges, single commits, the repository's first commit, and staged files. Uses three-dot semantics for branch-vs-branch comparisons, two-dot semantics for commit ranges and the first commit, `^!` for single-commit diffs, and `--cached` for staged files. Saves the diff to `GIT_DIFF_DIR` when available, otherwise to the current workspace root. Sanitizes all filename components and always fetches the target branch from the remote before branch-based diffing.
 
-### Encoding Normalizer
+### Git Encoding Normalizer
 
 Normalizes tracked text files when the diff is caused only by line-ending churn or mixed encodings. If the change is line-ending-only, it restores the file directly from Git. If the file has mixed encoding, it re-saves the file using the encoding from the previous committed version so Git history stays consistent.
 
