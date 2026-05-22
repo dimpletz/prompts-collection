@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Marketplace v1.23.0
+## Marketplace v1.24.0
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
