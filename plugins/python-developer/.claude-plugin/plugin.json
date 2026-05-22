@@ -16,5 +16,6 @@
     "formatting",
     "linting",
     "hooks"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }

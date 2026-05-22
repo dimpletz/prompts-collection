@@ -15,5 +15,6 @@
   ],
   "skills": [
     "./skills/python-installer"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }

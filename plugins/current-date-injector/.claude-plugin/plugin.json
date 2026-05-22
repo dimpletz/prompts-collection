@@ -14,5 +14,6 @@
     "hook",
     "inject",
     "current-date"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }

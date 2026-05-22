@@ -28,5 +28,6 @@
   "skills": [
     "./skills/changelog-maintainer",
     "./skills/readme-maintainer"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }

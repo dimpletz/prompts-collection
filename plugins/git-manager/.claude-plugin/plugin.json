@@ -13,5 +13,6 @@
     "./skills/git-merge-auditor",
     "./skills/git-diff-generator",
     "./skills/encoding-normalizer"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }
