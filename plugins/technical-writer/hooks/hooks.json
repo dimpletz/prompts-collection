@@ -3,8 +3,8 @@
     "SessionStart": [
       {
         "type": "command",
-        "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-doc-dir.sh\"",
-        "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-doc-dir.ps1\""
+        "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-env-variables.sh\"",
+        "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-env-variables.ps1\""
       }
     ]
   }
