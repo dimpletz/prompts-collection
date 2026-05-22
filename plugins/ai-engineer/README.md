@@ -1,4 +1,4 @@
-# AI Engineer `v1.3.0`
+# AI Engineer `v1.4.0`
 
 > A collection of skills for creating and optimizing VS Code agents, skills, hooks, plugins, and custom AI instruction files.
 
@@ -12,7 +12,7 @@ Install via the VS Code Chat Plugin Marketplace using the `dimpletz/prompts-coll
 
 ## Usage
 
-All capabilities are provided as **skills** — invoke them by describing your intent in Copilot Chat. Copilot will automatically select the appropriate skill when the request matches.
+Most capabilities are provided as **skills** — invoke them by describing your intent in Copilot Chat. Copilot will automatically select the appropriate skill when the request matches. This plugin also includes lifecycle hooks that inject context guidance at session and subagent start.
 
 | Skill | Invoke when… |
 |-------|--------------|
@@ -36,6 +36,7 @@ graph TD
     A --> F[Hook Maker\nskills/hook-maker/SKILL.md]
     A --> G[Plugin Maker\nskills/plugin-maker/SKILL.md]
     A --> H[Marketplace Maker\nskills/marketplace-maker/SKILL.md]
+    A --> I[Temporary Script Guidance Hook\nhooks/hooks.json]
 ```
 
 ### Agent Maker
@@ -65,6 +66,10 @@ Scaffolds a complete VS Code Copilot agent plugin: the `plugin.json` manifest (a
 ### Marketplace Maker
 
 Registers, synchronizes, and updates the project's plugins in the VS Code Chat Plugin Marketplace. Keeps `.github/plugin/marketplace.json` and the global `README.md` (Plugins table, Agents catalog, Skills catalog, Hooks table) in sync with the actual plugin contents.
+
+### Hooks
+
+Runs on `SessionStart` and `SubagentStart` to inject guidance to use direct shell/PowerShell commands for large, simple file handling (for example, searching text), and use temporary shell/PowerShell scripts for large, complex file handling, then remove temporary scripts after use.
 
 ## Author
 

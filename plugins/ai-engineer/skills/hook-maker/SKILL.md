@@ -68,6 +68,7 @@ Before writing any files, decide which scope applies:
 
 - **Plugin scope**: follows Steps 3–7 as written. Use `${CLAUDE_PLUGIN_ROOT}` to reference scripts.
 - **Workspace scope**: write the hook into `.claude/settings.json` using paths relative to the workspace root. No `plugin.json` is needed. Scripts go in `.claude/scripts/`. Use `.claude/settings.local.json` instead if the user requests a local-only hook (not committed to version control).
+- **Important distinction**: Hook scripts belong to plugin-level/workspace-level hook script paths above. If a request also includes **skill companion scripts**, those must be created under the skill directory: `plugins/<plugin-name>/skills/<skill-name>/scripts/` (or `.agents/skills/<skill-name>/scripts/` for workspace scope).
 
 ### Step 2 – Choose Output Mode
 
@@ -149,6 +150,7 @@ Always check `stop_hook_active` in the stdin input to prevent the agent from run
 
 **Plugin scope**: create script files under `plugins/<plugin-name>/scripts/`.
 **Workspace scope**: create script files under `.claude/scripts/`.
+Do not place hook scripts under `skills/<skill-name>/scripts/` unless the request is specifically for a skill companion script rather than a lifecycle hook script.
 
 #### Linux/macOS script (`<hook-name>.sh`)
 

@@ -38,8 +38,8 @@ This **skill** is for developers and prompt engineers who need to create well-st
   - **Generative**: creates artifacts (code, docs, configs)
   - **Evaluative**: reviews, critiques, or validates
   - **Transformative**: refactors, converts, or migrates
-  - **Orchestrative**: plans, routes, or chains multiple steps
-  - **Interactive**: conversational Q&A within a bounded domain
+  - **Orchestrative**: plans, routes, or chains multiple steps where the orchestrator is user-facing and subagents are non-user-facing
+- **Subagent interaction restriction**: subagents generated for orchestrator/subagent architectures must not be directly user-interactive; user interaction belongs to the orchestrator.
 - Determine the domain, target audience, and any tool requirements from the inputs or infer them conservatively.
 - **Ask clarifying questions** if any of the following are ambiguous or missing and cannot be reliably inferred:
   - What specific tools the agent needs (e.g. does it need web access? terminal execution? file editing?).
@@ -122,10 +122,15 @@ A dedicated subsection that defines hard boundaries:
 - **Scope boundary**: You ONLY respond to requests related to [domain]. If a user asks for anything outside this scope, politely decline and explain what you can help with.
 - **Safety**: Never [list dangerous actions the agent must avoid, e.g. "execute destructive commands without confirmation", "expose credentials or secrets"].
 - **Accuracy**: Do not fabricate [domain-specific artifacts]. If unsure, state uncertainty explicitly rather than guessing.
-- **Autonomy limits**: [Define when the agent should ask for clarification vs. proceed autonomously.]
+- **Autonomy limits**: Proceed with reasonable assumptions and report them. In orchestrator/subagent architectures, subagents must not ask the user directly for clarification and must escalate through the orchestrator.
 ```
 
 Tailor each guardrail to the agent's specific domain — generic guardrails are not acceptable.
+
+For orchestrator/subagent architectures, guardrails must also include:
+- **Interaction boundary**: Subagents must never interact with the user directly. Only the orchestrator is allowed to ask questions, request confirmations, or present final user-facing results.
+- **Delegation boundary**: Orchestrators must delegate objectives, constraints, and context only. They must not instruct subagents how to perform their core job step-by-step, and must not prescribe the subagent's output presentation format.
+- **Error escalation**: When subagents hit ambiguity or errors, they must return structured uncertainty/error context to the orchestrator instead of attempting direct user clarification.
 
 ##### C.3 Workflow / Process (MANDATORY)
 
@@ -176,6 +181,7 @@ Before delivering, verify the generated file:
 1. **Frontmatter**: Contains both `name` and `description`. Values are non-empty and specific.
 2. **Role section**: Present inside `## Instructions`. Clearly defines persona and primary task.
 3. **Guardrails section**: Present as `### Guardrails`. Contains at minimum a scope boundary and one safety guardrail. All guardrails are domain-specific, not generic.
+   - For orchestrator/subagent architectures: explicitly confirms subagents are non-user-facing and only the orchestrator interacts with users.
 4. **Workflow section**: Present and contains at least 3 numbered steps.
 5. **No placeholders**: No `[TODO]`, `[FILL IN]`, or `<placeholder>` text remains. Every section has concrete, actionable content.
 6. **Tone consistency**: The agent speaks in second person ("You are…") for instructions and uses imperative mood for directives.
