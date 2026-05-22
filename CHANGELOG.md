@@ -1,5 +1,10 @@
 # Changelog for Marketplace
 
+## 1.23.0 - 2026-05-22
+
+### Changed
+- markdown-viewer plugin updated to v1.2.0 — adds `check-mdview-update` SessionStart hook that checks whether a newer version of `markdown-viewer-app` is available via pip and, if one is found, injects context instructing the agent to notify the user before executing the `mdview` command and offer to upgrade; includes PowerShell and shell script variants
+
 ## 1.22.0 - 2026-05-15
 
 ### Changed
