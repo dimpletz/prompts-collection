@@ -8,5 +8,6 @@
   "keywords": ["poetry", "python", "dependency-management", "hooks", "session"],
   "skills": [
     "./skills/vscode-poetry-configurator"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }

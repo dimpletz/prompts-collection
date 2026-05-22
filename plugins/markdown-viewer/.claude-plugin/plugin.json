@@ -18,5 +18,6 @@
   ],
   "skills": [
     "./skills/markdown-viewer"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }

@@ -1,5 +1,13 @@
 # Changelog for Marketplace
 
+## 1.24.0 - 2026-05-22
+
+### Added
+- git-manager plugin updated to v1.4.0 — adds `git-encoding-normalizer` skill that detects whether a tracked text file changed only because of line-ending churn or mixed encodings, then restores the file to the encoding and newline style used in Git history; supports optional reference commit and auto-restaging of previously staged files
+
+### Changed
+- git-manager plugin updated to v1.4.0 — `git-diff-generator` skill now supports additional source types: commit ranges, single commits, and staged files; uses `^!` syntax for single-commit diffs and `--cached` for staged file diffs in addition to existing branch and PR sources
+
 ## 1.23.0 - 2026-05-22
 
 ### Changed

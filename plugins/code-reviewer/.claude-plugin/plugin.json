@@ -22,5 +22,6 @@
     "./skills/diff-chunker",
     "./skills/review-rules-provider",
     "./skills/code-review-report-appender"
-  ]
+  ],
+  "hooks": "./hooks/hooks.json"
 }
