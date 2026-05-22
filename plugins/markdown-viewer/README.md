@@ -1,4 +1,4 @@
-# Markdown Viewer `v1.1.1`
+# Markdown Viewer `v1.2.0`
 
 > A plugin that installs [markdown-viewer-app](https://github.com/dimpletz/markdown-viewer) automatically via pip and provides a skill to open any markdown file in a full browser UI using the `mdview` command.
 
@@ -58,12 +58,14 @@ graph TD
     B --> E[install-markdown-viewer.sh<br/>Linux / macOS]
     B --> F[inject-mdview-params.ps1<br/>Windows]
     B --> G[inject-mdview-params.sh<br/>Linux / macOS]
+    B --> I[check-mdview-update.ps1<br/>Windows]
+    B --> J[check-mdview-update.sh<br/>Linux / macOS]
     C --> H[mdview command<br/>markdown-viewer-app]
 ```
 
 ### SessionStart Hook
 
-Two scripts run at the start of every session:
+Three scripts run at the start of every session:
 
 **install-markdown-viewer** — Checks Python availability, then checks whether
 `markdown-viewer-app` is already installed. If not installed, runs
@@ -84,6 +86,19 @@ parameters:
 - `MDVIEW_PORT`: the preferred port number for the mdview Flask server.
 
 Outputs nothing if neither variable is set.
+
+**check-mdview-update** — Runs only when `markdown-viewer-app` is installed. It:
+
+- Reads the installed version via `pip show markdown-viewer-app`.
+- Runs `pip list --outdated` to detect whether a newer release exists on PyPI.
+- If a newer version is available, injects the following context:
+
+  > A new version of markdown-viewer-app is available (installed: X.Y.Z, latest: A.B.C).
+  > Before executing the mdview command, notify the user that a new version is available.
+  > Offer to upgrade it and use the following pip command to upgrade:
+  > `pip install --upgrade markdown-viewer-app`
+
+- Exits silently if the package is up to date or not yet installed.
 
 ### Markdown Viewer Skill
 

@@ -25,6 +25,10 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/technical-writer/scripts/inject-doc-dir.ps1 — Windows hook script; reads DOC_REVIEWER_DIR env var
 - plugins/technical-writer/scripts/inject-doc-dir.sh — Linux/macOS hook script; reads DOC_REVIEWER_DIR env var
 - plugins/poetry-user/ — detects poetry.lock and injects Poetry usage context; auto-installs Poetry via pip
+- plugins/ai-engineer/.claude-plugin/plugin.json — hook-based plugin manifest for ai-engineer
+- plugins/ai-engineer/hooks/hooks.json — SessionStart/SubagentStart hooks that inject temporary-script guidance for large-file handling
+- plugins/ai-engineer/scripts/inject-temporary-script-guidance.sh — Linux/macOS hook script for temporary-script guidance
+- plugins/ai-engineer/scripts/inject-temporary-script-guidance.ps1 — Windows hook script for temporary-script guidance
 - plugins/code-reviewer/agents/LanguageRulesAuditor.agent.md — sub-agent that applies review rules to diff chunks; dispatched by Code Reviewer orchestrator
 - plugins/code-reviewer/skills/review-rules-provider/ — skill that loads and concatenates cross-cutting + language-specific review rules
 - plugins/code-reviewer/skills/code-review-report-appender/ — skill that appends findings markdown to the shared report file
@@ -49,11 +53,12 @@ using the `dimpletz/prompts-collection` marketplace source.
 - When a plugin's version in plugin.json is updated, update the matching plugin entry in .github/plugin/marketplace.json to the same version
 - When a plugin's version in plugin.json is updated, update the corresponding plugin version in README.md to the same version
 - When a plugin's version in plugin.json is updated, update the version in the plugin's own README.md title (e.g. `# Plugin Name \`vX.Y.Z\``) to the same version
-- The marketplace version (from .github/plugin/marketplace.json metadata.version) belongs on the ## Plugins heading in README.md, not on the # title
-- When the marketplace version in .github/plugin/marketplace.json is updated, update the version on the ## Plugins heading in README.md to match
+- The marketplace version (from .github/plugin/marketplace.json metadata.version) belongs on the ## Marketplace heading in README.md, not on the # title; the version must not be enclosed in backticks or quotes (e.g. `## Marketplace v1.23.0`, not `## Marketplace \`v1.23.0\``)
+- When the marketplace version in .github/plugin/marketplace.json is updated, update the version on the ## Marketplace heading in README.md to match
 - Never update the marketplace version in .github/plugin/marketplace.json unless the user explicitly instructs you to do so
 - When a new plugin is created, add a corresponding entry in .github/plugin/marketplace.json
 - When adding a hook-based plugin, also add a row to the Hooks section table in README.md — not just the Plugins table
+- The Plugins table must include a Requires column (after Description) listing other plugins whose agents or skills are used; use — if there are no cross-plugin dependencies
 - When you create or discover new files, update the Tree above
 - Every plugin must have a README.md — never create a plugin without one
 - All Markdown content must be clean — no unnecessary code fences wrapping entire documents
@@ -71,3 +76,4 @@ using the `dimpletz/prompts-collection` marketplace source.
 
 - Hook-based plugins require a row in both the Plugins table AND the Hooks section table in README.md; omitting the Hooks row was caught on review (learned 2026-04-19)
 - Agents and Skills sections in README.md are standalone catalogs that must be kept in sync with the Plugins table; sub-agents and new skills were missing from their catalog sections (learned 2026-04-19)
+- Skill companion scripts must live under each skill directory (`skills/<skill-name>/scripts/`) rather than plugin-level `scripts/` (learned 2026-05-14)

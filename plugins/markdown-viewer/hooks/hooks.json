@@ -10,6 +10,11 @@
         "type": "command",
         "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-mdview-params.sh\"",
         "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/inject-mdview-params.ps1\""
+      },
+      {
+        "type": "command",
+        "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/check-mdview-update.sh\"",
+        "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/check-mdview-update.ps1\""
       }
     ]
   }
