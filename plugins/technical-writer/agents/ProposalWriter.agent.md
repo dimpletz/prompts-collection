@@ -104,7 +104,7 @@ After the proposal file has been saved:
 
 The complete proposal must follow this structure exactly:
 
-```markdown
+````markdown
 # Proposal: <Proposal Title>
 
 | Source Material | Author | Date |
@@ -262,7 +262,7 @@ mindmap
 |------|------|-----------|------|
 | Client / Sponsor | | | |
 | Proposing Author | <Author Name> | | <actual current date as YYYY-MM-DD> |
-```
+````
 
 ### Valid Requests
 

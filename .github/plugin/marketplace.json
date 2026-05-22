@@ -60,7 +60,7 @@
     {
       "name": "technical-writer",
       "source": "technical-writer",
-      "description": "Technical Writers are a collection of agents that help you create how-to documents, quick reference guides, user guides, document reviews, and proposals.",
+      "description": "Technical Writers are a collection of agents that help you create how-to documents, quick reference guides, user guides, document reviews, proposals, and architectural design documents.",
       "version": "1.2.0"
     },
     {

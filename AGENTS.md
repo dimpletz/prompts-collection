@@ -46,6 +46,7 @@ using the `dimpletz/prompts-collection` marketplace source.
 - Every agent file uses the .agent.md extension; every skill entry point is SKILL.md
 - Keep plugin folders named in kebab-case matching the domain (e.g. git-manager, technical-writer)
 - When adding a new plugin, agent, or skill, update the tables in README.md to reflect the addition
+- When adding a new agent or skill to a plugin, update the `keywords` array in that plugin's plugin.json to include relevant terms for the new agent or skill
 - When adding a new agent, update both the Plugins table (Agents column) AND the dedicated Agents catalog section in README.md
 - When adding a new skill, update both the Plugins table (Skills column) AND the dedicated Skills catalog section in README.md
 - Never update CHANGELOG.md unless the marketplace version in .github/plugin/marketplace.json was explicitly changed by the user

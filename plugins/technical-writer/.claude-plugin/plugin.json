@@ -1,6 +1,6 @@
 {
   "name": "technical-writer",
-  "description": "Technical Writers are a collection of agents that help you create how-to documents, quick reference guides, user guides, and document reviews.",
+  "description": "Technical Writers are a collection of agents that help you create how-to documents, quick reference guides, user guides, document reviews, proposals, and architectural design documents.",
   "version": "1.2.0",
   "author": {
     "name": "Dimpletz"
@@ -19,7 +19,12 @@
     "knowledge-base",
     "writing",
     "document-review",
-    "review"
+    "review",
+    "architecture",
+    "architectural-design",
+    "system-design",
+    "software-architecture",
+    "design-document"
   ],
   "agents": [
     "./agents"
