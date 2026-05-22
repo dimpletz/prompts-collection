@@ -1,5 +1,14 @@
 # Changelog for Marketplace
 
+## 1.25.0 - 2026-05-23
+
+### Added
+- technical-writer plugin updated to v1.2.0 — adds `Architectural Designer` agent that synthesizes one or more sources (URLs, files, pasted text, images) into a comprehensive architectural design document covering overview, context, goals, architecture overview, design tradeoffs, component breakdown, impact analysis, security, scalability, quality attributes, low-level design, testing, and deployment; uses Mermaid diagrams; saves to `DOC_ARCHITECTURE_DIR` or `<workspace root>/doc-architecture/`
+- technical-writer plugin updated to v1.2.0 — adds `Proposal Writer` agent that synthesizes one or more sources into a professional Markdown proposal covering title page, executive summary, background, scope, approach, timeline, roles, deliverables, budget, risks, qualifications, terms, benefits, and acceptance; saves to `DOC_PROPOSAL_DIR` or `<workspace root>/doc-proposals/`
+
+### Changed
+- technical-writer plugin updated to v1.2.0 — replaces `inject-doc-dir` hook script with `inject-env-variables` script that injects both `DOC_REVIEWER_DIR` and `DOC_PROPOSAL_DIR` environment variables into agent context; includes PowerShell and shell script variants
+
 ## 1.24.0 - 2026-05-22
 
 ### Added

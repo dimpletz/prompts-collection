@@ -22,8 +22,8 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/technical-writer/.claude-plugin/plugin.json — hook-based plugin manifest
 - plugins/technical-writer/agents/DocumentReviewer.agent.md — reviews documents from URLs or attachments and produces a multi-section structured Markdown report
 - plugins/technical-writer/hooks/hooks.json — SessionStart hook that injects DOC_REVIEWER_DIR into agent context
-- plugins/technical-writer/scripts/inject-doc-dir.ps1 — Windows hook script; reads DOC_REVIEWER_DIR env var
-- plugins/technical-writer/scripts/inject-doc-dir.sh — Linux/macOS hook script; reads DOC_REVIEWER_DIR env var
+- plugins/technical-writer/scripts/inject-env-variables.ps1 — Windows hook script; reads DOC_REVIEWER_DIR and DOC_PROPOSAL_DIR env vars
+- plugins/technical-writer/scripts/inject-env-variables.sh — Linux/macOS hook script; reads DOC_REVIEWER_DIR and DOC_PROPOSAL_DIR env vars
 - plugins/poetry-user/ — detects poetry.lock and injects Poetry usage context; auto-installs Poetry via pip
 - plugins/ai-engineer/.claude-plugin/plugin.json — hook-based plugin manifest for ai-engineer
 - plugins/ai-engineer/hooks/hooks.json — SessionStart/SubagentStart hooks that inject temporary-script guidance for large-file handling
@@ -46,6 +46,7 @@ using the `dimpletz/prompts-collection` marketplace source.
 - Every agent file uses the .agent.md extension; every skill entry point is SKILL.md
 - Keep plugin folders named in kebab-case matching the domain (e.g. git-manager, technical-writer)
 - When adding a new plugin, agent, or skill, update the tables in README.md to reflect the addition
+- When adding a new agent or skill to a plugin, update the `keywords` array in that plugin's plugin.json to include relevant terms for the new agent or skill
 - When adding a new agent, update both the Plugins table (Agents column) AND the dedicated Agents catalog section in README.md
 - When adding a new skill, update both the Plugins table (Skills column) AND the dedicated Skills catalog section in README.md
 - Never update CHANGELOG.md unless the marketplace version in .github/plugin/marketplace.json was explicitly changed by the user
