@@ -1,4 +1,4 @@
-# Code Reviewer `v1.0.1`
+# Code Reviewer `v1.0.2`
 
 > A collection of agents for performing comprehensive, evidence-based code quality reviews across multiple programming languages and frameworks.
 
