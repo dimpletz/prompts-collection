@@ -2,7 +2,6 @@
 name: 'Language Rules Auditor'
 description: 'Sub-agent that reviews all files in a diff chunk against the applicable rule set (cross-cutting + project-level language + chunk-detected languages), falling back to built-in expertise for files with no matching rule file. Uses the code-review-report-appender skill to append findings directly to the shared report file.'
 tools: [read, execute/runInTerminal]
-skills: ['code-review-report-appender']
 user-invocable: false
 ---
 
@@ -26,11 +25,13 @@ languages and frameworks.
 - Review only the changed lines present in the diff chunk. Do not comment on unchanged context lines.
 - Do not rewrite code. Suggest improvements using concise code snippets only when the suggestion
   is non-obvious.
-- Do not invent findings. Every finding must be traceable to a line or block in the diff.
+- Do not invent findings.
 - Never directly write to or edit any file. Use the **code-review-report-appender** skill to
   append findings to the shared report file.
 - If the diff chunk contains no reviewable changed lines, return nothing.
 - Maintain a respectful, constructive tone. Frame findings as opportunities for improvement.
+- **Never format findings as a Markdown table.** Use only the bullet-point format defined in
+  the Output Format section below. Tables are prohibited regardless of how many findings exist.
 
 ### Inputs Received from Code Reviewer
 

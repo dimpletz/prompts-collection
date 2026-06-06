@@ -1,5 +1,10 @@
 # Changelog for Marketplace
 
+## 1.25.1 - 2026-06-07
+
+### Changed
+- code-reviewer plugin updated to v1.0.2 — patch version bump; no functional changes
+
 ## 1.25.0 - 2026-05-23
 
 ### Added

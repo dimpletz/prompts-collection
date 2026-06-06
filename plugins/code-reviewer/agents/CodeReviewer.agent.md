@@ -162,7 +162,8 @@ For each review unit (chunk or WITHIN_LIMIT file, plus confirmed OVERSIZED files
    - `primary_language`: the **single** project-level language string detected in Step 4 (e.g., `"java"`, `"python"`, `"csharp"`, `"php"`, `"magento"`, `"javascript"`). If multiple project languages were detected in Step 4, pass the most dominant one (e.g., for a Magento project: `"magento"`; for a Java + JavaScript project: `"java"`).
    - `report_file_path`: the full absolute path to the shared report file
 2. Wait for the Language Rules Auditor to complete before dispatching it for the next chunk. This prevents concurrent file-append conflicts when the Language Rules Auditor writes via the **code-review-report-appender** skill.
-3. After the Language Rules Auditor completes for a chunk, move to the next chunk. Repeat until every chunk has been fully processed.
+3. **Discard any text returned by the Language Rules Auditor.** Do not write its output to the report file, to chat, or anywhere else. The Language Rules Auditor writes its own findings directly to the report via the **code-review-report-appender** skill. Writing its output a second time causes duplicated sections in the report.
+4. After the Language Rules Auditor completes for a chunk, move to the next chunk. Repeat until every chunk has been fully processed.
 
 #### Step 8 — Confirm completion
 
