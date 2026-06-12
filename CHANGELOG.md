@@ -1,5 +1,10 @@
 # Changelog for Marketplace
 
+## 1.26.0 - 2026-06-13
+
+### Changed
+- poetry-user plugin updated to v1.1.0 — `vscode-poetry-configurator` skill now also configures `python-envs.defaultEnvManager` and `python-envs.defaultPackageManager` to `ms-python.python:poetry` in `.vscode/settings.json`
+
 ## 1.25.1 - 2026-06-07
 
 ### Changed

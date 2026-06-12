@@ -1,4 +1,4 @@
-# poetry-user `v1.0.0`
+# poetry-user `v1.1.0`
 
 > A plugin that detects whether the current workspace uses Poetry (via `poetry.lock`), injects context instructing the agent to prefer `poetry` commands, and automatically installs Poetry via pip if it is not already present.
 

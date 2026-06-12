@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Marketplace v1.25.1
+## Marketplace v1.26.0
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -26,7 +26,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [markdown-viewer](plugins/markdown-viewer/) `v1.2.0` | Installs markdown-viewer-app via pip and provides a skill to view markdown files in a browser using the `mdview` command. | — | — | [Markdown Viewer](plugins/markdown-viewer/skills/markdown-viewer/SKILL.md) | `SessionStart` |
 | [meeting-note-taker](plugins/meeting-note-taker/) `v1.1.2` | Guides you through structured meeting note capture and produces a formatted summary with optional Q&A, actions, and Mermaid diagrams saved to a configurable directory. | — | [Meeting Note Taker](plugins/meeting-note-taker/agents/MeetingNoteTaker.agent.md) | — | `SessionStart` |
 | [python-user](plugins/python-user/) `v1.0.0` | Injects `DEFAULT_PYTHON_VERSION` into the agent context at session start, checks whether Python is installed and prompts the agent to offer installation if missing, and provides a skill to download and install Python from the official FTP server. | — | — | [Python Installer](plugins/python-user/skills/python-installer/SKILL.md) | `SessionStart` |
-| [poetry-user](plugins/poetry-user/) `v1.0.0` | Detects whether the current workspace uses Poetry (via `poetry.lock`), injects context instructing the agent to prefer `poetry` commands, and automatically installs Poetry via pip if it is not already installed. | — | — | [VS Code Poetry Configurator](plugins/poetry-user/skills/vscode-poetry-configurator/SKILL.md) | `SessionStart` |
+| [poetry-user](plugins/poetry-user/) `v1.1.0` | Detects whether the current workspace uses Poetry (via `poetry.lock`), injects context instructing the agent to prefer `poetry` commands, and automatically installs Poetry via pip if it is not already installed. | — | — | [VS Code Poetry Configurator](plugins/poetry-user/skills/vscode-poetry-configurator/SKILL.md) | `SessionStart` |
 | [learner](plugins/learner/) `v1.1.0` | Agents for capturing and organising personal study notes by topic in structured Markdown files with sections, Mermaid diagrams, and a table of contents. | — | [Topic Scriber](plugins/learner/agents/TopicScriber.agent.md) | — | `SessionStart` |
 | [code-reviewer](plugins/code-reviewer/) `v1.0.2` | Agents for performing comprehensive, evidence-based code quality reviews across multiple programming languages and frameworks. | — | [Code Reviewer](plugins/code-reviewer/agents/CodeReviewer.agent.md), [Language Rules Auditor](plugins/code-reviewer/agents/LanguageRulesAuditor.agent.md) | [Code Review Report Appender](plugins/code-reviewer/skills/code-review-report-appender/SKILL.md), [Diff Chunker](plugins/code-reviewer/skills/diff-chunker/SKILL.md), [Review Rules Provider](plugins/code-reviewer/skills/review-rules-provider/SKILL.md) | `SessionStart`, `SubagentStop` |
 
