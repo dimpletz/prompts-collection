@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.26.0",
+    "version": "1.27.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -122,6 +122,12 @@
       "source": "code-reviewer",
       "description": "Code Reviewer is a collection of agents for performing comprehensive, evidence-based code quality reviews across multiple programming languages and frameworks.",
       "version": "1.0.2"
+    },
+    {
+      "name": "instructor",
+      "source": "instructor",
+      "description": "Instructor is a collection of agents that help you create complete, self-contained learning modules covering theory, practical applications, and an end-to-end project for any topic.",
+      "version": "1.0.0"
     }
   ]
 }
