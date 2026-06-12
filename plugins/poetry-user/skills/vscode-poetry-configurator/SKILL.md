@@ -136,7 +136,21 @@ When this setting is `true`, VS Code automatically runs the environment's activa
 every new integrated terminal (PowerShell, bash, zsh, etc.) so the Poetry venv is active without
 any manual step.
 
-### Step 7 – Save and report
+### Step 7 – Configure `python-envs.defaultEnvManager`
+
+Read the current value of `python-envs.defaultEnvManager` in `.vscode/settings.json`.
+
+- **If it already equals `"ms-python.python:poetry"`**: skip this step silently — no change is needed.
+- **Otherwise**: set `python-envs.defaultEnvManager` to `"ms-python.python:poetry"`.
+
+### Step 8 – Configure `python-envs.defaultPackageManager`
+
+Read the current value of `python-envs.defaultPackageManager` in `.vscode/settings.json`.
+
+- **If it already equals `"ms-python.python:poetry"`**: skip this step silently — no change is needed.
+- **Otherwise**: set `python-envs.defaultPackageManager` to `"ms-python.python:poetry"`.
+
+### Step 9 – Save and report
 
 Write the updated `.vscode/settings.json` back to disk, preserving all existing keys and
 formatting as closely as possible (do not re-order unrelated keys).
@@ -150,8 +164,10 @@ VS Code Poetry configuration complete.
   Python interpreter  : <PYTHON_PATH>
   Settings updated    : .vscode/settings.json
 
-  python.defaultInterpreterPath     → <PYTHON_PATH>
+  python.defaultInterpreterPath       → <PYTHON_PATH>
   python.terminal.activateEnvironment → true
+  python-envs.defaultEnvManager       → ms-python.python:poetry
+  python-envs.defaultPackageManager   → ms-python.python:poetry
 
 All new integrated terminals (PowerShell and others) will automatically
 activate this virtual environment. Open a new terminal to verify.
@@ -161,6 +177,7 @@ If any setting was already correct and no change was needed, note it in the repo
 
 ```
   python.terminal.activateEnvironment → already set to true (no change)
+  python-envs.defaultEnvManager       → already set to ms-python.python:poetry (no change)
 ```
 
 ## Assumptions and Limitations
