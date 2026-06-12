@@ -1,5 +1,12 @@
 # Changelog for Marketplace
 
+## 1.27.0 - 2026-06-13
+
+### Added
+- instructor plugin v1.0.0 — adds `Module Maker` agent that creates a complete, self-contained learning module covering theory, practical applications with examples, and a single end-to-end project for any topic; automatically hands off to `Narration Script Writer` after saving the module
+- instructor plugin v1.0.0 — adds `Narration Script Writer` agent that generates a speaker-ready video narration script from a completed learning module file; can be invoked by Module Maker or independently
+- instructor plugin v1.0.0 — adds `SessionStart` hook that injects `MODULE_DIR` as `INSTRUCTOR_MODULE_DIR` into agent context; includes PowerShell and shell script variants
+
 ## 1.26.0 - 2026-06-13
 
 ### Changed

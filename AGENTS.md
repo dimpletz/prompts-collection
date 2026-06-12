@@ -24,6 +24,13 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/technical-writer/hooks/hooks.json — SessionStart hook that injects DOC_REVIEWER_DIR into agent context
 - plugins/technical-writer/scripts/inject-env-variables.ps1 — Windows hook script; reads DOC_REVIEWER_DIR and DOC_PROPOSAL_DIR env vars
 - plugins/technical-writer/scripts/inject-env-variables.sh — Linux/macOS hook script; reads DOC_REVIEWER_DIR and DOC_PROPOSAL_DIR env vars
+- plugins/instructor/ — agent for creating complete learning modules covering theory, practical applications, and a single end-to-end project
+- plugins/instructor/.claude-plugin/plugin.json — hook-based plugin manifest for instructor
+- plugins/instructor/agents/ModuleMaker.agent.md — creates a complete teaching module from theory through examples to a finish-to-finish project; hands off automatically to Narration Script Writer
+- plugins/instructor/agents/NarrationScriptWriter.agent.md — generates a speaker-ready video narration script from a completed module file; invoked by Module Maker or independently
+- plugins/instructor/hooks/hooks.json — SessionStart hook that injects MODULE_DIR into agent context as INSTRUCTOR_MODULE_DIR
+- plugins/instructor/scripts/inject-module-dir.ps1 — Windows hook script; reads MODULE_DIR env var
+- plugins/instructor/scripts/inject-module-dir.sh — Linux/macOS hook script; reads MODULE_DIR env var
 - plugins/poetry-user/ — detects poetry.lock and injects Poetry usage context; auto-installs Poetry via pip
 - plugins/ai-engineer/.claude-plugin/plugin.json — hook-based plugin manifest for ai-engineer
 - plugins/ai-engineer/hooks/hooks.json — SessionStart/SubagentStart hooks that inject temporary-script guidance for large-file handling

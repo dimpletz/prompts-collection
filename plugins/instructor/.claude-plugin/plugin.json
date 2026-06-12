@@ -1,0 +1,31 @@
+{
+  "name": "instructor",
+  "description": "Instructor is a collection of agents that help you create complete, self-contained learning modules covering theory, practical applications, and an end-to-end project for any topic.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "instructor",
+    "learning",
+    "education",
+    "module",
+    "course",
+    "teaching",
+    "theory",
+    "practical",
+    "project",
+    "tutorial",
+    "curriculum",
+    "training",
+    "narration",
+    "video-script",
+    "presenter"
+  ],
+  "agents": [
+    "./agents"
+  ],
+  "hooks": "./hooks/hooks.json"
+}
