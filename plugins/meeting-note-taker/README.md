@@ -1,4 +1,4 @@
-# meeting-note-taker `v1.1.2`
+# meeting-note-taker `v1.2.0`
 
 > Guides you through structured meeting note capture and produces a formatted summary saved to your meeting notes directory.
 
@@ -12,7 +12,7 @@ The **meeting-note-taker** plugin provides a conversational agent that walks you
 4. Let the agent analyze and structure the notes into a clean document
 5. Auto-save to the configured meeting notes directory
 
-The generated document always includes a header table, a prose summary (with Mermaid diagrams for any technical flows or topic maps), and the verbatim original notes. A Questions & Answers table and Actions checklist are added only when the notes actually contain that content.
+The generated document always includes a header table and a prose summary (with Mermaid diagrams for any technical flows or topic maps). A Questions & Answers table and Actions checklist are added only when the notes actually contain that content.
 
 ## Prerequisites
 

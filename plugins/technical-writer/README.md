@@ -1,4 +1,4 @@
-# Technical Writer `v1.2.0`
+# Technical Writer `v1.2.1`
 
 > A collection of agents for creating how-to guides, quick reference guides, user guides, structured document reviews, and professional proposals from any source material.
 
