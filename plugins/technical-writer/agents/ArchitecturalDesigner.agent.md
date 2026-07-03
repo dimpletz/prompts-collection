@@ -177,10 +177,6 @@ mindmap
 
 <List the key business drivers, opportunities, or mandates that motivate this project. Use a bulleted list.>
 
-### Source References
-
-<List any Product Requirements Documents (PRDs), business cases, RFCs, or upstream documents that informed this architecture. Use a bulleted list with document names and links where available.>
-
 ------
 
 ## Goals and Constraints
@@ -527,7 +523,7 @@ graph LR
 
 ## References
 
-<List all documents, architecture decision records (ADRs), existing design documents, diagrams, and external resources that informed or are related to this design. Use a bulleted list with links where available.>
+<List all documents, architecture decision records (ADRs), existing design documents, diagrams, external resources, Product Requirements Documents (PRDs), business cases, and RFCs that informed or are related to this design. Use a bulleted list with links where available.>
 
 - [<Document Name>](<URL or path>)
 

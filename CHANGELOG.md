@@ -1,5 +1,11 @@
 # Changelog for Marketplace
 
+## 1.28.0 - 2026-07-04
+
+### Changed
+- meeting-note-taker plugin updated to v1.2.0 — `Meeting Note Taker` agent no longer includes the verbatim `## Original Notes` section in the generated document; attendees are now listed immediately after facilitators in the output
+- technical-writer plugin updated to v1.2.1 — `Architectural Designer` agent removes the `Source References` subsection from the Context section; all source references (PRDs, business cases, RFCs, ADRs, diagrams, and external resources) are now consolidated into the `## References` section at the end of the document
+
 ## 1.27.0 - 2026-06-13
 
 ### Added
