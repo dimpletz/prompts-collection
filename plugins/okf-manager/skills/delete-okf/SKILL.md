@@ -1,0 +1,135 @@
+---
+name: delete-okf
+description: >
+  Deprecates or removes an OKF concept document from a bundle. Use this skill whenever a concept
+  should be marked as no longer current or permanently deleted. The default mode is deprecate
+  (non-destructive). Use remove only when the file must be physically deleted. Do NOT use this
+  skill to update a concept's content — use update-okf for that.
+---
+
+# Delete OKF
+
+Marks an OKF concept as deprecated or removes it from the bundle entirely. The default `deprecate`
+mode sets `status: deprecated` in the frontmatter and preserves the file for historical links
+(§5.4). The `remove` mode deletes the file after user confirmation and cleans up any reference to
+it in the parent `index.md`. Both modes append an entry to `log.md`.
+
+## Inputs
+
+- **bundle_directory** (required unless `OKF_DEFAULT_BUNDLE_DIR` is in context): Absolute path to
+  the OKF bundle root. When the `OKF_DEFAULT_BUNDLE_DIR` context variable is present (injected by
+  the hook) it is used as the default; the user may still override it per invocation.
+- **concept_path** (inferred when possible): Path to the concept file, relative to
+  `bundle_directory` (e.g. `tables/customer-orders.md`). When not provided, the bundle is searched
+  for a concept matching the user's description — see Inference Rules.
+- **mode** (inferred, default `deprecate`): `deprecate` — set `status: deprecated` and keep the
+  file; `remove` — physically delete the file. Inferred from the user's wording — see Inference
+  Rules.
+- **reason** (optional): Brief note explaining the deprecation or deletion. Appended to the body
+  in `deprecate` mode; recorded in `log.md` in both modes.
+
+Apply Inference Rules before asking. Only ask when `bundle_directory` is absent and
+`OKF_DEFAULT_BUNDLE_DIR` is not in context, or no bundle match is found for the concept.
+
+## Inference Rules
+
+Infer both `mode` and `concept_path` from the user's description. Only ask when no bundle
+match is found for the concept.
+
+### mode
+
+| User wording | Inferred `mode` |
+|---|---|
+| "remove", "delete", "wipe", "permanently delete" | `remove` |
+| "deprecate", "archive", "retire", "mark as old" | `deprecate` |
+| (default when unclear) | `deprecate` |
+
+### concept_path lookup
+
+When `concept_path` is not provided, search the bundle:
+
+1. Scan all non-reserved `.md` files under `bundle_directory`.
+2. Score each file: exact filename stem match > `title` substring match > `type` + name combo.
+3. **Exactly one match** → use it automatically and note the resolved path.
+4. **Multiple matches** → use the highest-scored match automatically and list alternatives in the output.
+5. **No match** → ask the user to provide the explicit `concept_path`.
+
+## Task Priorities
+
+1. **Priority 1 – Non-destructive default**: Default mode is `deprecate`. Never delete a file
+   unless `mode: remove` is explicitly requested or inferred.
+2. **Priority 2 – No reserved filename operations**: `concept_path` must not resolve to `index.md`
+   or `log.md`. Abort immediately if it does.
+3. **Priority 3 – Report before remove**: State the full path being deleted before proceeding.
+4. **Priority 4 – index.md cleanup on remove**: After deleting a file, scan the parent `index.md`
+   for any bullet linking to the removed file and remove that line.
+5. **Priority 5 – Log coherence**: Append a **Deprecation** or **Deletion** entry to `log.md` in
+   both modes.
+
+## Workflow
+
+### Step 1 – Infer Inputs and Validate
+
+**1A – Infer from the user's description**
+
+1. Infer `mode` from the user's wording (Inference Rules).
+2. If `concept_path` was not supplied, search the bundle using the concept_path lookup rules.
+   Use the highest-scored match automatically; ask for an explicit path only when none match.
+3. Proceed without asking.
+
+**1B – Validate**
+
+1. If `bundle_directory` is absent, check context for `OKF_DEFAULT_BUNDLE_DIR`. If neither is
+   available, ask the user.
+2. Verify both `bundle_directory` and the resolved concept file exist.
+3. Confirm the resolved filename is not `index.md` or `log.md`. Abort if it is.
+4. If `mode` could not be inferred, default to `deprecate`.
+
+### Step 2A – Deprecate Mode
+
+1. Read the file as UTF-8 and parse frontmatter.
+2. Set `status: deprecated` in the frontmatter.
+3. Update `generated.at` to the current system time in ISO 8601.
+4. If `reason` is provided, append a deprecation note to the body with a blank-line separator:
+   ```
+   > **Deprecated**: <reason>
+   ```
+5. Write the updated file as UTF-8 (overwrite in place).
+6. Confirm the update and report the path.
+
+Skip to Step 3.
+
+### Step 2B – Remove Mode
+
+1. State the full resolved path being deleted.
+2. Delete the file.
+4. If `index.md` exists in the same directory, read it and remove every bullet entry that links
+   to the deleted filename (any line containing the filename in a markdown link). Write the
+   updated `index.md`.
+5. Report the deleted path and any `index.md` changes.
+
+### Step 3 – Write to log.md
+
+Write to `log.md` at the bundle root (§9). If absent, create it first with the heading
+`# Bundle Update Log`, then proceed with the date entry.
+
+1. Determine today's date heading: `## YYYY-MM-DD`.
+2. If the heading is absent, insert it above the previous date entries.
+3. Append under the date heading, using `<reason_suffix>` = ` Reason: <reason>.` when a reason
+   was provided, or empty otherwise:
+   - Deprecate mode: `* **Deprecation**: Deprecated [<title or filename>](<bundle-relative path>).<reason_suffix>`
+   - Remove mode: `* **Deletion**: Deleted [<title or filename>](<bundle-relative path>).<reason_suffix>`
+
+## Output Format
+
+- Confirm mode executed (`deprecated` or `deleted`) with the concept path and title.
+- In remove mode, confirm `index.md` was cleaned up or note it was not present.
+- Confirm `log.md` was updated or created.
+
+## Assumptions and Limits
+
+- `bundle_directory` must be a locally accessible file system path.
+- Deprecate mode does not scan the bundle for inbound links to the deprecated concept; those may
+  become broken after deprecation.
+- Remove mode deletes only the one file; it does not scan the bundle for concepts that link to it.
+- `log.md` entries are append-only; existing entries are never modified.

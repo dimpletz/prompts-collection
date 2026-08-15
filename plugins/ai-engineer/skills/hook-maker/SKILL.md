@@ -8,7 +8,7 @@ description: >
 
 This **skill** is for developers who need to add automated lifecycle hooks to a VS Code Copilot agent plugin. Hooks run shell scripts or commands at specific points in the agent lifecycle and can inject context, enforce security policies, run quality checks, install dependencies, or perform any side-effect needed before or after agent activity.
 
-VS Code supports eight hook lifecycle events: `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `PreCompact`, `SubagentStart`, `SubagentStop`, and `Stop`.
+For the full list of lifecycle events, input/output schemas, and configuration format, consult the OKF bundle before starting any work.
 
 ## Inputs
 
@@ -20,10 +20,10 @@ VS Code supports eight hook lifecycle events: `SessionStart`, `UserPromptSubmit`
 ## Task Priorities
 
 1. **Priority 1 – Correct lifecycle placement**
-   The hook must fire on exactly the right event for its purpose. Misplacing a hook is a behavioral defect. Use the event reference table in Step 1 to choose correctly.
+   The hook must fire on exactly the right event for its purpose. Misplacing a hook is a behavioral defect. Consult the **Lifecycle Events** section of the OKF bundle to choose correctly.
 
 2. **Priority 2 – Reliable output contract**
-   Each hook event has its own `hookSpecificOutput` schema — use the correct fields for the event. Exit code `2` is a hard blocking error; any other non-zero exit is a non-blocking warning. Exit `0` with JSON to influence agent behavior.
+   Each hook event has its own `hookSpecificOutput` schema — consult the **Input / Output** section of the OKF bundle for the per-event schema. Exit code `2` is a hard blocking error; any other non-zero exit is a non-blocking warning. Exit `0` with JSON to influence agent behavior.
 
 3. **Priority 3 – Cross-platform correctness**
    Every hook command must have a `windows` variant using PowerShell unless the hook is explicitly Linux/macOS-only. Scripts must be tested for the target OS.
@@ -34,19 +34,8 @@ VS Code supports eight hook lifecycle events: `SessionStart`, `UserPromptSubmit`
 
 - Read the **hook_intent** carefully and identify:
   - **What** the hook does (inject context, block operations, run tool, audit, clean up).
-  - **When** it fires — use the table below to select the correct event.
-  - **What output** it produces (see Step 2 for the per-event output schema).
-
-| Event | Fires when | Typical use |
-|---|---|---|
-| `SessionStart` | User submits the first prompt of a new session | Inject context, validate state, initialize resources |
-| `UserPromptSubmit` | User submits any prompt | Audit requests, inject system context |
-| `PreToolUse` | Before agent invokes a tool | Block dangerous operations, require approval, modify tool input |
-| `PostToolUse` | After a tool completes successfully | Run formatters, log results, trigger follow-up actions |
-| `PreCompact` | Before conversation context is compacted | Export context, save state before truncation |
-| `SubagentStart` | A subagent is spawned | Track nested agent usage, initialize subagent resources |
-| `SubagentStop` | A subagent completes | Aggregate results, clean up subagent resources |
-| `Stop` | Agent session ends | Generate reports, clean up, send notifications |
+  - **When** it fires — consult the **Lifecycle Events** section of the OKF bundle.
+  - **What output** it produces — consult the **Input / Output** section of the OKF bundle for the per-event schema.
 
 - If the event is ambiguous, apply these defaults:
   - Context injection at session level → `SessionStart` (add `SubagentStart` if subagents also need it).
@@ -72,79 +61,7 @@ Before writing any files, decide which scope applies:
 
 ### Step 2 – Choose Output Mode
 
-Hooks communicate via **exit code** and **stdout JSON**. The exit code determines how VS Code handles the result:
-
-| Exit code | Meaning |
-|---|---|
-| `0` | Success — stdout is parsed as JSON |
-| `2` | Blocking error — stop processing and show stderr to the model |
-| Other non-zero | Non-blocking warning — show warning to user, continue processing |
-
-All hooks support these **common JSON output fields** (stdout, exit 0):
-
-```json
-{"continue": false, "stopReason": "Reason shown to user", "systemMessage": "Warning shown in chat"}
-```
-
-Set `continue: false` to stop the entire agent session. Use `stopReason` to explain why. `systemMessage` displays a warning regardless of other decisions.
-
-In addition, each event supports **event-specific `hookSpecificOutput`** fields:
-
-#### `SessionStart` — inject context into the session
-```json
-{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"<text>"}}
-```
-
-#### `UserPromptSubmit` — common output only (no hookSpecificOutput)
-Exit 0 with no output, or use `continue`/`systemMessage` from the common fields.
-
-#### `PreToolUse` — allow, deny, or prompt for a tool call
-```json
-{
-  "hookSpecificOutput": {
-    "hookEventName": "PreToolUse",
-    "permissionDecision": "deny",
-    "permissionDecisionReason": "Reason shown to user",
-    "updatedInput": {},
-    "additionalContext": "Extra context for the model"
-  }
-}
-```
-`permissionDecision` values: `"allow"` (auto-approve), `"deny"` (block), `"ask"` (require user confirmation). When multiple hooks run, the most restrictive decision wins (`deny` > `ask` > `allow`).
-
-#### `PostToolUse` — block further processing or inject context
-```json
-{
-  "decision": "block",
-  "reason": "Validation failed",
-  "hookSpecificOutput": {
-    "hookEventName": "PostToolUse",
-    "additionalContext": "Lint errors found in the edited file"
-  }
-}
-```
-
-#### `PreCompact` — common output only (no hookSpecificOutput)
-Use `continue`/`systemMessage` from the common fields to influence compaction.
-
-#### `SubagentStart` — inject context into a subagent's conversation
-```json
-{"hookSpecificOutput":{"hookEventName":"SubagentStart","additionalContext":"<text>"}}
-```
-
-#### `SubagentStop` — prevent a subagent from stopping
-```json
-{"decision":"block","reason":"Verify results before the subagent completes"}
-```
-Always check `stop_hook_active` in the stdin input to prevent infinite loops.
-
-#### `Stop` — prevent the agent session from ending
-```json
-{"hookSpecificOutput":{"hookEventName":"Stop","decision":"block","reason":"Run tests before finishing"}}
-```
-Always check `stop_hook_active` in the stdin input to prevent the agent from running indefinitely (each extra turn consumes premium requests).
-
-**Exit-code-only mode**: For side-effect hooks (format, lint, test) that do not need to communicate with the agent, exit 0 for success and exit 2 to surface an error to the model via stderr.
+Consult the **Input / Output** section of the OKF bundle for the complete exit-code contract, common output fields, and per-event `hookSpecificOutput` schemas.
 
 ### Step 3 – Write the Scripts
 
@@ -229,24 +146,7 @@ Use `${CLAUDE_PLUGIN_ROOT}` to reference scripts — do not hardcode paths.
 
 Paths are relative to the workspace root. If `.claude/settings.json` already exists, **merge** the new hook entry into the existing `hooks` object — do not overwrite the file.
 
-#### Supported hook command properties (both scopes)
-
-| Property | Type | Description |
-|---|---|---|
-| `type` | string | Must be `"command"` |
-| `command` | string | Default command (cross-platform fallback) |
-| `windows` | string | Windows-specific command override |
-| `linux` | string | Linux-specific command override |
-| `osx` | string | macOS-specific command override |
-| `cwd` | string | Working directory (relative to repository root) |
-| `env` | object | Additional environment variables |
-| `timeout` | number | Timeout in seconds (default: 30) |
-
-Rules (both scopes):
-- `<HookEvent>` must be one of: `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `PreCompact`, `SubagentStart`, `SubagentStop`, `Stop`.
-- The runtime selects the OS-specific command (`windows`, `linux`, `osx`) when present, falling back to `command`.
-- Multiple hooks on the same event are listed as additional objects in the array.
-- Omit OS-specific keys only when the hook is explicitly single-platform.
+For the full list of supported hook command properties (`type`, `command`, `windows`, `linux`, `osx`, `cwd`, `env`, `timeout`) and their valid values, consult the **Configuration** section of the OKF bundle.
 
 ### Step 5 – Update plugin.json
 
@@ -269,7 +169,7 @@ The hooks directory does not need to be referenced in `plugin.json` — the runt
 
 Before delivering, verify:
 
-1. **Hook config file** — Event name is one of `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `PreCompact`, `SubagentStart`, `SubagentStop`, `Stop`. `type` is `"command"`. `command` and/or OS-specific keys are present as needed.
+1. **Hook config file** — Event name is a valid lifecycle event from the OKF bundle. `type` is `"command"`. `command` and/or OS-specific keys are present as needed.
 2. **Scope routing** — Plugin scope uses `plugins/<plugin-name>/hooks/hooks.json` with `${CLAUDE_PLUGIN_ROOT}` paths. Workspace scope uses `.claude/settings.json` with workspace-relative paths. These must not be mixed.
 3. **Merge safety** — For workspace scope, confirm that the `.claude/settings.json` file was merged (not overwritten) if it already existed.
 4. **Output contract** — The JSON output matches the event-specific schema from Step 2. `hookSpecificOutput.hookEventName` matches the event. `stop_hook_active` is checked for `Stop` and `SubagentStop` hooks.
@@ -330,10 +230,13 @@ After creating all hook files, respond with:
 
 - When `plugin_name` is not provided, hooks are written to `.claude/settings.json` at the workspace root (Claude format). Use `.claude/settings.local.json` only when the user explicitly requests a local-only, non-committed hook.
 - Assumes the VS Code Copilot runtime supports `hooks.json` discovery when `.claude-plugin/plugin.json` is present.
-- Valid hook events are: `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `PreCompact`, `SubagentStart`, `SubagentStop`, `Stop` — any other event name is invalid.
+- Valid hook events are documented in the OKF bundle — any event name not listed there is invalid.
 - OS-specific command selection (`windows`, `linux`, `osx`) is based on the extension host platform, which may differ from the local OS in remote development scenarios (SSH, Containers, WSL).
 - `${CLAUDE_PLUGIN_ROOT}` is the only supported runtime variable for referencing plugin files inside hook commands.
 - `Stop` and `SubagentStop` hooks that return `decision: "block"` cause the agent to run additional turns, each consuming premium requests. Always guard with `stop_hook_active`.
 - Matchers (Claude Code-style `tool_name` filters) are parsed by VS Code but currently ignored — all hooks run on every matching event regardless of tool name.
 - Does not generate MCP server configurations, agent files, or skill files — use the dedicated maker skills for those.
 - Scripts that produce JSON output must emit well-formed JSON on a single line; multi-line printf is safe only if newlines are escaped within the JSON string value.
+
+## OKF Bundle
+- Read the OKF bundle at `../../okf` before starting any work — it is the authoritative reference for lifecycle events, input/output schemas, configuration format, security guidance, and compatibility notes.
