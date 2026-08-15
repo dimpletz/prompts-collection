@@ -1,5 +1,19 @@
 # Changelog for Marketplace
 
+## 1.29.0 - 2026-08-16
+
+### Added
+- okf-manager plugin v1.0.0 — adds `create-okf` skill that creates a new OKF v0.2 concept document (with YAML frontmatter) inside a bundle directory and optionally updates `index.md` and appends a creation entry to `log.md`
+- okf-manager plugin v1.0.0 — adds `update-okf` skill that updates frontmatter fields and/or body content of an existing OKF concept document in place
+- okf-manager plugin v1.0.0 — adds `search-okf` skill that searches an OKF bundle for concept documents matching type, tag, or free-text filters and returns a summary table
+- okf-manager plugin v1.0.0 — adds `delete-okf` skill that deprecates (default) or permanently removes an OKF concept document from a bundle
+- okf-manager plugin v1.0.0 — adds `attach-okf` skill that hooks an OKF bundle into a project directory, agent file, or skill file by injecting a bundle-use rule into the applicable instruction file
+- okf-manager plugin v1.0.0 — adds `SessionStart`/`SubagentStart` hook that injects `OKF_DEFAULT_BUNDLE_DIR` into agent context; includes PowerShell and shell script variants
+- ai-engineer plugin updated to v1.5.0 — adds OKF bundle at `okf/` containing a VS Code agent customization hooks reference document covering lifecycle events, configuration format, input/output schema, and usage scenarios
+
+### Changed
+- ai-engineer plugin updated to v1.5.0 — `hook-maker` skill removes all inline hook reference documentation (lifecycle events table, per-event output schemas, hook command properties table) and replaces them with references to the OKF bundle at `../../okf`
+
 ## 1.28.0 - 2026-07-04
 
 ### Changed

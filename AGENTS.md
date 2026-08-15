@@ -39,6 +39,20 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/code-reviewer/agents/LanguageRulesAuditor.agent.md — sub-agent that applies review rules to diff chunks; dispatched by Code Reviewer orchestrator
 - plugins/code-reviewer/skills/review-rules-provider/ — skill that loads and concatenates cross-cutting + language-specific review rules
 - plugins/code-reviewer/skills/code-review-report-appender/ — skill that appends findings markdown to the shared report file
+- plugins/okf-manager/ — skills for managing OKF v0.2 bundle concept documents (create, update, search, delete)
+- plugins/okf-manager/.claude-plugin/plugin.json — hook-based plugin manifest for okf-manager
+- plugins/okf-manager/hooks/hooks.json — SessionStart/SubagentStart hook that injects OKF_DEFAULT_BUNDLE_DIR into agent context
+- plugins/okf-manager/scripts/inject-okf-bundle-dir.ps1 — Windows hook script; reads OKF_DEFAULT_BUNDLE_DIR env var
+- plugins/okf-manager/scripts/inject-okf-bundle-dir.sh — Linux/macOS hook script; reads OKF_DEFAULT_BUNDLE_DIR env var
+- plugins/okf-manager/skills/create-okf/ — creates a new OKF v0.2 concept document in a bundle directory
+- plugins/okf-manager/skills/update-okf/ — updates frontmatter and/or body of an existing OKF concept document
+- plugins/okf-manager/skills/search-okf/ — searches an OKF bundle for concept documents matching filters or a free-text query
+- plugins/okf-manager/skills/delete-okf/ — deprecates or removes an OKF concept document from a bundle
+- plugins/okf-manager/skills/attach-okf/ — hooks an OKF bundle into a project directory by injecting a bundle-use rule into the project's instruction file
+- plugins/agent-command-inspector/ — hook that intercepts run_in_terminal calls and requires confirmation when a destructive command pattern is detected
+- plugins/agent-command-inspector/.claude-plugin/plugin.json — hook-based plugin manifest for agent-command-inspector
+- plugins/agent-command-inspector/hooks/hooks.json — PreToolUse hook that triggers the command inspector script
+- plugins/agent-command-inspector/scripts/inspect-command.py — reads PreToolUse stdin, checks patterns, returns permissionDecision:"ask" on match
 - custom-instructions/ — global custom instruction files
 - CHANGELOG.md — marketplace changelog
 - README.md — repo overview, plugin table, agent/skill catalog, usage guide
@@ -85,3 +99,4 @@ using the `dimpletz/prompts-collection` marketplace source.
 - Hook-based plugins require a row in both the Plugins table AND the Hooks section table in README.md; omitting the Hooks row was caught on review (learned 2026-04-19)
 - Agents and Skills sections in README.md are standalone catalogs that must be kept in sync with the Plugins table; sub-agents and new skills were missing from their catalog sections (learned 2026-04-19)
 - Skill companion scripts must live under each skill directory (`skills/<skill-name>/scripts/`) rather than plugin-level `scripts/` (learned 2026-05-14)
+- README.md has no dedicated Hooks section table; the `Hooks` column in the Plugins table is the hooks catalog — skip the "Hooks section table" rule until that section is added (learned 2026-08-16)
