@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.29.0",
+    "version": "1.30.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -133,13 +133,7 @@
       "name": "okf-manager",
       "source": "okf-manager",
       "description": "A collection of skills for managing Open Knowledge Format (OKF) bundles — create, update, search, and delete concept documents.",
-      "version": "1.0.0"
-    },
-    {
-      "name": "agent-command-inspector",
-      "source": "agent-command-inspector",
-      "description": "Hook that intercepts run_in_terminal commands before execution and requires user confirmation when a destructive pattern is detected. Patterns are configurable via the AGENT_COMMAND_INSPECTOR_PATTERNS environment variable.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ]
 }

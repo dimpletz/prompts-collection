@@ -1,3 +1,3 @@
 # ai-engineer OKF Bundle
 
-* [references](references/) - Reference documentation and external resource links
+* [references](references/) - Reference documentation and external resources

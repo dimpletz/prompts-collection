@@ -65,6 +65,9 @@ When `concept_path` is not provided, search the bundle:
    for any bullet linking to the removed file and remove that line.
 5. **Priority 5 – Log coherence**: Append a **Deprecation** or **Deletion** entry to `log.md` in
    both modes.
+6. **Priority 6 – Inbound link awareness**: Scan the bundle for concepts that link to the target
+   concept. In `deprecate` mode, list them in the output (links remain valid; §5.4). In `remove`
+   mode, update each linking concept to remove the now-broken link.
 
 ## Workflow
 
@@ -85,6 +88,14 @@ When `concept_path` is not provided, search the bundle:
 3. Confirm the resolved filename is not `index.md` or `log.md`. Abort if it is.
 4. If `mode` could not be inferred, default to `deprecate`.
 
+**1C – Bundle scan for inbound links**
+
+Scan all non-reserved `.md` files in `bundle_directory`, excluding the target concept. For each
+file, check whether its body contains a markdown link whose target resolves to the target
+concept's bundle-relative path (match both the literal bundle-relative form and any relative-path
+variants that point to the same file). Collect the list of **inbound concepts** — those whose
+body links point to the concept being deprecated or removed.
+
 ### Step 2A – Deprecate Mode
 
 1. Read the file as UTF-8 and parse frontmatter.
@@ -96,6 +107,8 @@ When `concept_path` is not provided, search the bundle:
    ```
 5. Write the updated file as UTF-8 (overwrite in place).
 6. Confirm the update and report the path.
+7. List all inbound concepts from Step 1C in the output with their paths and titles. Do NOT
+   modify them — links to a deprecated concept remain valid (§5.4); this is informational only.
 
 Skip to Step 3.
 
@@ -103,10 +116,18 @@ Skip to Step 3.
 
 1. State the full resolved path being deleted.
 2. Delete the file.
-4. If `index.md` exists in the same directory, read it and remove every bullet entry that links
+3. If `index.md` exists in the same directory, read it and remove every bullet entry that links
    to the deleted filename (any line containing the filename in a markdown link). Write the
    updated `index.md`.
-5. Report the deleted path and any `index.md` changes.
+4. For each inbound concept from Step 1C:
+   a. Read the concept file.
+   b. Replace every markdown link whose target resolves to the deleted concept with its link text
+      only — strip the link syntax but preserve the visible text. For example,
+      `[Customer Orders](/tables/customer-orders.md)` → `Customer Orders`.
+   c. Write the updated concept as UTF-8.
+   d. Append an **Update** bullet to the same `log.md` date entry (Step 3):
+      `* **Update**: Removed broken link to deleted concept in [<title>](<path>).`
+5. Report the deleted path, `index.md` changes, and all inbound concepts updated.
 
 ### Step 3 – Write to log.md
 
@@ -123,13 +144,17 @@ Write to `log.md` at the bundle root (§9). If absent, create it first with the 
 ## Output Format
 
 - Confirm mode executed (`deprecated` or `deleted`) with the concept path and title.
+- In deprecate mode, list all inbound concepts that link to the deprecated concept (informational;
+  no modifications made).
 - In remove mode, confirm `index.md` was cleaned up or note it was not present.
+- In remove mode, list all inbound concepts updated to remove the broken link (Step 2B.4).
 - Confirm `log.md` was updated or created.
 
 ## Assumptions and Limits
 
 - `bundle_directory` must be a locally accessible file system path.
-- Deprecate mode does not scan the bundle for inbound links to the deprecated concept; those may
-  become broken after deprecation.
-- Remove mode deletes only the one file; it does not scan the bundle for concepts that link to it.
+- Deprecate mode lists inbound links for awareness but does not modify them — deprecated
+  concepts remain accessible at their path (§5.4).
+- Remove mode scans and updates all inbound concept links but does not recurse into the
+  newly-modified concepts to check their own links.
 - `log.md` entries are append-only; existing entries are never modified.

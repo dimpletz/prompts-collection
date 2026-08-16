@@ -63,6 +63,64 @@ Translate natural language intent into frontmatter changes:
 | "remove tag X" | remove `X` from existing `tags` list |
 | "update the title to X" | `title: X` |
 
+### Decomposition check
+
+When reviewing the concept being updated, assess whether it mixes concerns that should be split:
+
+- If the concept body contains **procedural content** (numbered steps, how-to, runbook) alongside
+  non-procedural content, suggest extracting the procedure into a separate `Playbook` concept and
+  linking to it. Ask the user before splitting an existing concept.
+- If the concept contains an inline computation that could be independently attested, suggest
+  extracting it into a separate `Attested Computation` concept and linking to it.
+- When the user's requested update would introduce mixed concerns (e.g. adding steps to a
+  `Metric`), apply extraction automatically consistent with create-okf Decomposition rules, unless
+  the user instructs otherwise.
+
+## Linking Rules
+
+Every concept MUST be self-contained: all cross-links in the body MUST target other concepts
+inside the bundle. External URLs MUST NOT appear as inline body link targets.
+
+### Body links (§6.1)
+
+Use **bundle-relative paths** (begin with `/`, resolved from the bundle root — recommended) or
+**relative paths** (e.g. `../tables/orders.md`). Never use an `http://` or `https://` URL as a
+markdown link target in the body.
+
+### External material (§5.1)
+
+External sources belong in `sources` frontmatter entries, each with:
+
+- `resource`: the absolute URL of the external material
+- `id`: a stable key for per-claim attribution
+- `title`: human-readable label (optional but recommended)
+
+Cite an external source in the body with a markdown footnote keyed to the `id` (`[^<id>]`),
+not with an inline URL link. Append a matching footnote definition at the end of the body
+(`[^<id>]: <title>`).
+
+### Frontmatter exceptions
+
+- `resource` (the concept's canonical asset URI) MAY be an external URL — it identifies the
+  underlying asset, not a body cross-link.
+- `sources[].resource` MAY be an external URL — it records external provenance.
+
+### Reference concept materialization (§6.3)
+
+When an external document has been read and its content is available (e.g. fetched during this
+session), assess whether it warrants a standalone `Reference` concept in the bundle's
+`references/` subdirectory before updating the current concept:
+
+- **Create a reference concept** when the content is substantive, reusable, or likely to be
+  linked by more than one concept in the bundle. Apply create-okf logic to write it as
+  `references/<slug>.md` with `type: Reference`.
+- **Link to it** from the current concept's body using a bundle-relative path
+  (e.g. `/references/my-source.md`), not the original external URL.
+- **Record the original URL** in the new reference concept's `resource` frontmatter field and in
+  the current concept's `sources[].resource` for provenance.
+- When the external content is trivial or already captured by an existing bundle concept, skip
+  materialization and use a `sources` entry + footnote instead.
+
 ## Task Priorities
 
 1. **Priority 1 – Preserve unknown keys**: Never drop frontmatter keys not present in `fields`
@@ -76,8 +134,9 @@ Translate natural language intent into frontmatter changes:
    a non-empty `type` (§11). Reject any `fields` input that would set `type` to an empty string.
 5. **Priority 5 – index.md and log.md coherence**: When `title` or `description` changes, sync
    the concept’s entry in the parent directory’s `index.md`. Always write to `log.md` at the
-   bundle root, creating it if absent.
-
+   bundle root, creating it if absent.6. **Priority 6 – Bundle cross-linking**: Scan the bundle for concepts related to the one being
+   updated. Ensure the updated concept links to related existing concepts. After update, check
+   whether related concepts need back-links (Step 7).
 ## Workflow
 
 ### Step 1 – Infer Inputs and Validate
@@ -96,6 +155,19 @@ Translate natural language intent into frontmatter changes:
    available, ask the user.
 2. Verify both `bundle_directory` and the resolved concept file exist.
 3. Confirm the file is not a reserved filename (`index.md`, `log.md`).
+
+**1C – Bundle scan for related concepts**
+
+Scan all non-reserved `.md` files in `bundle_directory`, excluding the concept being updated. For
+each existing concept, score its relevance using title/description keyword overlap, type proximity,
+and tag intersection. For each concept with meaningful relevance:
+
+1. Note its bundle-relative path, title, and relationship direction:
+   - **Outbound** (updated concept should link to it): the existing concept defines something the
+     updated concept depends on, references, or is an instance of — and the link is currently absent.
+   - **Back-link** (existing concept should link to updated): the existing concept relates to the
+     updated concept but lacks a link to it.
+2. Keep the scored list for use in Step 3 (outbound links) and Step 7 (back-links).
 
 ### Step 2 – Parse the Existing File
 
@@ -119,6 +191,24 @@ Translate natural language intent into frontmatter changes:
 - Otherwise, if `append_body` is supplied, append it to the existing body separated by a blank
   line.
 - If neither is supplied, leave the body unchanged.
+
+**Link processing**: After applying body changes, scan all markdown links in the new or appended
+content. For each link whose target is an external URL (`http://` or `https://`):
+
+1. If the URL's content was read during this session → apply the Reference concept
+   materialization rule (Linking Rules). Create the reference concept first (type: `Reference`,
+   path: `references/<slug>.md`), replace the body link with the bundle-relative path, and record
+   the original URL in the reference concept's `resource` and in the current concept's
+   `sources[].resource`.
+2. If the URL's content is not available → move the URL to a new `sources` entry with a
+   generated `id` and the link text as `title`. Replace the inline link with `[^<id>]`. Append
+   `[^<id>]: <title>` at the end of the body. Merge the new entry into the frontmatter `sources`
+   block (create the block if absent; treat the `sources` change as a content change for the
+   purpose of clearing `verified` per Priority 3).
+
+**Related concept links**: Using the outbound concepts from Step 1C not already linked in the
+body, add bundle-relative cross-links where contextually natural. Integrate links into existing
+prose or append a `# Related` section. Only link concepts with clear subject overlap or dependency.
 
 ### Step 4 – Write the Updated File
 
@@ -148,6 +238,19 @@ Write to `log.md` at the bundle root (§9). If absent, create it first with the 
 3. Append under the date heading:
    `* **Update**: Updated [<title or filename>](<bundle-relative path>).`
 
+### Step 7 – Update back-linked concepts
+
+For each existing concept flagged for back-linking in Step 1C:
+
+1. Read the existing concept file.
+2. Confirm that adding a link to the updated concept genuinely improves it (avoid redundant or
+   forced links).
+3. If yes: apply update-okf logic — append or insert the bundle-relative link into the existing
+   concept's body. Append an additional **Update** bullet to the same `log.md` date entry.
+4. Do not trigger back-link updates recursively.
+
+Report all back-linked concepts in the output summary.
+
 ## Output Format
 
 - Confirm the updated file path.
@@ -155,6 +258,8 @@ Write to `log.md` at the bundle root (§9). If absent, create it first with the 
 - Note if `verified` was cleared and which field change triggered it.
 - Confirm `index.md` was synced (or note it was not present).
 - Confirm `log.md` was updated or created.
+- List any existing bundle concepts linked to from the updated concept (outbound links, Step 3).
+- List any existing concepts updated with back-links (Step 7).
 
 ## Assumptions and Limits
 
