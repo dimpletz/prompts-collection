@@ -1,5 +1,20 @@
 # Changelog for Marketplace
 
+## 1.30.0 - 2026-08-17
+
+### Changed
+- okf-manager plugin updated to v1.1.0 — `create-okf` skill adds mandatory extraction rules: procedural content (steps, runbooks, how-tos) must be extracted into a separate `Playbook` concept and inline computations must be extracted into a separate `Attested Computation` concept before writing; non-procedural asset concepts (Metric, BigQuery Table, API Endpoint, etc.) must not contain a procedure body
+- okf-manager plugin updated to v1.1.0 — `create-okf` skill adds Linking Rules section: body cross-links must use bundle-relative or relative paths (never inline external URLs); external sources belong in `sources` frontmatter entries cited via footnotes; adds Reference concept materialization workflow for substantive external documents fetched during a session; adds Priority 9 for bundle cross-linking (scan for related concepts and add back-links after creation)
+- okf-manager plugin updated to v1.1.0 — `update-okf` skill adds decomposition check: prompts extraction of procedural or computation content when updating a concept that mixes concerns; adds the same Linking Rules section as `create-okf` to enforce consistent cross-linking behaviour on update
+- okf-manager plugin updated to v1.1.0 — `attach-okf` skill now accepts multiple bundle directories (input renamed from `bundle_directory` to `bundle_directories`); section header in target files renamed from `## OKF Bundle` to `## Primary Knowledge Source`; idempotency is now evaluated per bundle so already-attached bundles are skipped while new ones are added
+- ai-engineer plugin — OKF reference concept renamed from `vscode-agent-customization-hooks.md` to `vscode-agent-hooks.md`; hook-maker skill updated to reference the new path
+
+### Fixed
+- README corrected code-reviewer hooks column: removed erroneous `SubagentStop` entry; the plugin only registers a `SessionStart` hook
+
+### Removed
+- `agent-command-inspector` plugin removed from marketplace and documentation; plugin was listed but its files were never created
+
 ## 1.29.0 - 2026-08-16
 
 ### Added

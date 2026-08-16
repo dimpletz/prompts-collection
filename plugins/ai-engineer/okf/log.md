@@ -2,4 +2,4 @@
 
 ## 2026-08-16
 
-* **Creation**: Added [VS Code Agent Customization Hooks](references/vscode-agent-customization-hooks.md).
+* **Creation**: Added [Agent Hooks in Visual Studio Code](references/vscode-agent-hooks.md).

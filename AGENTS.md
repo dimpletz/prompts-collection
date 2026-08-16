@@ -49,10 +49,7 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/okf-manager/skills/search-okf/ — searches an OKF bundle for concept documents matching filters or a free-text query
 - plugins/okf-manager/skills/delete-okf/ — deprecates or removes an OKF concept document from a bundle
 - plugins/okf-manager/skills/attach-okf/ — hooks an OKF bundle into a project directory by injecting a bundle-use rule into the project's instruction file
-- plugins/agent-command-inspector/ — hook that intercepts run_in_terminal calls and requires confirmation when a destructive command pattern is detected
-- plugins/agent-command-inspector/.claude-plugin/plugin.json — hook-based plugin manifest for agent-command-inspector
-- plugins/agent-command-inspector/hooks/hooks.json — PreToolUse hook that triggers the command inspector script
-- plugins/agent-command-inspector/scripts/inspect-command.py — reads PreToolUse stdin, checks patterns, returns permissionDecision:"ask" on match
+
 - custom-instructions/ — global custom instruction files
 - CHANGELOG.md — marketplace changelog
 - README.md — repo overview, plugin table, agent/skill catalog, usage guide
@@ -84,6 +81,7 @@ using the `dimpletz/prompts-collection` marketplace source.
 - When you create or discover new files, update the Tree above
 - Every plugin must have a README.md — never create a plugin without one
 - All Markdown content must be clean — no unnecessary code fences wrapping entire documents
+- When plugins/okf-manager/skills/create-okf/SKILL.md or update-okf/SKILL.md is modified, check whether the change (new rule, new step, or structural pattern) should also apply to the other skill and update it accordingly; the two skills share Linking Rules, Decomposition, bundle scan, and output patterns
 
 ## Note-taking
 

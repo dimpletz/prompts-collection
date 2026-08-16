@@ -8,7 +8,10 @@ description: >
 
 This **skill** is for developers who need to add automated lifecycle hooks to a VS Code Copilot agent plugin. Hooks run shell scripts or commands at specific points in the agent lifecycle and can inject context, enforce security policies, run quality checks, install dependencies, or perform any side-effect needed before or after agent activity.
 
-For the full list of lifecycle events, input/output schemas, and configuration format, consult the OKF bundle before starting any work.
+## Primary Knowledge Source
+- Knowledge source: `plugins/ai-engineer/okf` (entry point: `plugins/ai-engineer/okf/index.md`)
+- Always start searches from `plugins/ai-engineer/okf/index.md` before consulting any other source.
+- Only read or search from this knowledge source; never write to or modify it.
 
 ## Inputs
 
@@ -20,10 +23,10 @@ For the full list of lifecycle events, input/output schemas, and configuration f
 ## Task Priorities
 
 1. **Priority 1 – Correct lifecycle placement**
-   The hook must fire on exactly the right event for its purpose. Misplacing a hook is a behavioral defect. Consult the **Lifecycle Events** section of the OKF bundle to choose correctly.
+   The hook must fire on exactly the right event for its purpose. Misplacing a hook is a behavioral defect. Consult the **Lifecycle Events** section of the Primary Knowledge Source to choose correctly.
 
 2. **Priority 2 – Reliable output contract**
-   Each hook event has its own `hookSpecificOutput` schema — consult the **Input / Output** section of the OKF bundle for the per-event schema. Exit code `2` is a hard blocking error; any other non-zero exit is a non-blocking warning. Exit `0` with JSON to influence agent behavior.
+   Each hook event has its own `hookSpecificOutput` schema — consult the **Input / Output** section of the Primary Knowledge Source for the per-event schema. Exit code `2` is a hard blocking error; any other non-zero exit is a non-blocking warning. Exit `0` with JSON to influence agent behavior.
 
 3. **Priority 3 – Cross-platform correctness**
    Every hook command must have a `windows` variant using PowerShell unless the hook is explicitly Linux/macOS-only. Scripts must be tested for the target OS.
@@ -34,8 +37,8 @@ For the full list of lifecycle events, input/output schemas, and configuration f
 
 - Read the **hook_intent** carefully and identify:
   - **What** the hook does (inject context, block operations, run tool, audit, clean up).
-  - **When** it fires — consult the **Lifecycle Events** section of the OKF bundle.
-  - **What output** it produces — consult the **Input / Output** section of the OKF bundle for the per-event schema.
+  - **When** it fires — consult the **Lifecycle Events** section of the Primary Knowledge Source.
+  - **What output** it produces — consult the **Input / Output** section of the Primary Knowledge Source for the per-event schema.
 
 - If the event is ambiguous, apply these defaults:
   - Context injection at session level → `SessionStart` (add `SubagentStart` if subagents also need it).
@@ -61,7 +64,7 @@ Before writing any files, decide which scope applies:
 
 ### Step 2 – Choose Output Mode
 
-Consult the **Input / Output** section of the OKF bundle for the complete exit-code contract, common output fields, and per-event `hookSpecificOutput` schemas.
+Consult the **Input / Output** section of the Primary Knowledge Source for the complete exit-code contract, common output fields, and per-event `hookSpecificOutput` schemas.
 
 ### Step 3 – Write the Scripts
 
@@ -146,7 +149,7 @@ Use `${CLAUDE_PLUGIN_ROOT}` to reference scripts — do not hardcode paths.
 
 Paths are relative to the workspace root. If `.claude/settings.json` already exists, **merge** the new hook entry into the existing `hooks` object — do not overwrite the file.
 
-For the full list of supported hook command properties (`type`, `command`, `windows`, `linux`, `osx`, `cwd`, `env`, `timeout`) and their valid values, consult the **Configuration** section of the OKF bundle.
+For the full list of supported hook command properties (`type`, `command`, `windows`, `linux`, `osx`, `cwd`, `env`, `timeout`) and their valid values, consult the **Configuration** section of the Primary Knowledge Source.
 
 ### Step 5 – Update plugin.json
 
@@ -169,7 +172,7 @@ The hooks directory does not need to be referenced in `plugin.json` — the runt
 
 Before delivering, verify:
 
-1. **Hook config file** — Event name is a valid lifecycle event from the OKF bundle. `type` is `"command"`. `command` and/or OS-specific keys are present as needed.
+1. **Hook config file** — Event name is a valid lifecycle event from the Primary Knowledge Source. `type` is `"command"`. `command` and/or OS-specific keys are present as needed.
 2. **Scope routing** — Plugin scope uses `plugins/<plugin-name>/hooks/hooks.json` with `${CLAUDE_PLUGIN_ROOT}` paths. Workspace scope uses `.claude/settings.json` with workspace-relative paths. These must not be mixed.
 3. **Merge safety** — For workspace scope, confirm that the `.claude/settings.json` file was merged (not overwritten) if it already existed.
 4. **Output contract** — The JSON output matches the event-specific schema from Step 2. `hookSpecificOutput.hookEventName` matches the event. `stop_hook_active` is checked for `Stop` and `SubagentStop` hooks.
@@ -230,13 +233,10 @@ After creating all hook files, respond with:
 
 - When `plugin_name` is not provided, hooks are written to `.claude/settings.json` at the workspace root (Claude format). Use `.claude/settings.local.json` only when the user explicitly requests a local-only, non-committed hook.
 - Assumes the VS Code Copilot runtime supports `hooks.json` discovery when `.claude-plugin/plugin.json` is present.
-- Valid hook events are documented in the OKF bundle — any event name not listed there is invalid.
+- Valid hook events are documented in the Primary Knowledge Source — any event name not listed there is invalid.
 - OS-specific command selection (`windows`, `linux`, `osx`) is based on the extension host platform, which may differ from the local OS in remote development scenarios (SSH, Containers, WSL).
 - `${CLAUDE_PLUGIN_ROOT}` is the only supported runtime variable for referencing plugin files inside hook commands.
 - `Stop` and `SubagentStop` hooks that return `decision: "block"` cause the agent to run additional turns, each consuming premium requests. Always guard with `stop_hook_active`.
 - Matchers (Claude Code-style `tool_name` filters) are parsed by VS Code but currently ignored — all hooks run on every matching event regardless of tool name.
 - Does not generate MCP server configurations, agent files, or skill files — use the dedicated maker skills for those.
 - Scripts that produce JSON output must emit well-formed JSON on a single line; multi-line printf is safe only if newlines are escaped within the JSON string value.
-
-## OKF Bundle
-- Read the OKF bundle at `../../okf` before starting any work — it is the authoritative reference for lifecycle events, input/output schemas, configuration format, security guidance, and compatibility notes.
