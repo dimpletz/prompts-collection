@@ -1,5 +1,11 @@
 # Changelog for Marketplace
 
+## 1.30.2 - 2026-08-17
+
+### Changed
+- okf-manager plugin updated to v1.1.2 — bundle root `index.md` is now treated as a progressive-disclosure-only index: `create-okf` and `update-okf` skills no longer add or maintain concept bullets in the root `index.md`; only subdirectory group entries belong there
+- okf-manager plugin updated to v1.1.2 — `update-okf` skill Step 8 cross-reference validation now scans all concept bodies across the entire bundle (not only the concepts updated in the current session) to detect and resolve broken bundle-relative links
+
 ## 1.30.1 - 2026-08-17
 
 ### Changed
