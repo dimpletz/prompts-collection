@@ -4,7 +4,7 @@ A curated collection of specialized AI prompts, designed to enhance productivity
 
 [TOC]
 
-## Marketplace v1.30.0
+## Marketplace v1.30.1
 
 The collection is organized into plugins. Each plugin groups related agents and/or skills by domain.
 
@@ -30,7 +30,7 @@ The collection is organized into plugins. Each plugin groups related agents and/
 | [learner](plugins/learner/) `v1.1.0` | Agents for capturing and organising personal study notes by topic in structured Markdown files with sections, Mermaid diagrams, and a table of contents. | — | [Topic Scriber](plugins/learner/agents/TopicScriber.agent.md) | — | `SessionStart` |
 | [code-reviewer](plugins/code-reviewer/) `v1.0.2` | Agents for performing comprehensive, evidence-based code quality reviews across multiple programming languages and frameworks. | — | [Code Reviewer](plugins/code-reviewer/agents/CodeReviewer.agent.md), [Language Rules Auditor](plugins/code-reviewer/agents/LanguageRulesAuditor.agent.md) | [Code Review Report Appender](plugins/code-reviewer/skills/code-review-report-appender/SKILL.md), [Diff Chunker](plugins/code-reviewer/skills/diff-chunker/SKILL.md), [Review Rules Provider](plugins/code-reviewer/skills/review-rules-provider/SKILL.md) | `SessionStart` |
 | [instructor](plugins/instructor/) `v1.0.0` | Agent for creating complete, self-contained learning modules covering theory, practical applications, and a single end-to-end project for any topic. | — | [Module Maker](plugins/instructor/agents/ModuleMaker.agent.md), [Narration Script Writer](plugins/instructor/agents/NarrationScriptWriter.agent.md) | — | `SessionStart` |
-| [okf-manager](plugins/okf-manager/) `v1.1.0` | Skills for managing Open Knowledge Format (OKF) v0.2 bundles — create, update, search, delete, and attach concept documents to project directories. | — | — | [Create OKF](plugins/okf-manager/skills/create-okf/SKILL.md), [Update OKF](plugins/okf-manager/skills/update-okf/SKILL.md), [Search OKF](plugins/okf-manager/skills/search-okf/SKILL.md), [Delete OKF](plugins/okf-manager/skills/delete-okf/SKILL.md), [Attach OKF](plugins/okf-manager/skills/attach-okf/SKILL.md) | `SessionStart`, `SubagentStart` |
+| [okf-manager](plugins/okf-manager/) `v1.1.1` | Skills for managing Open Knowledge Format (OKF) v0.2 bundles — create, update, search, delete, and attach concept documents to project directories. | — | — | [Create OKF](plugins/okf-manager/skills/create-okf/SKILL.md), [Update OKF](plugins/okf-manager/skills/update-okf/SKILL.md), [Search OKF](plugins/okf-manager/skills/search-okf/SKILL.md), [Delete OKF](plugins/okf-manager/skills/delete-okf/SKILL.md), [Attach OKF](plugins/okf-manager/skills/attach-okf/SKILL.md) | `SessionStart`, `SubagentStart` |
 
 ## Custom Instructions
 

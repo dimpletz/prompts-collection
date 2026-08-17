@@ -134,9 +134,17 @@ session), assess whether it warrants a standalone `Reference` concept in the bun
    a non-empty `type` (§11). Reject any `fields` input that would set `type` to an empty string.
 5. **Priority 5 – index.md and log.md coherence**: When `title` or `description` changes, sync
    the concept’s entry in the parent directory’s `index.md`. Always write to `log.md` at the
-   bundle root, creating it if absent.6. **Priority 6 – Bundle cross-linking**: Scan the bundle for concepts related to the one being
+   bundle root, creating it if absent.
+6. **Priority 6 – Bundle cross-linking**: Scan the bundle for concepts related to the one being
    updated. Ensure the updated concept links to related existing concepts. After update, check
    whether related concepts need back-links (Step 7).
+7. **Priority 7 – Full detail, no summarizing**: Write or append body content as completely and
+   thoroughly as possible. Never shorten, abbreviate, or summarize content to save space. If the
+   update warrants multiple sections, examples, or explanations, include them all in full.
+8. **Priority 8 – Exhaust all concepts from a source**: When a file, document, or list is
+   provided as input, identify and update EVERY concept in it — never stop after a partial subset.
+   Build the complete concept list before modifying any file, then run Steps 2–7 for each concept
+   in sequence.
 ## Workflow
 
 ### Step 1 – Infer Inputs and Validate
@@ -168,6 +176,20 @@ and tag intersection. For each concept with meaningful relevance:
    - **Back-link** (existing concept should link to updated): the existing concept relates to the
      updated concept but lacks a link to it.
 2. Keep the scored list for use in Step 3 (outbound links) and Step 7 (back-links).
+
+**1D – Source file exhaustive extraction**
+
+When the user provides a file, document, specification, or list as the source of concepts to
+update:
+
+1. Read the entire source exhaustively — scan every section, table, row, and entry without
+   stopping early.
+2. Identify ALL concepts it contains that require an update.
+3. Build a complete ordered list of all N concepts before modifying any file.
+4. Do not skip, defer, or approximate any concept in the list.
+5. Process each concept in sequence through Steps 2–7. The task is NOT complete until every
+   concept in the list has been updated. Proceed through the full list without pausing for
+   confirmation unless `bundle_directory` is missing.
 
 ### Step 2 – Parse the Existing File
 
@@ -227,7 +249,10 @@ directory, locate the bullet entry for this concept filename and update it in-pl
 ```
 
 If the concept has no entry in `index.md` yet, append one.
-
+**Description quality rule**: The description field in every bullet entry MUST be a clear,
+complete, human-readable sentence. Never leave it empty, use a placeholder like "TODO" or
+"Overview", or truncate it. If the existing entry has a weak description, rewrite it as part
+of this step.
 ### Step 6 – Write to log.md
 
 Write to `log.md` at the bundle root (§9). If absent, create it first with the heading
@@ -250,6 +275,27 @@ For each existing concept flagged for back-linking in Step 1C:
 4. Do not trigger back-link updates recursively.
 
 Report all back-linked concepts in the output summary.
+
+### Step 8 – Completion Verification
+
+After all concepts have been updated, perform a final integrity check across the entire bundle.
+
+1. **Concept roster check**: Confirm that every concept identified in Step 1D has been updated.
+   List any that were skipped and process them before reporting completion.
+
+2. **Cross-reference validation**: For every bundle-relative link found in any updated concept
+   body, confirm the target file exists in the bundle. Report any broken links and attempt to
+   resolve them by correcting the path or flagging the missing concept for creation.
+
+3. **index.md completeness**: For each `index.md` in the bundle:
+   - Every `.md` file in the same directory (excluding `index.md` and `log.md`) has a bullet entry.
+   - Every subdirectory has a subdirectory bullet linking to its `index.md`.
+   - Every bullet entry has a non-empty, human-readable description (no placeholders).
+   Add missing entries and fix empty or placeholder descriptions before reporting completion.
+
+4. **Report**: Summarise the verification outcome — concepts confirmed updated, broken links
+   found/fixed, and `index.md` gaps filled. If any item could not be resolved, list it explicitly
+   for the user.
 
 ## Output Format
 
