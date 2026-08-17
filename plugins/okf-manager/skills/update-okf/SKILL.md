@@ -241,8 +241,12 @@ prose or append a `# Related` section. Only link concepts with clear subject ove
 
 ### Step 5 – Sync index.md
 
-If `title` or `description` was changed and `index.md` exists in the concept’s parent
-directory, locate the bullet entry for this concept filename and update it in-place:
+If the concept's parent directory is the **bundle root**, skip this step — the bundle root
+`index.md` is reserved for progressive disclosure (subdirectory group entries only). Do not
+add or update concept bullets in the root `index.md`.
+
+Otherwise, if `title` or `description` was changed and `index.md` exists in the concept's
+parent directory, locate the bullet entry for this concept filename and update it in-place:
 
 ```
 * [<new-title>](<filename>) - <new-description>
@@ -283,14 +287,33 @@ After all concepts have been updated, perform a final integrity check across the
 1. **Concept roster check**: Confirm that every concept identified in Step 1D has been updated.
    List any that were skipped and process them before reporting completion.
 
-2. **Cross-reference validation**: For every bundle-relative link found in any updated concept
-   body, confirm the target file exists in the bundle. Report any broken links and attempt to
-   resolve them by correcting the path or flagging the missing concept for creation.
+2. **Cross-reference validation**: For every bundle-relative link found in **any concept body
+   in the bundle** (not only the concepts updated in this session), resolve the target path and
+   confirm the file exists.
+
+   **Path resolution rules**:
+   - Link begins with `/` (bundle-root-relative): resolve as
+     `<bundle_directory>/<path with leading slash removed>`.
+     e.g. `/tables/orders.md` → `<bundle_directory>/tables/orders.md`.
+   - Link begins with `../` or `./` (file-relative): resolve from the directory of the concept
+     file that contains the link.
+     e.g. `../tables/orders.md` in `metrics/revenue.md` → `<bundle_directory>/tables/orders.md`.
+   - Link is a bare filename with no path separator: resolve relative to the concept file's own
+     directory.
+
+   Report any broken links and attempt to resolve them by correcting the path or flagging the
+   missing concept for creation.
 
 3. **index.md completeness**: For each `index.md` in the bundle:
-   - Every `.md` file in the same directory (excluding `index.md` and `log.md`) has a bullet entry.
-   - Every subdirectory has a subdirectory bullet linking to its `index.md`.
-   - Every bullet entry has a non-empty, human-readable description (no placeholders).
+   - **Bundle root** `index.md` (progressive disclosure only): every subdirectory in the bundle
+     root has a subdirectory bullet linking to its `index.md`. Individual concept files in the
+     root directory are intentionally NOT listed here — do not add concept bullets to the root
+     `index.md`.
+   - **Non-root** `index.md` files: every `.md` file in the same directory (excluding
+     `index.md` and `log.md`) has a concept bullet, and every subdirectory has a subdirectory
+     bullet linking to its `index.md`.
+   - Every bullet entry in any `index.md` has a non-empty, human-readable description (no
+     placeholders).
    Add missing entries and fix empty or placeholder descriptions before reporting completion.
 
 4. **Report**: Summarise the verification outcome — concepts confirmed updated, broken links
