@@ -1,5 +1,11 @@
 # Changelog for Marketplace
 
+## 1.30.3 - 2026-08-18
+
+### Changed
+- okf-manager plugin updated to v1.1.3 — `create-okf` and `update-okf` skills switch body cross-link recommendation from bundle-root-relative paths (beginning with `/`) to file-relative paths; `/`-prefixed links are now explicitly forbidden because Markdown viewers resolve them from the filesystem root, not the bundle root, breaking links in bundles that are not at the filesystem root
+- okf-manager plugin updated to v1.1.3 — Reference concept materialization in `create-okf` and `update-okf` now generates file-relative paths (e.g. `../references/my-source.md`) instead of `/`-prefixed paths when inserting links to newly created reference concepts
+
 ## 1.30.2 - 2026-08-17
 
 ### Changed
