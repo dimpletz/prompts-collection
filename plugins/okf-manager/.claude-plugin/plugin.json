@@ -1,7 +1,7 @@
 {
   "name": "okf-manager",
   "description": "A collection of skills for managing Open Knowledge Format (OKF) bundles — create, update, search, delete, and attach concept documents to project directories.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": { "name": "Dimpletz" },
   "repository": "https://github.com/dimpletz/prompts-collection",
   "license": "MIT",

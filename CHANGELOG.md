@@ -1,5 +1,14 @@
 # Changelog for Marketplace
 
+## 1.30.1 - 2026-08-17
+
+### Changed
+- okf-manager plugin updated to v1.1.1 — `create-okf` skill subdirectory bullets in `index.md` now link to `<directory-name>/index.md` instead of the bare `<directory-name>/` directory path, enabling direct file navigation
+- okf-manager plugin updated to v1.1.1 — `create-okf` and `update-okf` skills add a "Full detail, no summarizing" priority: concept body content must be written as completely and thoroughly as possible; shortening, abbreviating, or summarizing content is forbidden
+- okf-manager plugin updated to v1.1.1 — `create-okf` and `update-okf` skills add an "Exhaust all concepts from a source" priority and Step 1D: when a file, document, or list is provided as input, every identified concept must be extracted and processed without stopping early or deferring any item
+- okf-manager plugin updated to v1.1.1 — `create-okf` and `update-okf` skills enforce `index.md` description quality: every bullet entry must contain a clear, complete, human-readable sentence; empty descriptions and placeholder text are forbidden
+- okf-manager plugin updated to v1.1.1 — `create-okf` and `update-okf` skills add Step 8 (Completion Verification): after all concepts are written or updated, a final integrity check confirms the concept roster is complete, all bundle-relative cross-references resolve to existing files, and every `index.md` lists all concepts and subdirectories with meaningful descriptions
+
 ## 1.30.0 - 2026-08-17
 
 ### Changed

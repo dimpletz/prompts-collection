@@ -201,6 +201,13 @@ session), assess whether it warrants a standalone `Reference` concept in the bun
 9. **Priority 9 – Bundle cross-linking**: Scan the bundle for concepts related to the one being
    created. Add outbound bundle-relative cross-links to the new concept's body. After creation,
    update related existing concepts with back-links where applicable (Step 7).
+10. **Priority 10 – Full detail, no summarizing**: Write concept body content as completely and
+    thoroughly as possible. Never shorten, abbreviate, or summarize content to save space. If a
+    concept warrants multiple sections, examples, or explanations, include them all in full.
+11. **Priority 11 – Exhaust all concepts from a source**: When a file, document, or list is
+    provided as input, identify and process EVERY concept in it — never stop after a partial
+    subset. Build the complete concept list before writing any file, then run Steps 2–7 for each
+    concept in sequence.
 
 ## Workflow
 
@@ -239,6 +246,21 @@ and tag intersection. For each concept with meaningful relevance:
    - **Back-link** (existing concept should link to new): the new concept defines something the
      existing concept mentions or relates to but currently lacks a link for.
 2. Keep the scored list for use in Step 3 (outbound links) and Step 7 (back-links).
+
+**1D – Source file exhaustive extraction**
+
+When the user provides a file, document, specification, or list as the source of concepts:
+
+1. Read the entire source exhaustively — scan every section, table, row, and entry without
+   stopping early.
+2. Identify ALL concepts it contains. A concept is any named entity, metric, table, endpoint,
+   procedure, or distinct idea that warrants its own OKF document.
+3. Build a complete ordered list of all N concepts before writing any file.
+4. Do not skip, defer, or approximate any concept. If a concept is ambiguous, apply Decomposition
+   rules and expand it into sub-concepts — each counts toward the list.
+5. Process each concept in sequence through Steps 2–7. The task is NOT complete until every
+   concept in the list has a written file. Proceed through the full list without pausing for
+   confirmation unless `bundle_directory` is missing.
 
 ### Step 2 – Compose Frontmatter
 
@@ -309,6 +331,11 @@ OKF bundles use subdirectories to group related concepts (§3). When a new subdi
 created, it may need its own `index.md`, and its parent may need a subdirectory entry added.
 Handle each case separately. Update all relevant `index.md` files automatically.
 
+**Description quality rule**: Every bullet entry written to any `index.md` MUST include a
+clear, complete, human-readable description — a single sentence that tells a reader exactly
+what the concept or group contains. Never leave the description empty, use a placeholder like
+"TODO" or "Overview", or truncate it.
+
 **5A – Concept entry in the parent directory**
 
 If `index.md` already exists in the concept's parent directory, append a concept
@@ -338,14 +365,14 @@ including the bundle root) has an `index.md`:
 
 1. If `index.md` already exists in the parent, append a subdirectory bullet (§8):
    ```
-   * [<directory-name>](<directory-name>/) - <short description of the group>
+   * [<directory-name>](<directory-name>/index.md) - <short description of the group>
    ```
 2. If `index.md` does not exist in the parent, create a minimal one and include the
    subdirectory bullet:
    ```markdown
    # <parent-directory-name or bundle name>
    
-   * [<directory-name>](<directory-name>/) - <short description of the group>
+   * [<directory-name>](<directory-name>/index.md) - <short description of the group>
    ```
 
 This guarantees the bundle root always has an `index.md` for progressive disclosure (§8).
@@ -374,6 +401,28 @@ For each existing concept flagged for back-linking in Step 1C:
 4. Do not trigger back-link updates recursively.
 
 Report all back-linked concepts in the output summary.
+
+### Step 8 – Completion Verification
+
+After all concepts have been written, perform a final integrity check across the entire bundle.
+
+1. **Concept roster check**: Confirm that every concept identified in Step 1D (or from
+   Decomposition) has a written file. List any that are missing and create them before
+   reporting completion. The session is not done until the roster is fully satisfied.
+
+2. **Cross-reference validation**: For every bundle-relative link found in any concept body,
+   confirm the target file exists in the bundle. Report any broken links and attempt to resolve
+   them by creating the missing concept or correcting the path.
+
+3. **index.md completeness**: For each `index.md` in the bundle:
+   - Every `.md` file in the same directory (excluding `index.md` and `log.md`) has a bullet entry.
+   - Every subdirectory has a subdirectory bullet linking to its `index.md`.
+   - Every bullet entry has a non-empty, human-readable description (no placeholders).
+   Add missing entries and fix empty or placeholder descriptions before reporting completion.
+
+4. **Report**: Summarise the verification outcome — concepts confirmed written, broken links
+   found/fixed, and `index.md` gaps filled. If any item could not be resolved, list it explicitly
+   for the user.
 
 ## Output Format
 
