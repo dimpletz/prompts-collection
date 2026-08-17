@@ -140,9 +140,10 @@ inside the bundle. External URLs MUST NOT appear as inline body link targets.
 
 ### Body links (§6.1)
 
-Use **bundle-relative paths** (begin with `/`, resolved from the bundle root — recommended) or
-**relative paths** (e.g. `../tables/orders.md`). Never use an `http://` or `https://` URL as a
-markdown link target in the body.
+Use **file-relative paths** from the concept file's own directory (e.g. `../tables/orders.md` —
+recommended). Never begin a body link with `/` — Markdown viewers resolve `/` from the filesystem
+root, not the bundle root, breaking links in bundles that are not at the filesystem root. Never
+use an `http://` or `https://` URL as a markdown link target in the body.
 
 ### External material (§5.1)
 
@@ -171,8 +172,9 @@ session), assess whether it warrants a standalone `Reference` concept in the bun
 - **Create a reference concept** when the content is substantive, reusable, or likely to be
   linked by more than one concept in the bundle. Apply create-okf logic to write it as
   `references/<slug>.md` with `type: Reference`.
-- **Link to it** from the current concept's body using a bundle-relative path
-  (e.g. `/references/my-source.md`), not the original external URL.
+- **Link to it** from the current concept's body using a file-relative path from the concept
+  file's own directory (e.g. `../references/my-source.md` from a direct subdirectory concept),
+  not the original external URL.
 - **Record the original URL** in the new reference concept's `resource` frontmatter field and in
   the current concept's `sources[].resource` for provenance.
 - When the external content is trivial (a single sentence, a heading with no body) or is already
@@ -306,14 +308,15 @@ target is an external URL (`http://` or `https://`):
 1. If the URL's content was read during this session → apply the Reference concept
    materialization rule (Linking Rules). If materializing: run create-okf for the new reference
    concept first (type: `Reference`, path: `references/<slug>.md`), then replace the body link
-   with the bundle-relative path to the new concept. Record the original URL in the reference
-   concept's `resource` frontmatter and in the current concept's `sources[].resource`.
+   with the file-relative path to the new concept computed from the concept file's own directory.
+   Record the original URL in the reference concept's `resource` frontmatter and in the current
+   concept's `sources[].resource`.
 2. If the URL's content is not available → move the URL to a new `sources` entry with a
    generated `id` (kebab-case slug of the link text) and the link text as `title`. Replace the
    inline link with `[^<id>]`. Append `[^<id>]: <title>` at the end of the body. Merge the new
    entry into the frontmatter `sources` block (create the block if absent).
 
-**Related concept links**: Using the outbound concepts from Step 1C, add bundle-relative
+**Related concept links**: Using the outbound concepts from Step 1C, add file-relative
 cross-links to the body where contextually natural. Integrate links into existing prose or add a
 `# Related` section at the end of the body. Only link concepts with clear subject overlap or
 dependency — skip marginal matches.
@@ -398,7 +401,7 @@ For each existing concept flagged for back-linking in Step 1C:
 1. Read the existing concept file.
 2. Confirm that adding a link to the new concept genuinely improves it (avoid redundant or forced
    links).
-3. If yes: apply update-okf logic — append or insert the bundle-relative link into the existing
+3. If yes: apply update-okf logic — append or insert the file-relative link into the existing
    concept's body. Append an additional **Update** bullet to the same `log.md` date entry for
    each modified concept.
 4. Do not trigger back-link updates recursively.

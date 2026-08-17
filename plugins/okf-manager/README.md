@@ -1,4 +1,4 @@
-# OKF Manager `v1.1.2`
+# OKF Manager `v1.1.3`
 
 > A collection of skills for managing Open Knowledge Format (OKF) v0.2 bundles — create, update, search, delete, and attach concept documents to project directories.
 
