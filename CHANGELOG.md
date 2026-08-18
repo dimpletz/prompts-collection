@@ -1,5 +1,11 @@
 # Changelog for Marketplace
 
+## 1.31.0 - 2026-08-18
+
+### Changed
+- okf-manager plugin updated to v1.2.0 — hook scripts now inject both `OKF_DEFAULT_DIR` and `OKF_DEFAULT_BUNDLE_DIR` into agent context when set; either variable alone or both together may be present
+- okf-manager plugin updated to v1.2.0 — all four skills (`create-okf`, `update-okf`, `search-okf`, `delete-okf`) resolve `bundle_directory` in three-step priority order: (1) user-provided absolute path, (2) user-provided name or relative path joined with `OKF_DEFAULT_DIR`, (3) `OKF_DEFAULT_BUNDLE_DIR` as fallback; `OKF_DEFAULT_DIR` is path-resolution only — sibling bundles under it are never scanned or modified
+
 ## 1.30.3 - 2026-08-18
 
 ### Changed

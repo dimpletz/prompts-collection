@@ -16,9 +16,11 @@ it in the parent `index.md`. Both modes append an entry to `log.md`.
 
 ## Inputs
 
-- **bundle_directory** (required unless `OKF_DEFAULT_BUNDLE_DIR` is in context): Absolute path to
-  the OKF bundle root. When the `OKF_DEFAULT_BUNDLE_DIR` context variable is present (injected by
-  the hook) it is used as the default; the user may still override it per invocation.
+- **bundle_directory** (required unless resolvable from context): Absolute path to the OKF bundle
+  root. Resolution priority: (1) user-provided absolute path; (2) user-provided name or relative
+  path joined with `OKF_DEFAULT_DIR` from context (`OKF_DEFAULT_DIR/<provided>`) — sibling
+  directories under `OKF_DEFAULT_DIR` are never modified; (3) `OKF_DEFAULT_BUNDLE_DIR` from
+  context as the default bundle. The user may still override any default per invocation.
 - **concept_path** (inferred when possible): Path to the concept file, relative to
   `bundle_directory` (e.g. `tables/customer-orders.md`). When not provided, the bundle is searched
   for a concept matching the user's description — see Inference Rules.
@@ -28,8 +30,9 @@ it in the parent `index.md`. Both modes append an entry to `log.md`.
 - **reason** (optional): Brief note explaining the deprecation or deletion. Appended to the body
   in `deprecate` mode; recorded in `log.md` in both modes.
 
-Apply Inference Rules before asking. Only ask when `bundle_directory` is absent and
-`OKF_DEFAULT_BUNDLE_DIR` is not in context, or no bundle match is found for the concept.
+Apply Inference Rules before asking. Only ask when `bundle_directory` cannot be resolved — no
+path, no name + `OKF_DEFAULT_DIR`, and no `OKF_DEFAULT_BUNDLE_DIR` in context — or no bundle
+match is found for the concept.
 
 ## Inference Rules
 
@@ -82,8 +85,12 @@ When `concept_path` is not provided, search the bundle:
 
 **1B – Validate**
 
-1. If `bundle_directory` is absent, check context for `OKF_DEFAULT_BUNDLE_DIR`. If neither is
-   available, ask the user.
+1. Resolve `bundle_directory` in priority order:
+   a. User-provided absolute path → use as-is.
+   b. User-provided name or relative path + `OKF_DEFAULT_DIR` in context →
+      `OKF_DEFAULT_DIR/<provided>`. Do not modify sibling directories under `OKF_DEFAULT_DIR`.
+   c. No path provided + `OKF_DEFAULT_BUNDLE_DIR` in context → use `OKF_DEFAULT_BUNDLE_DIR`.
+   d. None of the above → ask the user.
 2. Verify both `bundle_directory` and the resolved concept file exist.
 3. Confirm the resolved filename is not `index.md` or `log.md`. Abort if it is.
 4. If `mode` could not be inferred, default to `deprecate`.

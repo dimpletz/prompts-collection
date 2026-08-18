@@ -15,9 +15,11 @@ acted on. This skill is strictly read-only.
 
 ## Inputs
 
-- **bundle_directory** (required unless `OKF_DEFAULT_BUNDLE_DIR` is in context): Absolute path to
-  the OKF bundle root. When the `OKF_DEFAULT_BUNDLE_DIR` context variable is present (injected by
-  the hook) it is used as the default; the user may still override it per invocation.
+- **bundle_directory** (required unless resolvable from context): Absolute path to the OKF bundle
+  root. Resolution priority: (1) user-provided absolute path; (2) user-provided name or relative
+  path joined with `OKF_DEFAULT_DIR` from context (`OKF_DEFAULT_DIR/<provided>`); (3)
+  `OKF_DEFAULT_BUNDLE_DIR` from context as the default bundle. The user may still override any
+  default per invocation.
 - **query** (optional): Free-text string matched case-insensitively against `title`, `description`,
   and body content.
 - **type** (optional): Filter to concepts whose `type` exactly matches this value
@@ -32,8 +34,8 @@ acted on. This skill is strictly read-only.
   `human-reviewed` (§5.3).
 
 Apply Inference Rules before asking. Translate the user's natural language request into filter
-parameters — see Inference Rules. Only ask when `bundle_directory` is absent and
-`OKF_DEFAULT_BUNDLE_DIR` is not in context.
+parameters — see Inference Rules. Only ask when `bundle_directory` cannot be resolved — no path,
+no name + `OKF_DEFAULT_DIR`, and no `OKF_DEFAULT_BUNDLE_DIR` in context.
 
 ## Inference Rules
 
@@ -78,8 +80,12 @@ inferred filters without asking; omit any filter that cannot be inferred.
 
 **1B – Validate**
 
-1. If `bundle_directory` is absent, check context for `OKF_DEFAULT_BUNDLE_DIR`. If neither is
-   available, ask the user.
+1. Resolve `bundle_directory` in priority order:
+   a. User-provided absolute path → use as-is.
+   b. User-provided name or relative path + `OKF_DEFAULT_DIR` in context →
+      `OKF_DEFAULT_DIR/<provided>`.
+   c. No path provided + `OKF_DEFAULT_BUNDLE_DIR` in context → use `OKF_DEFAULT_BUNDLE_DIR`.
+   d. None of the above → ask the user.
 2. Verify `bundle_directory` exists as a directory.
 3. If `status` was provided or inferred, confirm it is `draft`, `stable`, or `deprecated`.
 4. If `trust_tier` was provided or inferred, confirm it is `unverified`, `machine-confirmed`,
