@@ -16,9 +16,11 @@ After writing the file the skill optionally updates the parent `index.md` and ap
 
 ## Inputs
 
-- **bundle_directory** (required unless `OKF_DEFAULT_BUNDLE_DIR` is in context): Absolute path to
-  the OKF bundle root. When the `OKF_DEFAULT_BUNDLE_DIR` context variable is present (injected by
-  the hook) it is used as the default; the user may still override it per invocation.
+- **bundle_directory** (required unless resolvable from context): Absolute path to the OKF bundle
+  root. Resolution priority: (1) user-provided absolute path; (2) user-provided name or relative
+  path joined with `OKF_DEFAULT_DIR` from context (`OKF_DEFAULT_DIR/<provided>`) — sibling
+  directories under `OKF_DEFAULT_DIR` are never scanned or modified; (3) `OKF_DEFAULT_BUNDLE_DIR`
+  from context as the default bundle. The user may still override any default per invocation.
 - **concept_path** (inferred when possible): Path to the new concept file, relative to
   `bundle_directory` (e.g. `tables/customer-orders.md`). When not provided, derived from `type`
   (directory) and `title` slug — see Inference Rules. Must end in `.md`. Must not resolve to a
@@ -39,8 +41,9 @@ After writing the file the skill optionally updates the parent `index.md` and ap
 - **body** (optional): Markdown body placed after the frontmatter. If omitted, a placeholder
   heading appropriate for the `type` is written.
 
-Apply Inference Rules before asking for any input. Only ask when `bundle_directory` is absent
-and `OKF_DEFAULT_BUNDLE_DIR` is not in context, or when two equally valid inferences conflict.
+Apply Inference Rules before asking for any input. Only ask when `bundle_directory` cannot be
+resolved — no path, no name + `OKF_DEFAULT_DIR`, and no `OKF_DEFAULT_BUNDLE_DIR` in context —
+or when two equally valid inferences conflict.
 All other fields — `title`, `description`, `tags`, `status`, `body` — should be populated from
 the user's description where possible.
 
@@ -227,8 +230,12 @@ session), assess whether it warrants a standalone `Reference` concept in the bun
 
 **1B – Validate**
 
-1. If `bundle_directory` is absent, check context for `OKF_DEFAULT_BUNDLE_DIR`. If neither is
-   available, ask the user.
+1. Resolve `bundle_directory` in priority order:
+   a. User-provided absolute path → use as-is.
+   b. User-provided name or relative path + `OKF_DEFAULT_DIR` in context →
+      `OKF_DEFAULT_DIR/<provided>`. Do not scan or modify sibling directories under `OKF_DEFAULT_DIR`.
+   c. No path provided + `OKF_DEFAULT_BUNDLE_DIR` in context → use `OKF_DEFAULT_BUNDLE_DIR`.
+   d. None of the above → ask the user.
 2. Verify `bundle_directory` exists as a directory.
 3. Resolve the full path: `<bundle_directory>/<concept_path>`.
 4. Confirm `concept_path` ends in `.md`.

@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 # inject-okf-bundle-dir.sh — SessionStart/SubagentStart hook for the okf-manager plugin.
-# Runs on Linux/macOS. Reads OKF_DEFAULT_BUNDLE_DIR and, if set, injects it as additionalContext.
+# Runs on Linux/macOS. Reads OKF_DEFAULT_DIR and OKF_DEFAULT_BUNDLE_DIR; injects whichever are set.
 
-if [ -n "$OKF_DEFAULT_BUNDLE_DIR" ]; then
-    printf '{"hookSpecificOutput":{"additionalContext":"OKF_DEFAULT_BUNDLE_DIR=\"%s\""}}\n' "$OKF_DEFAULT_BUNDLE_DIR"
+parts=()
+[ -n "$OKF_DEFAULT_DIR" ] && parts+=("OKF_DEFAULT_DIR=\"$OKF_DEFAULT_DIR\"")
+[ -n "$OKF_DEFAULT_BUNDLE_DIR" ] && parts+=("OKF_DEFAULT_BUNDLE_DIR=\"$OKF_DEFAULT_BUNDLE_DIR\"")
+
+if [ ${#parts[@]} -gt 0 ]; then
+    context="${parts[*]}"
+    printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$context"
 fi

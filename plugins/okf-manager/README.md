@@ -1,4 +1,4 @@
-# OKF Manager `v1.1.3`
+# OKF Manager `v1.2.0`
 
 > A collection of skills for managing Open Knowledge Format (OKF) v0.2 bundles — create, update, search, delete, and attach concept documents to project directories.
 
@@ -14,7 +14,8 @@ Install via the VS Code Chat Plugin Marketplace using the `dimpletz/prompts-coll
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `OKF_DEFAULT_BUNDLE_DIR` | Optional | Default OKF bundle root directory. When set, all four skills treat it as the default for `bundle_directory`, making the parameter optional per invocation. |
+| `OKF_DEFAULT_DIR` | Optional | Root workspace directory where bundles are organized. When `create-okf` or `update-okf` receives a bundle name or relative path, the full path is resolved as `OKF_DEFAULT_DIR/<provided>`. Affects path resolution only — sibling bundles are never scanned or modified. |
+| `OKF_DEFAULT_BUNDLE_DIR` | Optional | Specific default OKF bundle directory. When set, `create-okf`, `update-okf`, `search-okf`, and `delete-okf` use it as the default for `bundle_directory` when no bundle directory is provided, making the parameter optional per invocation. |
 
 ## Usage
 
@@ -32,7 +33,7 @@ All capabilities are provided as **skills** — describe your OKF task in Copilo
 
 | Hook | Trigger | Behaviour |
 |------|---------|-----------|
-| `SessionStart` | At the start of every chat session | Reads `OKF_DEFAULT_BUNDLE_DIR` and injects it into agent context when set. |
+| `SessionStart` | At the start of every chat session | Reads `OKF_DEFAULT_DIR` and `OKF_DEFAULT_BUNDLE_DIR` and injects whichever are set into agent context. |
 | `SubagentStart` | At the start of every sub-agent call | Same as `SessionStart`. |
 
 ## Components
