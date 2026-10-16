@@ -1,6 +1,6 @@
 # install-python.ps1 — Downloads and silently installs Python on Windows.
 # Usage: .\install-python.ps1 [-PythonVersion <version>]
-# Falls back to DEFAULT_PYTHON_VERSION env var, then to '3.14.4'.
+# Falls back to DEFAULT_PYTHON_VERSION env var, then to '3.14.8'.
 
 param(
     [Parameter(Mandatory = $false)]
@@ -8,7 +8,7 @@ param(
 )
 
 if (-not $PythonVersion) {
-    $PythonVersion = if ($env:DEFAULT_PYTHON_VERSION) { $env:DEFAULT_PYTHON_VERSION } else { "3.14.4" }
+    $PythonVersion = if ($env:DEFAULT_PYTHON_VERSION) { $env:DEFAULT_PYTHON_VERSION } else { "3.14.8" }
 }
 
 $installerName = "python-$PythonVersion-amd64.exe"

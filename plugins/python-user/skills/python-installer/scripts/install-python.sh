@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # install-python.sh — Downloads and installs Python on macOS/Linux from source.
 # Usage: bash install-python.sh [<version>]
-# Falls back to DEFAULT_PYTHON_VERSION env var, then to '3.14.4'.
+# Falls back to DEFAULT_PYTHON_VERSION env var, then to '3.14.8'.
 
 set -euo pipefail
 
-PYTHON_VERSION="${1:-${DEFAULT_PYTHON_VERSION:-3.14.4}}"
+PYTHON_VERSION="${1:-${DEFAULT_PYTHON_VERSION:-3.14.8}}"
 ARCHIVE_NAME="Python-$PYTHON_VERSION.tgz"
 DOWNLOAD_URL="https://www.python.org/ftp/python/$PYTHON_VERSION/$ARCHIVE_NAME"
 TEMP_DIR=$(mktemp -d)

@@ -12,7 +12,7 @@ Install via the VS Code Chat Plugin Marketplace using the `dimpletz/prompts-coll
 
 Two scripts run at the start of every session:
 
-1. **inject-python-version** — reads the `DEFAULT_PYTHON_VERSION` environment variable and injects it into the agent context as `DEFAULT_PYTHON_VERSION="<version>"`. Falls back to `3.14.4` if the variable is not set. This value is used by the `python-installer` skill without requiring the user to repeat it.
+1. **inject-python-version** — reads the `DEFAULT_PYTHON_VERSION` environment variable and injects it into the agent context as `DEFAULT_PYTHON_VERSION="<version>"`. Falls back to `3.14.8` if the variable is not set. This value is used by the `python-installer` skill without requiring the user to repeat it.
 
 2. **check-python** — detects whether `python` or `python3` is available on `PATH`. If Python is **not** found, injects the following message into the agent context so the agent can act immediately:
 

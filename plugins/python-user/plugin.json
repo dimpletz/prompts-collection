@@ -1,4 +1,5 @@
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "python-user",
   "description": "Python User is a plugin that injects DEFAULT_PYTHON_VERSION into the agent context at session start, checks whether Python is installed and offers to install it via the python-installer skill, and provides a skill to download and install Python from the official FTP server.",
   "version": "1.0.0",
@@ -12,9 +13,5 @@
     "python",
     "installer",
     "hooks"
-  ],
-  "skills": [
-    "./skills/python-installer"
-  ],
-  "hooks": "./hooks/hooks.json"
+  ]
 }

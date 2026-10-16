@@ -12,7 +12,7 @@ Downloads and installs the official Python release for the current platform usin
 
 ## Inputs
 
-- **python_version** (optional): The Python version to install (e.g. `3.14.4`). Defaults to the
+- **python_version** (optional): The Python version to install (e.g. `3.14.8`). Defaults to the
   value of `DEFAULT_PYTHON_VERSION` injected into the agent context at session start. If neither
   is available, ask the user before proceeding.
 
