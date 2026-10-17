@@ -52,7 +52,7 @@ mdview [file] [options]
 ```mermaid
 graph TD
     A[markdown-viewer plugin]
-    A --> B[SessionStart hook<br/>hooks/hooks.json]
+    A --> B[SessionStart hook<br/>com.github.copilot/hooks/hooks.json]
     A --> C[Markdown Viewer skill<br/>skills/markdown-viewer/SKILL.md]
     B --> D[install-markdown-viewer.ps1<br/>Windows]
     B --> E[install-markdown-viewer.sh<br/>Linux / macOS]

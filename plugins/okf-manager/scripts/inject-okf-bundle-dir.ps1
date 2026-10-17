@@ -7,5 +7,5 @@ if ($env:OKF_DEFAULT_BUNDLE_DIR) { $parts += "OKF_DEFAULT_BUNDLE_DIR=`"$($env:OK
 
 if ($parts.Count -gt 0) {
     $context = $parts -join ' '
-    @{ hookSpecificOutput = @{ additionalContext = $context } } | ConvertTo-Json -Compress
+    @{ additionalContext = $context } | ConvertTo-Json -Compress
 }

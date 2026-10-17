@@ -41,7 +41,7 @@ All capabilities are provided as **skills** — describe your OKF task in Copilo
 ```mermaid
 graph TD
     A[okf-manager plugin]
-    A --> H[Hooks<br/>hooks/hooks.json]
+    A --> H[Hooks<br/>com.github.copilot/hooks/hooks.json]
     H --> S1[SessionStart → inject-okf-bundle-dir]
     H --> S2[SubagentStart → inject-okf-bundle-dir]
     A --> B[Create OKF<br/>skills/create-okf/SKILL.md]

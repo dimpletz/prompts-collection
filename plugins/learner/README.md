@@ -46,7 +46,7 @@ If `LEARNER_NOTES_DIR` is not set, the agent falls back to:
 
 | Agent | File | Description |
 |-------|------|-------------|
-| [Topic Scriber](agents/TopicScriber.agent.md) | `TopicScriber.agent.md` | Interactive agent that guides the learner through creating and updating topic-based study notes, capturing text, images, and Mermaid diagrams in structured Markdown files. |
+| [Topic Scriber](com.github.copilot/agents/TopicScriber.agent.md) | `TopicScriber.agent.md` | Interactive agent that guides the learner through creating and updating topic-based study notes, capturing text, images, and Mermaid diagrams in structured Markdown files. |
 
 ## Output Document Structure
 

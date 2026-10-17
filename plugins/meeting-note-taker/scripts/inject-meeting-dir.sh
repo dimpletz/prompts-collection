@@ -4,4 +4,4 @@
 # Falls back to $HOME/Documents/MeetingNotes if MEETING_DIR is not set.
 
 MEETING_DIR="${MEETING_DIR:-$HOME/Documents/MeetingNotes}"
-printf '{"hookSpecificOutput":{"additionalContext":"MEETING_DIR=\"%s\""}}\n' "$MEETING_DIR"
+printf '{"additionalContext":"MEETING_DIR=\\"%s\\""}\n' "$MEETING_DIR"

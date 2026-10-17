@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "bash": "bash \"${PLUGIN_ROOT}/scripts/install-markdown-viewer.sh\"",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/install-markdown-viewer.ps1\""
+      },
+      {
+        "type": "command",
+        "bash": "bash \"${PLUGIN_ROOT}/scripts/inject-mdview-params.sh\"",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/inject-mdview-params.ps1\""
+      },
+      {
+        "type": "command",
+        "bash": "bash \"${PLUGIN_ROOT}/scripts/check-mdview-update.sh\"",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/check-mdview-update.ps1\""
+      }
+    ]
+  }
+}

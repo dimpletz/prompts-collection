@@ -4,5 +4,5 @@
 # outputs it as additionalContext JSON so agents know where to save diff files.
 
 if [ -n "$GIT_DIFF_DIR" ]; then
-    printf '{"hookSpecificOutput":{"additionalContext":"GIT_DIFF_DIR=\"%s\""}}\n' "$GIT_DIFF_DIR"
+    printf '{"additionalContext":"GIT_DIFF_DIR=\\"%s\\""}\n' "$GIT_DIFF_DIR"
 fi

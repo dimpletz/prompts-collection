@@ -1,0 +1,30 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "ai-engineer",
+  "description": "AI Engineer is a collection of skills that help you create and optimize VS Code agents, skills, hooks, and plugins.",
+  "version": "1.5.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "ai-engineer",
+    "agent-maker",
+    "agent-optimizer",
+    "skill-maker",
+    "custom-instruction-maker",
+    "hook-maker",
+    "plugin-maker",
+    "marketplace-maker",
+    "agent",
+    "skill",
+    "hook",
+    "plugin",
+    "marketplace",
+    "vscode",
+    "copilot",
+    "prompt-engineering",
+    "customization"
+  ]
+}

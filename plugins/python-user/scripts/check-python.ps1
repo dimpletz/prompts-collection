@@ -11,5 +11,6 @@ try {
 } catch { }
 
 if (-not $pythonFound) {
-    @{ hookSpecificOutput = @{ additionalContext = "Python is not installed on this system. Ask the user for permission to install Python using the python-installer skill. Do not proceed with the installation until the user explicitly grants permission. Once installation is complete, you MUST ask the user to restart the IDE or CLI for the changes to take effect. IMPORTANT: Never skip or forget the restart step - Python will not be recognized until the IDE or CLI is restarted." } } | ConvertTo-Json -Compress
+    $context = "Python is not installed on this system. Ask the user for permission to install Python using the python-installer skill. Do not proceed with the installation until the user explicitly grants permission. Once installation is complete, you MUST ask the user to restart the IDE or CLI for the changes to take effect. IMPORTANT: Never skip or forget the restart step - Python will not be recognized until the IDE or CLI is restarted."
+    @{ additionalContext = $context } | ConvertTo-Json -Compress
 }

@@ -15,7 +15,7 @@ foreach ($cmd in @('python', 'python3', 'py')) {
 
 if (-not $pythonCmd) {
     $msg = "Python is required for markdown-viewer-app."
-    @{ hookSpecificOutput = @{ additionalContext = $msg } } | ConvertTo-Json -Compress
+    @{ additionalContext = $msg } | ConvertTo-Json -Compress
     exit 0
 }
 
@@ -29,10 +29,10 @@ if ($LASTEXITCODE -eq 0) {
 $installOut = & $pythonCmd -m pip install markdown-viewer-app 2>&1
 if ($LASTEXITCODE -eq 0) {
     $msg = "markdown-viewer-app was installed successfully. Use 'mdview <file>' to view markdown files in a browser."
-    @{ hookSpecificOutput = @{ additionalContext = $msg } } | ConvertTo-Json -Compress
+    @{ additionalContext = $msg } | ConvertTo-Json -Compress
 } else {
     $errSnippet = ($installOut | Out-String).Trim() -replace '"', "'"
     if ($errSnippet.Length -gt 300) { $errSnippet = $errSnippet.Substring(0, 300) + '...' }
     $msg = "markdown-viewer-app could not be installed. Run 'pip install markdown-viewer-app' manually to troubleshoot. Error: $errSnippet"
-    @{ hookSpecificOutput = @{ additionalContext = $msg } } | ConvertTo-Json -Compress
+    @{ additionalContext = $msg } | ConvertTo-Json -Compress
 }

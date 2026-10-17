@@ -4,4 +4,4 @@
 
 $learnerNotesDir = if ($env:LEARNER_NOTES_DIR) { $env:LEARNER_NOTES_DIR } else { Join-Path $env:USERPROFILE "Documents\LearnerNotes" }
 $quotedDir = '"' + $learnerNotesDir + '"'
-@{ hookSpecificOutput = @{ additionalContext = "LEARNER_NOTES_DIR=$quotedDir" } } | ConvertTo-Json -Compress
+@{ additionalContext = "LEARNER_NOTES_DIR=$quotedDir" } | ConvertTo-Json -Compress

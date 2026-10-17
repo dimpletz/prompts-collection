@@ -7,7 +7,7 @@ Runs after every agent tool call. When a Python file is modified it:
   2. Checks that `pylint` is available (blocking error if missing).
   3. Runs `black` on the modified Python files.
   4. Runs `pylint` on the modified non-test Python files and reports findings via
-     hookSpecificOutput.additionalContext so the agent can iterate and fix.
+     additionalContext so the agent can iterate and fix.
 """
 
 import json
@@ -165,12 +165,7 @@ def emit_hook_output(additional_context: str) -> None:
     """Print the JSON hook output payload when there is context to share."""
     if not additional_context:
         return
-    output = {
-        "hookSpecificOutput": {
-            "hookEventName": "PostToolUse",
-            "additionalContext": additional_context,
-        }
-    }
+    output = {"additionalContext": additional_context}
     print(json.dumps(output))
 
 

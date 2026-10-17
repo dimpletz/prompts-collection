@@ -21,7 +21,7 @@ Most capabilities are provided as **skills** — invoke them by describing your 
 | **Skill Maker** | You want to design a new `SKILL.md` file for an AI skill, either at workspace level (`.agents/skills/`) or inside a specific plugin directory. |
 | **Custom Instruction Maker** | You want to create an `AGENTS.md`, `copilot-instructions.md`, or `CLAUDE.md` instruction file that follows the Purpose → Tree → Rules structure. |
 | **Hook Maker** | You want to create a lifecycle hook (`hooks.json` + scripts) that runs automatically at session start, subagent start, or after tool use. |
-| **Plugin Maker** | You want to scaffold a new plugin with a `plugin.json` manifest, README, and the correct directory structure. Always uses `.claude-plugin/plugin.json` for hook-based plugins. |
+| **Plugin Maker** | You want to scaffold a new plugin with a `plugin.json` manifest, README, and the correct directory structure. Always places `plugin.json` at the plugin root. |
 | **Marketplace Maker** | You want to register or synchronize the project's plugins in the VS Code Chat Plugin Marketplace (`marketplace.json` + `README.md`). |
 
 ## Components
@@ -36,12 +36,12 @@ graph TD
     A --> F[Hook Maker\nskills/hook-maker/SKILL.md]
     A --> G[Plugin Maker\nskills/plugin-maker/SKILL.md]
     A --> H[Marketplace Maker\nskills/marketplace-maker/SKILL.md]
-    A --> I[Temporary Script Guidance Hook\nhooks/hooks.json]
+    A --> I[Temporary Script Guidance Hook\ncom.github.copilot/hooks/hooks.json]
 ```
 
 ### Agent Maker
 
-Creates well-structured, production-ready VS Code agent files (`.agent.md`) with required frontmatter fields and mandatory body sections. Saves to `plugins/<plugin-name>/agents/` when a plugin name is provided, or to `.github/agents/` at workspace level. Enforces consistent structure while allowing domain-specific flexibility.
+Creates well-structured, production-ready VS Code agent files (`.agent.md`) with required frontmatter fields and mandatory body sections. Saves to `plugins/<plugin-name>/com.github.copilot/agents/` when a plugin name is provided, or to `.github/agents/` at workspace level. Enforces consistent structure while allowing domain-specific flexibility.
 
 ### Agent Optimizer
 
@@ -61,7 +61,7 @@ Creates VS Code Copilot agent hook configurations (`hooks.json` and companion sh
 
 ### Plugin Maker
 
-Scaffolds a complete VS Code Copilot agent plugin: the `plugin.json` manifest (always `.claude-plugin/plugin.json` for hook-based plugins, `plugin/plugin.json` for skill/agent-only plugins), directory structure, and `README.md`. Also registers the plugin in `marketplace.json`.
+Scaffolds a complete VS Code Copilot agent plugin: the `plugin.json` manifest (always at the plugin root), directory structure, and `README.md`. Also registers the plugin in `marketplace.json`.
 
 ### Marketplace Maker
 

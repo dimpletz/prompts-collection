@@ -16,4 +16,4 @@ if [ -n "${CODE_REVIEW_REPORT_DIR+x}" ]; then
     context="${context}\nCODE_REVIEW_REPORT_DIR=${CODE_REVIEW_REPORT_DIR}"
 fi
 
-printf '{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' "$context"
+printf '{"additionalContext":"%s"}\n' "$context"

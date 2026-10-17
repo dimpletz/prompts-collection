@@ -19,5 +19,5 @@ if ($rows.Count -gt 0) {
     )
     $lines += $rows
     $context = $lines -join "`n"
-    @{ hookSpecificOutput = @{ additionalContext = $context } } | ConvertTo-Json -Compress
+    @{ additionalContext = $context } | ConvertTo-Json -Compress
 }

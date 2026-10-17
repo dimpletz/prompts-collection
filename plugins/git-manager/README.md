@@ -42,7 +42,7 @@ All capabilities are provided as **skills** — describe your git task in Copilo
 ```mermaid
 graph TD
     A[git-manager plugin]
-    A --> H[Hooks<br/>hooks/hooks.json]
+    A --> H[Hooks<br/>com.github.copilot/hooks/hooks.json]
     H --> S1[SessionStart → inject-git-diff-dir]
     H --> S2[SubagentStart → inject-git-diff-dir]
     A --> B[Git Merge Conflict Resolver<br/>skills/git-merge-conflict-resolver/SKILL.md]

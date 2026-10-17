@@ -20,7 +20,7 @@ foreach ($cmd in @('python', 'python3', 'py')) {
 }
 
 if (-not $pythonCmd) {
-    @{ hookSpecificOutput = @{ additionalContext = "poetry requires python. Python is not available on this system." } } | ConvertTo-Json -Compress
+    @{ additionalContext = "poetry requires python. Python is not available on this system." } | ConvertTo-Json -Compress
     exit 0
 }
 
@@ -34,10 +34,10 @@ try {
 $installOut = & $pythonCmd -m pip install poetry 2>&1
 if ($LASTEXITCODE -eq 0) {
     $msg = "Poetry was not installed and has been installed successfully via pip. You may need to restart the terminal for the 'poetry' command to be available in PATH."
-    @{ hookSpecificOutput = @{ additionalContext = $msg } } | ConvertTo-Json -Compress
+    @{ additionalContext = $msg } | ConvertTo-Json -Compress
 } else {
     $errSnippet = ($installOut | Out-String).Trim() -replace '"', "'"
     if ($errSnippet.Length -gt 300) { $errSnippet = $errSnippet.Substring(0, 300) + '...' }
     $msg = "Poetry is not installed and could not be installed via pip. Error: $errSnippet"
-    @{ hookSpecificOutput = @{ additionalContext = $msg } } | ConvertTo-Json -Compress
+    @{ additionalContext = $msg } | ConvertTo-Json -Compress
 }

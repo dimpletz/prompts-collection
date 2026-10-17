@@ -17,5 +17,5 @@ if ($rows.Count -gt 0) {
     $lines = @("Developer Information:", "|--------|---------|--------|")
     $lines += $rows
     $context = $lines -join "`n"
-    @{ hookSpecificOutput = @{ additionalContext = $context } } | ConvertTo-Json -Compress
+    @{ additionalContext = $context } | ConvertTo-Json -Compress
 }

@@ -6,7 +6,7 @@ description: >
 
 # Marketplace Maker
 
-This **skill** is for developers who need to expose one or more plugins from the current repository to the VS Code Chat Plugin Marketplace. It ensures that `.github/plugin/marketplace.json` is correct, complete, and consistent with all `.claude-plugin/plugin.json` manifests in the `plugins/` directory — creating the file from scratch when it does not yet exist — and that the global `README.md` Plugins table accurately reflects every plugin in the marketplace.
+This **skill** is for developers who need to expose one or more plugins from the current repository to the VS Code Chat Plugin Marketplace. It ensures that `.github/plugin/marketplace.json` is correct, complete, and consistent with all `plugin.json` manifests in the `plugins/` directory — creating the file from scratch when it does not yet exist — and that the global `README.md` Plugins table accurately reflects every plugin in the marketplace.
 
 ## Inputs
 
@@ -21,7 +21,7 @@ This **skill** is for developers who need to expose one or more plugins from the
 ## Task Priorities
 
 1. **Priority 1 – Consistency between plugin.json and marketplace.json**
-   Every plugin entry in `marketplace.json` must have a `version` and `description` that exactly matches the corresponding `.claude-plugin/plugin.json`. Mismatches cause stale or broken marketplace listings.
+   Every plugin entry in `marketplace.json` must have a `version` and `description` that exactly matches the corresponding `plugin.json`. Mismatches cause stale or broken marketplace listings.
 
 2. **Priority 2 – Complete README.md Plugins table**
    The global `README.md` Plugins table must accurately list every plugin. Missing entries reduce discoverability.
@@ -43,13 +43,13 @@ This **skill** is for developers who need to expose one or more plugins from the
 
 For each plugin being processed:
 
-1. **Locate the manifest**: always use `.claude-plugin/plugin.json`. This is the only supported manifest path — `plugin/plugin.json` is not used.
+1. **Locate the manifest**: always use `plugins/<name>/plugin.json` at the plugin root. This is the only supported manifest path — `plugin.json` and `plugin/plugin.json` are not used.
 2. **Read required fields**: `name`, `description`, `version`.
 3. **Inventory capabilities**:
    - **Skills**: list directories under `plugins/<name>/skills/` that contain a `SKILL.md`.
-   - **Agents**: list `.agent.md` files under `plugins/<name>/agents/`.
+   - **Agents**: list `.agent.md` files under `plugins/<name>/com.github.copilot/agents/`.
    - **Hooks**: read `plugins/<name>/hooks/hooks.json` to identify hook events (`SessionStart`, `SubagentStart`, `PostToolUse`).
-   - **MCP**: check for a `.mcp.json` file at `plugins/<name>/` (Claude-format plugins), or check the `mcpServers` field in `.claude-plugin/plugin.json` for inline or file-path MCP server definitions. The top-level key in `.mcp.json` is `mcpServers`.
+   - **MCP**: check for a `mcp.json` file at `plugins/<name>/`. The top-level key in `mcp.json` is `mcpServers`.
 4. If a manifest is missing required fields, report the gap and ask the user before proceeding.
 
 ### Step 3 – Create or Update marketplace.json
@@ -87,7 +87,7 @@ Rules:
 - For `add`: append a new entry to `"plugins"`. The `"source"` must match the folder name under `plugins/`.
 - For `update`: find the entry by `"name"` and update only `"description"` and/or `"version"` as needed.
 - For `remove`: remove the entry from `"plugins"`. Do not delete any plugin files.
-- For `sync`: ensure every plugin folder with a `.claude-plugin/plugin.json` has a matching entry; add missing ones, update stale ones, report orphan entries (entries with no matching folder) for user review.
+- For `sync`: ensure every plugin folder with a root `plugin.json` has a matching entry; add missing ones, update stale ones, report orphan entries (entries with no matching folder) for user review.
 - Never change `metadata.version` unless the user provided **marketplace_version**.
 - Preserve the existing ordering of entries unless explicitly asked to reorder.
 
@@ -106,7 +106,7 @@ Located under `## Plugins`. Each row:
 - List agents as comma-separated Markdown links to their `.agent.md` files.
 - List skills as comma-separated Markdown links to their `SKILL.md` files.
 - List hook events as backtick-formatted event names (e.g. `` `SessionStart` ``).
-- List MCP server names (the keys from `mcpServers` in `.mcp.json` or inline in `plugin.json`) as backtick-formatted names (e.g. `` `plugin-database` ``).
+- List MCP server names (the keys from `mcpServers` in `mcp.json`) as backtick-formatted names (e.g. `` `plugin-database` ``).
 - Use `—` for columns with no entries.
 
 Rules:
@@ -118,10 +118,10 @@ Rules:
 
 Before saving:
 
-1. **marketplace.json** — Every plugin in `plugins/` with a `.claude-plugin/plugin.json` has an entry. Every entry's `version` matches its `.claude-plugin/plugin.json`. No duplicate `"name"` values. If the file was newly created, confirm it is well-formed JSON.
-2. **Plugins table** — Every `marketplace.json` plugin appears in the Plugins table. Version badge matches `.claude-plugin/plugin.json`. Agent, skill, hook, and MCP columns within that table are accurate. No other README sections were created or modified.
+1. **marketplace.json** — Every plugin in `plugins/` with a root `plugin.json` has an entry. Every entry's `version` matches its `plugin.json`. No duplicate `"name"` values. If the file was newly created, confirm it is well-formed JSON.
+2. **Plugins table** — Every `marketplace.json` plugin appears in the Plugins table. Version badge matches `plugin.json`. Agent, skill, hook, and MCP columns within that table are accurate. No other README sections were created or modified.
 3. **No unauthorized version changes** — `metadata.version` unchanged unless user provided a new value.
-4. **Manifest path** — No plugin entry references `plugin/plugin.json`; all manifests are sourced exclusively from `.claude-plugin/plugin.json`.
+4. **Manifest path** — No plugin entry references `plugin/plugin.json`; all manifests are sourced exclusively from the plugin-root `plugin.json`.
 
 ### Step 6 – Save the Files
 
@@ -158,10 +158,10 @@ After completing the marketplace update, respond with:
 ## Assumptions and Limitations
 
 - Assumes all plugins live under the `plugins/` directory at the repository root, as configured by `"pluginRoot": "./plugins"` in `marketplace.json`.
-- All plugin manifests are exclusively at `.claude-plugin/plugin.json`. The `plugin/plugin.json` path is not supported by this skill.
-- If `.github/plugin/marketplace.json` does not exist, it is created automatically when at least one plugin with a valid `.claude-plugin/plugin.json` is found.
+- All plugin manifests are exclusively at the plugin root (`plugin.json`). The `plugin.json` and `plugin/plugin.json` paths are not supported by this skill.
+- If `.github/plugin/marketplace.json` does not exist, it is created automatically when at least one plugin with a valid root `plugin.json` is found.
 - The marketplace version (`metadata.version`) is never changed automatically — it requires an explicit user instruction. When creating the file fresh, the initial version defaults to `"1.0.0"` unless **marketplace_version** was provided.
-- Plugins that expose MCP server definitions declare them in `.mcp.json` at the plugin root, referenced via the `mcpServers` field in `.claude-plugin/plugin.json`. The `${CLAUDE_PLUGIN_ROOT}` token is used in MCP server `command`, `args`, `cwd`, `env`, `envFile`, `url`, and `headers` fields to reference files within the plugin directory. This skill inventories but does not create MCP definitions.
+- Plugins that expose MCP server definitions declare them in `mcp.json` at the plugin root (discovered automatically; never declared in `plugin.json`). The `${PLUGIN_ROOT}` token is used in MCP server `args`, `env`, and `cwd` fields to reference files within the plugin directory. This skill inventories but does not create MCP definitions.
 - Does not create or modify any plugin files, skill files, agent files, hook scripts, or MCP definitions — use the dedicated maker skills for those if available.
 - Removing a plugin from `marketplace.json` does not delete its files from `plugins/` — the user must do that manually if desired.
 - Only the Plugins table in README.md is managed by this skill. Agents, Skills, and Hooks catalog sections are out of scope.

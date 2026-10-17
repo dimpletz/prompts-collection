@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "bash": "bash \"${PLUGIN_ROOT}/scripts/inject-python-version.sh\"",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/inject-python-version.ps1\""
+      },
+      {
+        "type": "command",
+        "bash": "bash \"${PLUGIN_ROOT}/scripts/check-python.sh\"",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/check-python.ps1\""
+      }
+    ]
+  }
+}

@@ -26,7 +26,7 @@ This **skill** is for developers who need to add automated lifecycle hooks to a 
    The hook must fire on exactly the right event for its purpose. Misplacing a hook is a behavioral defect. Consult the **Lifecycle Events** section of the Primary Knowledge Source to choose correctly.
 
 2. **Priority 2 – Reliable output contract**
-   Each hook event has its own `hookSpecificOutput` schema — consult the **Input / Output** section of the Primary Knowledge Source for the per-event schema. Exit code `2` is a hard blocking error; any other non-zero exit is a non-blocking warning. Exit `0` with JSON to influence agent behavior.
+   For context injection, output a flat `{"additionalContext": "..."}` object (no `hookSpecificOutput` wrapper). Consult the **Input / Output** section of the Primary Knowledge Source for other per-event output fields. Exit code `2` is a hard blocking error; any other non-zero exit is a non-blocking warning. Exit `0` with JSON to influence agent behavior.
 
 3. **Priority 3 – Cross-platform correctness**
    Every hook command must have a `windows` variant using PowerShell unless the hook is explicitly Linux/macOS-only. Scripts must be tested for the target OS.
@@ -55,16 +55,16 @@ Before writing any files, decide which scope applies:
 
 | Condition | Scope | Config file | Script location |
 |---|---|---|---|
-| `plugin_name` provided | **Plugin** | `plugins/<plugin-name>/hooks/hooks.json` | `plugins/<plugin-name>/scripts/` |
+| `plugin_name` provided | **Plugin** | `plugins/<plugin-name>/com.github.copilot/hooks/hooks.json` | `plugins/<plugin-name>/scripts/` |
 | `plugin_name` omitted | **Workspace** | `.claude/settings.json` | `.claude/scripts/` |
 
-- **Plugin scope**: follows Steps 3–7 as written. Use `${CLAUDE_PLUGIN_ROOT}` to reference scripts.
+- **Plugin scope**: follows Steps 3–7 as written. Use `${PLUGIN_ROOT}` to reference scripts.
 - **Workspace scope**: write the hook into `.claude/settings.json` using paths relative to the workspace root. No `plugin.json` is needed. Scripts go in `.claude/scripts/`. Use `.claude/settings.local.json` instead if the user requests a local-only hook (not committed to version control).
 - **Important distinction**: Hook scripts belong to plugin-level/workspace-level hook script paths above. If a request also includes **skill companion scripts**, those must be created under the skill directory: `plugins/<plugin-name>/skills/<skill-name>/scripts/` (or `.agents/skills/<skill-name>/scripts/` for workspace scope).
 
 ### Step 2 – Choose Output Mode
 
-Consult the **Input / Output** section of the Primary Knowledge Source for the complete exit-code contract, common output fields, and per-event `hookSpecificOutput` schemas.
+Consult the **Input / Output** section of the Primary Knowledge Source for the complete exit-code contract, common output fields, and per-event output schemas. Context injection uses a flat `additionalContext` field without `hookSpecificOutput`.
 
 ### Step 3 – Write the Scripts
 
@@ -81,7 +81,7 @@ Do not place hook scripts under `skills/<skill-name>/scripts/` unless the reques
 
 # Script logic here.
 # For context injection, end with:
-# printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$context"
+# printf '{"additionalContext":"%s"}\n' "$context"
 ```
 
 Rules:
@@ -98,7 +98,7 @@ Rules:
 
 # Script logic here.
 # For context injection, end with:
-# Write-Output "{`"hookSpecificOutput`":{`"additionalContext`":`"$context`"}}"
+# @{ additionalContext = $context } | ConvertTo-Json -Compress
 ```
 
 Rules:
@@ -111,16 +111,17 @@ Rules:
 
 The configuration file and its structure differ by scope.
 
-#### Plugin scope — `plugins/<plugin-name>/hooks/hooks.json`
+#### Plugin scope — `plugins/<plugin-name>/com.github.copilot/hooks/hooks.json`
 
 ```json
 {
+  "version": 1,
   "hooks": {
     "<HookEvent>": [
       {
         "type": "command",
-        "command": "bash \"${CLAUDE_PLUGIN_ROOT}/scripts/<hook-name>.sh\"",
-        "windows": "powershell -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/scripts/<hook-name>.ps1\"",
+        "bash": "bash \"${PLUGIN_ROOT}/scripts/<hook-name>.sh\"",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/<hook-name>.ps1\"",
         "timeout": 30
       }
     ]
@@ -128,7 +129,7 @@ The configuration file and its structure differ by scope.
 }
 ```
 
-Use `${CLAUDE_PLUGIN_ROOT}` to reference scripts — do not hardcode paths.
+Use `${PLUGIN_ROOT}` to reference scripts — do not hardcode paths.
 
 #### Workspace scope — `.claude/settings.json`
 
@@ -153,10 +154,11 @@ For the full list of supported hook command properties (`type`, `command`, `wind
 
 ### Step 5 – Update plugin.json
 
-Hook-based plugins must use `.claude-plugin/plugin.json` (not `plugin/plugin.json`). If the plugin manifest does not yet exist or uses `plugin/plugin.json`, create or convert it:
+Plugin manifests live at the plugin root (`plugins/<plugin-name>/plugin.json`), not in `.claude-plugin/` or `plugin/`. If the plugin manifest does not yet exist or lives in an old location, create or move it:
 
 ```json
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "<plugin-name>",
   "description": "<plugin description>",
   "version": "<semver>",
@@ -166,19 +168,19 @@ Hook-based plugins must use `.claude-plugin/plugin.json` (not `plugin/plugin.jso
 }
 ```
 
-The hooks directory does not need to be referenced in `plugin.json` — the runtime discovers `hooks/hooks.json` automatically when `.claude-plugin/plugin.json` is present.
+The hooks directory does not need to be referenced in `plugin.json` — the runtime discovers `com.github.copilot/hooks/hooks.json` automatically.
 
 ### Step 6 – Validate
 
 Before delivering, verify:
 
-1. **Hook config file** — Event name is a valid lifecycle event from the Primary Knowledge Source. `type` is `"command"`. `command` and/or OS-specific keys are present as needed.
-2. **Scope routing** — Plugin scope uses `plugins/<plugin-name>/hooks/hooks.json` with `${CLAUDE_PLUGIN_ROOT}` paths. Workspace scope uses `.claude/settings.json` with workspace-relative paths. These must not be mixed.
+1. **Hook config file** — Event name is a valid lifecycle event from the Primary Knowledge Source. `type` is `"command"`. `bash` and/or `powershell` keys are present for plugin scope (`command` and OS-specific keys for workspace scope), and plugin scope sets `"version": 1`.
+2. **Scope routing** — Plugin scope uses `plugins/<plugin-name>/com.github.copilot/hooks/hooks.json` with `${PLUGIN_ROOT}` paths. Workspace scope uses `.claude/settings.json` with workspace-relative paths. These must not be mixed.
 3. **Merge safety** — For workspace scope, confirm that the `.claude/settings.json` file was merged (not overwritten) if it already existed.
-4. **Output contract** — The JSON output matches the event-specific schema from Step 2. `hookSpecificOutput.hookEventName` matches the event. `stop_hook_active` is checked for `Stop` and `SubagentStop` hooks.
+4. **Output contract** — The JSON output matches the event-specific schema from Step 2. Context injection uses a flat `additionalContext` field with no `hookSpecificOutput` wrapper. `stop_hook_active` is checked for `Stop` and `SubagentStop` hooks.
 5. **Shell script** — Starts with `#!/usr/bin/env bash`. JSON output uses `printf`. Environment variable reads are guarded. Script exits 0 when nothing to output, exits 2 to hard-block with an error.
 6. **PowerShell script** — Uses `$env:VAR` syntax. Uses `Write-Output` for JSON output. Escaping is correct (backtick-escaped quotes inside double-quoted strings). Exits 2 to hard-block.
-7. **plugin.json** (plugin scope only) — Located at `.claude-plugin/plugin.json`. Contains `name`, `description`, `version`, `author`.
+7. **plugin.json** (plugin scope only) — Located at the plugin root (`plugin.json`). Contains `name`, `description`, `version`, `author`.
 
 ### Step 7 – Save the Files
 
@@ -186,10 +188,10 @@ Before delivering, verify:
 
 ```
 plugins/<plugin-name>/
-  .claude-plugin/
-    plugin.json
-  hooks/
-    hooks.json
+  plugin.json
+  com.github.copilot/
+    hooks/
+      hooks.json
   scripts/
     <hook-name>.sh
     <hook-name>.ps1
@@ -232,10 +234,10 @@ After creating all hook files, respond with:
 ## Assumptions and Limitations
 
 - When `plugin_name` is not provided, hooks are written to `.claude/settings.json` at the workspace root (Claude format). Use `.claude/settings.local.json` only when the user explicitly requests a local-only, non-committed hook.
-- Assumes the VS Code Copilot runtime supports `hooks.json` discovery when `.claude-plugin/plugin.json` is present.
+- Assumes the VS Code Copilot runtime discovers `com.github.copilot/hooks/hooks.json` at the plugin root.
 - Valid hook events are documented in the Primary Knowledge Source — any event name not listed there is invalid.
 - OS-specific command selection (`windows`, `linux`, `osx`) is based on the extension host platform, which may differ from the local OS in remote development scenarios (SSH, Containers, WSL).
-- `${CLAUDE_PLUGIN_ROOT}` is the only supported runtime variable for referencing plugin files inside hook commands.
+- `${PLUGIN_ROOT}` is the only supported runtime variable for referencing plugin files inside hook commands.
 - `Stop` and `SubagentStop` hooks that return `decision: "block"` cause the agent to run additional turns, each consuming premium requests. Always guard with `stop_hook_active`.
 - Matchers (Claude Code-style `tool_name` filters) are parsed by VS Code but currently ignored — all hooks run on every matching event regardless of tool name.
 - Does not generate MCP server configurations, agent files, or skill files — use the dedicated maker skills for those.

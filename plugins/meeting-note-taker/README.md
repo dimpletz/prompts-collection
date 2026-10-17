@@ -46,7 +46,7 @@ If `MEETING_DIR` is not set, the hook falls back to:
 
 | Agent | File | Description |
 |-------|------|-------------|
-| [Meeting Note Taker](agents/MeetingNoteTaker.agent.md) | `MeetingNoteTaker.agent.md` | Interactive agent that captures meeting notes, analyzes them, and saves a structured Markdown document to the meeting notes directory. |
+| [Meeting Note Taker](com.github.copilot/agents/MeetingNoteTaker.agent.md) | `MeetingNoteTaker.agent.md` | Interactive agent that captures meeting notes, analyzes them, and saves a structured Markdown document to the meeting notes directory. |
 
 ## Output Document Structure
 

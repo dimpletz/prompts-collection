@@ -18,7 +18,7 @@ graph TD
     A --> B[Release Notes Generator]
     A --> C[Changelog Maintainer<br/>skills/changelog-maintainer/SKILL.md]
     A --> D[README Maintainer<br/>skills/readme-maintainer/SKILL.md]
-    A --> E[Developer Name Injector<br/>hooks/hooks.json]
+    A --> E[Developer Name Injector<br/>com.github.copilot/hooks/hooks.json]
 ```
 
 ### Release Notes Generator

@@ -4,4 +4,4 @@
 
 $moduleDir = if ($env:MODULE_DIR) { $env:MODULE_DIR } else { "" }
 $quotedDir = '"' + $moduleDir + '"'
-@{ hookSpecificOutput = @{ additionalContext = "INSTRUCTOR_MODULE_DIR=$quotedDir" } } | ConvertTo-Json -Compress
+@{ additionalContext = "INSTRUCTOR_MODULE_DIR=$quotedDir" } | ConvertTo-Json -Compress

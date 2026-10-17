@@ -12,7 +12,7 @@ Install via the VS Code Chat Plugin Marketplace using the `dimpletz/prompts-coll
 
 ## How It Works
 
-The plugin registers `SessionStart` and `SubagentStart` hooks (`hooks/hooks.json`).
+The plugin registers `SessionStart` and `SubagentStart` hooks (`com.github.copilot/hooks/hooks.json`).
 
 - **SessionStart** fires once when a new agent session begins and runs a single script, `inject-date`, which injects the commands the agent should run to obtain the current date and current time in 24-hr format with timezone.
 - **SubagentStart** fires each time a subagent is spawned and runs the same script so every subagent also knows how to get the current date and time.

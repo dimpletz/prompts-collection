@@ -20,7 +20,7 @@ for cmd in python3 python; do
 done
 
 if [ -z "$PYTHON_CMD" ]; then
-    printf '{"hookSpecificOutput":{"additionalContext":"poetry requires python. Python is not available on this system."}}\n'
+    printf '{"additionalContext":"poetry requires python. Python is not available on this system."}\n'
     exit 0
 fi
 
@@ -34,8 +34,8 @@ INSTALL_OUT=$("$PYTHON_CMD" -m pip install poetry 2>&1)
 INSTALL_EXIT=$?
 
 if [ "$INSTALL_EXIT" -eq 0 ]; then
-    printf '{"hookSpecificOutput":{"additionalContext":"Poetry was not installed and has been installed successfully via pip. You may need to restart the terminal for the '\''poetry'\'' command to be available in PATH."}}\n'
+    printf '{"additionalContext":"Poetry was not installed and has been installed successfully via pip. You may need to restart the terminal for the '\''poetry'\'' command to be available in PATH."}\n'
 else
     ERR_SNIPPET=$(printf '%s' "$INSTALL_OUT" | head -c 300 | tr '"' "'")
-    printf '{"hookSpecificOutput":{"additionalContext":"Poetry is not installed and could not be installed via pip. Error: %s"}}\n' "$ERR_SNIPPET"
+    printf '{"additionalContext":"Poetry is not installed and could not be installed via pip. Error: %s"}\n' "$ERR_SNIPPET"
 fi

@@ -13,7 +13,7 @@ done
 
 if [ -z "$PYTHON_CMD" ]; then
     MSG="Python is required for markdown-viewer-app."
-    printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$MSG"
+    printf '{"additionalContext":"%s"}\n' "$MSG"
     exit 0
 fi
 
@@ -28,9 +28,9 @@ INSTALL_EXIT=$?
 
 if [ "$INSTALL_EXIT" -eq 0 ]; then
     MSG="markdown-viewer-app was installed successfully. Use 'mdview <file>' to view markdown files in a browser."
-    printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$MSG"
+    printf '{"additionalContext":"%s"}\n' "$MSG"
 else
     ERR_SNIPPET=$(printf '%s' "$INSTALL_OUT" | head -c 300 | tr '"' "'")
     MSG="markdown-viewer-app could not be installed. Run 'pip install markdown-viewer-app' manually to troubleshoot. Error: ${ERR_SNIPPET}"
-    printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$MSG"
+    printf '{"additionalContext":"%s"}\n' "$MSG"
 fi
