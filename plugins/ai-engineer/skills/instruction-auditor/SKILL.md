@@ -125,7 +125,7 @@ Run each category once, and report a finding under the single best-fitting categ
 Write these sections to the report file, in this order:
 
 - **Summary**: verdict (Pass, Pass with fixes, Needs rework), finding counts per severity, and estimated reducible lines.
-- **Findings**: a table with columns ID, Severity, Category, Location (file:line), Evidence (short quote), Fix. Order rows by severity, then category. Each finding appears here once and nowhere else.
+- **Findings**: a table with columns ID, Severity, Category, Location (file:line), Evidence (short quote), Fix. Order rows by severity, then category. Each finding appears here once and nowhere else. Always prefix finding IDs with `F` (F1, F2, F3, ...) and use the same IDs everywhere else in the report.
 - **Contradiction and redundancy groups**: lists of finding IDs that belong together (for example, the three copies of one rule), with the single location that should own the rule. Reference IDs only; do not restate the evidence.
 - **Missing coverage**: the absent items from the checklist, each with a one-line suggested addition.
 - **Consolidation outline**: the recommended section order and what to merge, move, or delete. Do not rewrite the file.

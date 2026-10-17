@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "okf-manager",
   "description": "A collection of skills for managing Open Knowledge Format (OKF) bundles — create, update, search, delete, and attach concept documents to project directories.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": {
     "name": "Dimpletz"
   },

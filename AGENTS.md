@@ -45,6 +45,7 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/okf-manager/scripts/inject-okf-bundle-dir.ps1 — Windows hook script; reads OKF_DEFAULT_BUNDLE_DIR env var
 - plugins/okf-manager/scripts/inject-okf-bundle-dir.sh — Linux/macOS hook script; reads OKF_DEFAULT_BUNDLE_DIR env var
 - plugins/okf-manager/skills/create-okf/ — creates a new OKF v0.2 concept document in a bundle directory
+- plugins/okf-manager/references/ — shared decomposition, linking-rules, and completion-verification files; single source of truth loaded by create-okf and update-okf (and any other skill)
 - plugins/okf-manager/skills/update-okf/ — updates frontmatter and/or body of an existing OKF concept document
 - plugins/okf-manager/skills/search-okf/ — searches an OKF bundle for concept documents matching filters or a free-text query
 - plugins/okf-manager/skills/delete-okf/ — deprecates or removes an OKF concept document from a bundle
@@ -100,3 +101,4 @@ using the `dimpletz/prompts-collection` marketplace source.
 - Agents and Skills sections in README.md are standalone catalogs that must be kept in sync with the Plugins table; sub-agents and new skills were missing from their catalog sections (learned 2026-04-19)
 - Skill companion scripts must live under each skill directory (`skills/<skill-name>/scripts/`) rather than plugin-level `scripts/` (learned 2026-05-14)
 - README.md has no dedicated Hooks section table; the `Hooks` column in the Plugins table is the hooks catalog — skip the "Hooks section table" rule until that section is added (learned 2026-08-16)
+- Shared OKF rules (Decomposition, Linking Rules, Step 8) live once in `plugins/okf-manager/references/`, outside any skill; skills link to them as `../../references/<file>.md`, never copy them inline (learned 2026-10-18)
