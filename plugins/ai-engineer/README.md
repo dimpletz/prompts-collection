@@ -1,6 +1,6 @@
-# AI Engineer `v1.5.0`
+# AI Engineer `v1.6.0`
 
-> A collection of skills for creating and optimizing VS Code agents, skills, hooks, plugins, and custom AI instruction files.
+> A collection of skills for creating, optimizing, and auditing VS Code agents, skills, hooks, plugins, and custom AI instruction files.
 
 ## Prerequisites
 
@@ -23,7 +23,7 @@ Most capabilities are provided as **skills** — invoke them by describing your 
 | **Hook Maker** | You want to create a lifecycle hook (`hooks.json` + scripts) that runs automatically at session start, subagent start, or after tool use. |
 | **Plugin Maker** | You want to scaffold a new plugin with a `plugin.json` manifest, README, and the correct directory structure. Always places `plugin.json` at the plugin root. |
 | **Marketplace Maker** | You want to register or synchronize the project's plugins in the VS Code Chat Plugin Marketplace (`marketplace.json` + `README.md`). |
-
+| **Instruction Auditor** | You want a report-only review of any Markdown file that instructs a model (`AGENTS.md`, `copilot-instructions.md`, `.agent.md`, `SKILL.md`, etc.) for contradictions, repetition, ambiguity, safety issues, stale references, and missing coverage. |
 ## Components
 
 ```mermaid
@@ -36,6 +36,7 @@ graph TD
     A --> F[Hook Maker\nskills/hook-maker/SKILL.md]
     A --> G[Plugin Maker\nskills/plugin-maker/SKILL.md]
     A --> H[Marketplace Maker\nskills/marketplace-maker/SKILL.md]
+    A --> J[Instruction Auditor\nskills/instruction-auditor/SKILL.md]
     A --> I[Temporary Script Guidance Hook\ncom.github.copilot/hooks/hooks.json]
 ```
 
@@ -66,6 +67,10 @@ Scaffolds a complete VS Code Copilot agent plugin: the `plugin.json` manifest (a
 ### Marketplace Maker
 
 Registers, synchronizes, and updates the project's plugins in the VS Code Chat Plugin Marketplace. Keeps `.github/plugin/marketplace.json` and the global `README.md` (Plugins table, Agents catalog, Skills catalog, Hooks table) in sync with the actual plugin contents.
+
+### Instruction Auditor
+
+Audits any Markdown file that instructs an AI model and produces an evidence-backed report: contradictions (including cross-file and frontmatter-versus-body), redundancy, ambiguity, safety and prompt-injection risks, stale paths and commands, length and structure, file-type fitness, and missing coverage. Every finding cites a quote and line number and carries a severity. Report-only — it never edits the audited file. The full report is always written to a Markdown file (default `reports/<file-name>-audit-<timestamp>.md` at the workspace root) and only the file path is returned in chat.
 
 ### Hooks
 
