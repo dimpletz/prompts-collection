@@ -133,7 +133,7 @@
       "name": "okf-manager",
       "source": "okf-manager",
       "description": "A collection of skills for managing Open Knowledge Format (OKF) bundles — create, update, search, and delete concept documents.",
-      "version": "1.2.0"
+      "version": "1.2.1"
     }
   ]
 }

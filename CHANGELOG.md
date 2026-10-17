@@ -5,6 +5,9 @@
 ### Added
 - ai-engineer plugin updated to v1.6.0 — adds `instruction-auditor` skill that performs a report-only audit of any Markdown file instructing an AI model (`AGENTS.md`, `CLAUDE.md`, `copilot-instructions.md`, `*.instructions.md`, `.agent.md`, `SKILL.md`, `.prompt.md`) and always writes the full report to a Markdown file, returning only its path; every finding is evidence-backed (quote and line number) and severity-rated across contradictions, redundancy, ambiguity, safety and prompt-injection risks, stale references, structure and length, file-type fitness, and missing coverage
 
+### Changed
+- okf-manager plugin updated to v1.2.1 — shared Decomposition, Linking Rules, and Completion Verification rules moved out of the `create-okf` and `update-okf` skills into single-source reference files under `plugins/okf-manager/references/` (`decomposition.md`, `linking-rules.md`, `completion-verification.md`); both skills now link to them instead of duplicating the rules inline, and their `SKILL.md` files are substantially shorter
+
 ## 1.31.0 - 2026-08-18
 
 ### Changed
