@@ -12,6 +12,9 @@ This **skill** is for developers who need to add automated lifecycle hooks to a 
 - Knowledge source: `plugins/ai-engineer/okf` (entry point: `plugins/ai-engineer/okf/index.md`)
 - Always start searches from `plugins/ai-engineer/okf/index.md` before consulting any other source.
 - Only read or search from this knowledge source; never write to or modify it.
+- Navigate the knowledge source only through `plugins/ai-engineer/okf/index.md`: read it, follow its links to the relevant concept groups and their own `index.md` files, and open only the concepts they point to. Do not assume or hardcode concept file names or paths.
+- Look up by topic: **lifecycle events** (which events exist and when they fire), **event payloads and output/decision fields**, **exit codes and failure behavior**, and **hook configuration** (command fields, locations, matchers, platform limits).
+- The knowledge source documents GitHub Copilot hooks (Copilot CLI and cloud agent). PascalCase event names (for example `PreToolUse`) select the VS Code compatible payload format, which is what this skill generates.
 
 ## Inputs
 
@@ -23,10 +26,10 @@ This **skill** is for developers who need to add automated lifecycle hooks to a 
 ## Task Priorities
 
 1. **Priority 1 – Correct lifecycle placement**
-   The hook must fire on exactly the right event for its purpose. Misplacing a hook is a behavioral defect. Consult the **Lifecycle Events** section of the Primary Knowledge Source to choose correctly.
+   The hook must fire on exactly the right event for its purpose. Misplacing a hook is a behavioral defect. Consult the lifecycle events information in the Primary Knowledge Source to choose correctly.
 
 2. **Priority 2 – Reliable output contract**
-   For context injection, output a flat `{"additionalContext": "..."}` object (no `hookSpecificOutput` wrapper). Consult the **Input / Output** section of the Primary Knowledge Source for other per-event output fields. Exit code `2` is a hard blocking error; any other non-zero exit is a non-blocking warning. Exit `0` with JSON to influence agent behavior.
+   For context injection, output a flat `{"additionalContext": "..."}` object (no `hookSpecificOutput` wrapper). Consult the Primary Knowledge Source for other per-event output and decision fields. Exit `0` with JSON to influence agent behavior. Exit code semantics are event-specific — consult the exit code and failure behavior information in the Primary Knowledge Source: exit `2` denies on `preToolUse` and `permissionRequest` but is only a warning on most other events; other non-zero exits are non-blocking warnings except on `preToolUse`, which fails closed; timeouts always fail open.
 
 3. **Priority 3 – Cross-platform correctness**
    Every hook command must have a `windows` variant using PowerShell unless the hook is explicitly Linux/macOS-only. Scripts must be tested for the target OS.
@@ -37,8 +40,8 @@ This **skill** is for developers who need to add automated lifecycle hooks to a 
 
 - Read the **hook_intent** carefully and identify:
   - **What** the hook does (inject context, block operations, run tool, audit, clean up).
-  - **When** it fires — consult the **Lifecycle Events** section of the Primary Knowledge Source.
-  - **What output** it produces — consult the **Input / Output** section of the Primary Knowledge Source for the per-event schema.
+  - **When** it fires — consult the lifecycle events information in the Primary Knowledge Source.
+  - **What output** it produces — consult the per-event payload and decision-control information in the Primary Knowledge Source for the schema.
 
 - If the event is ambiguous, apply these defaults:
   - Context injection at session level → `SessionStart` (add `SubagentStart` if subagents also need it).
@@ -64,7 +67,7 @@ Before writing any files, decide which scope applies:
 
 ### Step 2 – Choose Output Mode
 
-Consult the **Input / Output** section of the Primary Knowledge Source for the complete exit-code contract, common output fields, and per-event output schemas. Context injection uses a flat `additionalContext` field without `hookSpecificOutput`.
+Consult the Primary Knowledge Source for the exit-code contract, common output fields, and per-event output schemas. Context injection uses a flat `additionalContext` field without `hookSpecificOutput`.
 
 ### Step 3 – Write the Scripts
 
@@ -150,7 +153,7 @@ Use `${PLUGIN_ROOT}` to reference scripts — do not hardcode paths.
 
 Paths are relative to the workspace root. If `.claude/settings.json` already exists, **merge** the new hook entry into the existing `hooks` object — do not overwrite the file.
 
-For the full list of supported hook command properties (`type`, `command`, `windows`, `linux`, `osx`, `cwd`, `env`, `timeout`) and their valid values, consult the **Configuration** section of the Primary Knowledge Source.
+For the full list of supported hook command properties (`type`, `command`, `bash`, `powershell`, `windows`, `linux`, `osx`, `cwd`, `env`, `timeout`/`timeoutSec`, and `matcher`) and their valid values, consult the hook configuration information in the Primary Knowledge Source.
 
 ### Step 5 – Update plugin.json
 
@@ -174,12 +177,12 @@ The hooks directory does not need to be referenced in `plugin.json` — the runt
 
 Before delivering, verify:
 
-1. **Hook config file** — Event name is a valid lifecycle event from the Primary Knowledge Source. `type` is `"command"`. `bash` and/or `powershell` keys are present for plugin scope (`command` and OS-specific keys for workspace scope), and plugin scope sets `"version": 1`.
+1. **Hook config file** — Event name is a valid lifecycle event according to the Primary Knowledge Source. `type` is `"command"`. `bash` and/or `powershell` keys are present for plugin scope (`command` and OS-specific keys for workspace scope), and plugin scope sets `"version": 1`.
 2. **Scope routing** — Plugin scope uses `plugins/<plugin-name>/com.github.copilot/hooks/hooks.json` with `${PLUGIN_ROOT}` paths. Workspace scope uses `.claude/settings.json` with workspace-relative paths. These must not be mixed.
 3. **Merge safety** — For workspace scope, confirm that the `.claude/settings.json` file was merged (not overwritten) if it already existed.
 4. **Output contract** — The JSON output matches the event-specific schema from Step 2. Context injection uses a flat `additionalContext` field with no `hookSpecificOutput` wrapper. `stop_hook_active` is checked for `Stop` and `SubagentStop` hooks.
-5. **Shell script** — Starts with `#!/usr/bin/env bash`. JSON output uses `printf`. Environment variable reads are guarded. Script exits 0 when nothing to output, exits 2 to hard-block with an error.
-6. **PowerShell script** — Uses `$env:VAR` syntax. Uses `Write-Output` for JSON output. Escaping is correct (backtick-escaped quotes inside double-quoted strings). Exits 2 to hard-block.
+5. **Shell script** — Starts with `#!/usr/bin/env bash`. JSON output uses `printf`. Environment variable reads are guarded. Script exits 0 when nothing to output; exits 2 only where the event treats it as a block or deny (for example `preToolUse`), per the exit code information in the Primary Knowledge Source.
+6. **PowerShell script** — Uses `$env:VAR` syntax. Uses `Write-Output` for JSON output. Escaping is correct (backtick-escaped quotes inside double-quoted strings). Exits 2 only where the event treats it as a block or deny.
 7. **plugin.json** (plugin scope only) — Located at the plugin root (`plugin.json`). Contains `name`, `description`, `version`, `author`.
 
 ### Step 7 – Save the Files
@@ -235,10 +238,10 @@ After creating all hook files, respond with:
 
 - When `plugin_name` is not provided, hooks are written to `.claude/settings.json` at the workspace root (Claude format). Use `.claude/settings.local.json` only when the user explicitly requests a local-only, non-committed hook.
 - Assumes the VS Code Copilot runtime discovers `com.github.copilot/hooks/hooks.json` at the plugin root.
-- Valid hook events are documented in the Primary Knowledge Source — any event name not listed there is invalid.
+- Valid hook events are documented in the Primary Knowledge Source — any event name not listed there is invalid. Some events (for example `notification`, `permissionRequest`, and policy hooks) are Copilot CLI only, and cloud agent fires only a subset; check the per-surface behavior documented there before targeting it.
 - OS-specific command selection (`windows`, `linux`, `osx`) is based on the extension host platform, which may differ from the local OS in remote development scenarios (SSH, Containers, WSL).
 - `${PLUGIN_ROOT}` is the only supported runtime variable for referencing plugin files inside hook commands.
 - `Stop` and `SubagentStop` hooks that return `decision: "block"` cause the agent to run additional turns, each consuming premium requests. Always guard with `stop_hook_active`.
-- Matchers (Claude Code-style `tool_name` filters) are parsed by VS Code but currently ignored — all hooks run on every matching event regardless of tool name.
+- Matchers (`matcher` regex on `preToolUse`, `postToolUse`, `permissionRequest`, `subagentStart`, `preCompact`, `notification`) are honored by Copilot CLI per the Primary Knowledge Source, but Claude Code-style `tool_name` matchers are currently ignored by VS Code — there, all hooks run on every matching event regardless of tool name.
 - Does not generate MCP server configurations, agent files, or skill files — use the dedicated maker skills for those.
 - Scripts that produce JSON output must emit well-formed JSON on a single line; multi-line printf is safe only if newlines are escaped within the JSON string value.
