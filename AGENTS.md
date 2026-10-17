@@ -35,6 +35,7 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/ai-engineer/com.github.copilot/hooks/hooks.json — SessionStart/SubagentStart hooks that inject temporary-script guidance for large-file handling
 - plugins/ai-engineer/scripts/inject-temporary-script-guidance.sh — Linux/macOS hook script for temporary-script guidance
 - plugins/ai-engineer/scripts/inject-temporary-script-guidance.ps1 — Windows hook script for temporary-script guidance
+- plugins/ai-engineer/skills/instruction-auditor/ — report-only skill that audits any model-instruction Markdown file for contradictions, redundancy, ambiguity, safety issues, stale references, and missing coverage
 - plugins/code-reviewer/com.github.copilot/agents/LanguageRulesAuditor.agent.md — sub-agent that applies review rules to diff chunks; dispatched by Code Reviewer orchestrator
 - plugins/code-reviewer/skills/review-rules-provider/ — skill that loads and concatenates cross-cutting + language-specific review rules
 - plugins/code-reviewer/skills/code-review-report-appender/ — skill that appends findings markdown to the shared report file

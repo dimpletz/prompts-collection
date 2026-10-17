@@ -1,5 +1,10 @@
 # Changelog for Marketplace
 
+## 1.32.0 - 2026-10-18
+
+### Added
+- ai-engineer plugin updated to v1.6.0 — adds `instruction-auditor` skill that performs a report-only audit of any Markdown file instructing an AI model (`AGENTS.md`, `CLAUDE.md`, `copilot-instructions.md`, `*.instructions.md`, `.agent.md`, `SKILL.md`, `.prompt.md`) and always writes the full report to a Markdown file, returning only its path; every finding is evidence-backed (quote and line number) and severity-rated across contradictions, redundancy, ambiguity, safety and prompt-injection risks, stale references, structure and length, file-type fitness, and missing coverage
+
 ## 1.31.0 - 2026-08-18
 
 ### Changed
