@@ -1,0 +1,28 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "okf-manager",
+  "description": "A collection of skills for managing Open Knowledge Format (OKF) bundles — create, update, search, delete, and attach concept documents to project directories.",
+  "version": "1.2.0",
+  "author": {
+    "name": "Dimpletz"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "okf",
+    "open-knowledge-format",
+    "knowledge",
+    "bundle",
+    "concept",
+    "frontmatter",
+    "markdown",
+    "create",
+    "update",
+    "search",
+    "delete",
+    "manage",
+    "attach",
+    "hook",
+    "inject"
+  ]
+}

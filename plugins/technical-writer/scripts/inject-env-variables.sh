@@ -26,5 +26,5 @@ if [ -n "$DOC_ARCHITECTURE_DIR" ]; then
 fi
 
 if [ -n "$context" ]; then
-    printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$context"
+    printf '{"additionalContext":"%s"}\n' "$context"
 fi

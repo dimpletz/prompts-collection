@@ -1,0 +1,21 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "code-reviewer",
+  "description": "Code Reviewer is a collection of agents for performing comprehensive, evidence-based code quality reviews across multiple programming languages and frameworks.",
+  "version": "1.0.2",
+  "author": {
+    "name": "Ron Webb"
+  },
+  "repository": "https://github.com/dimpletz/prompts-collection",
+  "license": "MIT",
+  "keywords": [
+    "code-reviewer",
+    "code-quality",
+    "code-review",
+    "static-analysis",
+    "best-practices",
+    "security",
+    "performance",
+    "maintainability"
+  ]
+}

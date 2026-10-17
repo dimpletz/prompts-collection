@@ -4,5 +4,5 @@
 # If found, injects context instructing the agent to prefer poetry commands.
 
 if [ -f "poetry.lock" ]; then
-    printf '{"hookSpecificOutput":{"additionalContext":"This project uses Poetry. Always use poetry commands as much as possible (e.g., `poetry run <cmd>`, `poetry add <package>`, `poetry install`, `poetry update`, `poetry remove <package>`)."}}\n'
+    printf '{"additionalContext":"This project uses Poetry. Always use poetry commands as much as possible (e.g., `poetry run <cmd>`, `poetry add <package>`, `poetry install`, `poetry update`, `poetry remove <package>`)."}\n'
 fi

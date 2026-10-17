@@ -15,21 +15,21 @@ This **skill** is for developers who need to package VS Code Copilot agents, ski
 - **plugin_version** (optional): The initial semver version. Defaults to `1.0.0` if omitted.
 - **repository** (optional): The Git repository URL for the plugin (e.g. `https://github.com/myorg/my-repo`). If omitted, ask the user.
 - **skills** (optional): List of skill folder names to include (e.g. `["java-unit-test-maker", "java-style-checker"]`). Each must already exist under `plugins/<plugin-name>/skills/`.
-- **agents** (optional): Whether the plugin includes an `agents/` directory. Defaults to `false`.
-- **hooks** (optional): Whether the plugin includes hooks (`hooks/hooks.json` + scripts). Defaults to `false`.
-- **mcp** (optional): Whether the plugin includes an MCP server (`.mcp.json`). Defaults to `false`.
+- **agents** (optional): Whether the plugin includes custom agents (`com.github.copilot/agents/`). Defaults to `false`.
+- **hooks** (optional): Whether the plugin includes hooks (`com.github.copilot/hooks/hooks.json` + scripts). Defaults to `false`.
+- **mcp** (optional): Whether the plugin includes an MCP server (`mcp.json`). Defaults to `false`.
 - **license** (optional): The SPDX license identifier (e.g. `MIT`, `Apache-2.0`). If omitted, the `"license"` field is excluded from `plugin.json`.
 - **author** (optional): The author name to include in the manifest. If omitted, check the author name from the context. If nothing was found, ask the user.
 
-> **Component requirement**: Components are optional. If no component is specified, scaffold the plugin directory structure only — no `skills`, `agents`, `hooks`, or `mcpServers` fields will be added to `plugin.json`.
+> **Component requirement**: Components are optional. If no component is specified, scaffold the plugin directory structure only — no component directories or files are created. `plugin.json` never lists components — skills, agents, hooks, and MCP servers are discovered from fixed locations.
 
 ## Task Priorities
 
-1. **Priority 1 – Always use `.claude-plugin/plugin.json`**
-   All plugins MUST use `.claude-plugin/plugin.json` as the manifest location. This is required for cross-tool compatibility and hook/MCP discovery by the VS Code Copilot runtime.
+1. **Priority 1 – Always use the plugin-root `plugin.json`**
+   All plugins MUST place `plugin.json` at the plugin root (`plugins/<plugin-name>/plugin.json`). Do not use `.claude-plugin/` or `plugin/` directories.
 
 2. **Priority 2 – Complete and valid manifest**
-   The `plugin.json` must contain all required fields (`name`). Recommended fields (`description`, `version`, `author`, `repository`) should be included when available. Skill and agent paths must be relative to the plugin root and must match the actual directory structure.
+   The `plugin.json` must contain all required fields (`name`). Recommended fields (`description`, `version`, `author`, `repository`) should be included when available. `plugin.json` must conform to the Agent Plugins 1.0.0 schema (a closed schema: only `$schema`, `name`, `version`, `description`, `author`, `homepage`, `repository`, `license`, `keywords`, and `extensions` are permitted; `author` accepts only `name`, `email`, and `url`).
 
 3. **Priority 3 – Consistent directory layout**
    The plugin folder structure must follow the established conventions so that the marketplace and runtime can discover all capabilities without additional configuration.
@@ -41,8 +41,8 @@ This **skill** is for developers who need to package VS Code Copilot agents, ski
 Check whether the request includes any of:
 - A **skill** (with a `SKILL.md`)
 - An **agent** (with a `.agent.md` file)
-- A **hook** (with `hooks/hooks.json` and at least one script)
-- An **MCP server** (with a `.mcp.json`)
+- A **hook** (with `com.github.copilot/hooks/hooks.json` and at least one script)
+- An **MCP server** (with a `mcp.json`)
 
 If none is specified, proceed with scaffolding the plugin directory structure only. Do not ask the user for a component.
 
@@ -60,18 +60,18 @@ Always create the following structure under `plugins/<plugin-name>/`:
 
 ```
 plugins/<plugin-name>/
-  .claude-plugin/
-    plugin.json
+  plugin.json
   skills/              (if skills are included)
     <skill-name>/
       SKILL.md
-  agents/              (if agents are included)
-  hooks/               (if hooks are included)
-    hooks.json
+  com.github.copilot/  (if agents or hooks are included)
+    agents/            (if agents are included)
+    hooks/             (if hooks are included)
+      hooks.json
   scripts/             (if hooks are included)
     <hook-name>.sh
     <hook-name>.ps1
-  .mcp.json            (if MCP is included)
+  mcp.json             (if MCP is included)
   README.md
 ```
 
@@ -79,10 +79,11 @@ Create any directories that do not already exist. Never overwrite existing files
 
 ### Step 3 – Write plugin.json
 
-All plugins use `.claude-plugin/plugin.json`. Fields are relative to the **plugin root** (the parent of `.claude-plugin/`).
+All plugins use `plugin.json` at the plugin root. Fields are relative to the **plugin root**.
 
 ```json
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "<plugin-name>",
   "description": "<One sentence describing what the plugin provides.>",
   "version": "<semver>",
@@ -94,11 +95,7 @@ All plugins use `.claude-plugin/plugin.json`. Fields are relative to the **plugi
     "<plugin-name>",
     "<domain-keyword-1>",
     "<domain-keyword-2>"
-  ],
-  "skills": "./skills/<skill-name>",
-  "agents": "./agents",
-  "hooks": "./hooks/hooks.json",
-  "mcpServers": "./.mcp.json"
+  ]
 }
 ```
 
@@ -106,40 +103,43 @@ Field rules:
 - **`name`** (required): kebab-case, lowercase letters/numbers/hyphens only, max 64 characters.
 - **`description`**, **`version`**, **`author`**, **`repository`**: include when provided; omit if not available.
 - **`license`**: include only if the **license** input was provided (e.g. `"license": "MIT"`); omit the field entirely otherwise.
-- **`skills`**: use `"./skills/<name>"` for a single skill or an array for multiple. Omit if no skills.
-- **`agents`**: use `"./agents"`. Omit if no agents.
-- **`hooks`**: use `"./hooks/hooks.json"`. Omit if no hooks.
-- **`mcpServers`**: use `"./.mcp.json"`. Omit if no MCP server.
+- **`$schema`** (required): always `https://agent-plugins.org/schemas/1.0.0/plugin.schema.json`.
+- **Components**: never add `skills`, `agents`, `hooks`, or `mcpServers` fields — the schema rejects them. Skills are discovered from `skills/`, MCP servers from `mcp.json`, and agents and hooks from `com.github.copilot/agents/` and `com.github.copilot/hooks/hooks.json`.
+- **`extensions`**: optional client-specific data keyed by reverse-domain namespace (e.g. `com.github.copilot`). Omit unless needed.
 
-#### MCP server configuration (`.mcp.json`)
+#### MCP server configuration (`mcp.json`)
 
-When MCP is included, create `.mcp.json` at the plugin root with the top-level `mcpServers` key. Use `${CLAUDE_PLUGIN_ROOT}` to reference files inside the plugin directory:
+When MCP is included, create `mcp.json` at the plugin root with the required `$schema` and `mcpServers` top-level fields. Each server needs a `type`. Use `${PLUGIN_ROOT}` in `args`, `env`, and `cwd` (not in `command`; use a bare executable name or a `./`-relative path):
 
 ```json
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
     "<server-name>": {
-      "command": "${CLAUDE_PLUGIN_ROOT}/servers/<executable>",
-      "args": ["--config", "${CLAUDE_PLUGIN_ROOT}/config.json"],
+      "type": "stdio",
+      "command": "./servers/<executable>",
+      "args": ["--config", "${PLUGIN_ROOT}/config.json"],
       "env": {
-        "PLUGIN_PATH": "${CLAUDE_PLUGIN_ROOT}"
+        "PLUGIN_PATH": "${PLUGIN_ROOT}"
       }
     }
   }
 }
 ```
 
-#### Hook configuration (`hooks/hooks.json`)
+#### Hook configuration (`com.github.copilot/hooks/hooks.json`)
 
-When hooks are included, create `hooks/hooks.json`. Use `${CLAUDE_PLUGIN_ROOT}` in command paths:
+When hooks are included, create `com.github.copilot/hooks/hooks.json`. Use `${PLUGIN_ROOT}` in command paths:
 
 ```json
 {
+  "version": 1,
   "hooks": {
-    "PostToolUse": [
+    "SessionStart": [
       {
         "type": "command",
-        "command": "${CLAUDE_PLUGIN_ROOT}/scripts/<hook-name>.sh"
+        "bash": "bash \"${PLUGIN_ROOT}/scripts/<hook-name>.sh\"",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/<hook-name>.ps1\""
       }
     ]
   }
@@ -207,13 +207,13 @@ If the file exists, add a new entry under the `"plugins"` array:
 
 Before delivering, verify:
 
-1. **Manifest location** — Every plugin uses `.claude-plugin/plugin.json`. No other manifest location is used.
+1. **Manifest location** — Every plugin uses `plugin.json` at the plugin root. No other manifest location is used.
 2. **Required field** — `name` is present, kebab-case, and max 64 characters with no slashes, colons, or namespace prefixes.
-3. **Component presence** — If no components were specified, `plugin.json` omits `skills`, `agents`, `hooks`, and `mcpServers` fields — this is valid.
-4. **Skill paths** — Each path in `"skills"` resolves to a directory containing a `SKILL.md` file.
-5. **Agent paths** — Each path in `"agents"` resolves to a directory containing `.agent.md` files.
-6. **MCP config** — If `mcpServers` is set, `.mcp.json` exists at the plugin root with a top-level `mcpServers` object.
-7. **Hook config** — If `hooks` is set, `hooks/hooks.json` exists and references scripts using `${CLAUDE_PLUGIN_ROOT}`.
+3. **Component presence** — If no components were specified, `plugin.json` contains only schema-permitted fields — this is valid.
+4. **Schema** — `plugin.json` has `$schema` set to the Agent Plugins 1.0.0 URL and no unlisted top-level fields (`skills`, `agents`, `hooks`, and `mcpServers` are invalid).
+5. **Skill and agent locations** — Every skill is a `skills/<name>/SKILL.md`; every agent is a `com.github.copilot/agents/<Name>.agent.md`.
+6. **MCP config** — If MCP is included, `mcp.json` exists at the plugin root with `$schema` and a top-level `mcpServers` object.
+7. **Hook config** — If hooks are included, `com.github.copilot/hooks/hooks.json` exists and references scripts using `${PLUGIN_ROOT}`.
 8. **README.md** — Present at `plugins/<plugin-name>/README.md`. Title includes plugin name and version.
 9. **marketplace.json** — Registered only if the file exists; version matches `plugin.json`.
 10. **No duplicate names** — The plugin name does not already exist in `marketplace.json`.
@@ -229,7 +229,7 @@ After scaffolding the plugin, respond with:
 ```markdown
 ## Summary
 - Plugin name, version, and what it provides (1–2 sentences).
-- Manifest location (.claude-plugin/plugin.json).
+- Manifest location (plugin root `plugin.json`).
 - Components registered: list of skills, agents, hooks, and/or MCP servers included.
 
 ## Files Created
@@ -248,8 +248,8 @@ After scaffolding the plugin, respond with:
 
 ## Assumptions and Limitations
 
-- All plugins use `.claude-plugin/plugin.json` — this is the only supported manifest location in this skill.
-- MCP servers are defined in `.mcp.json` at the plugin root, referenced via `"mcpServers": "./.mcp.json"` in `plugin.json`.
+- All plugins use the plugin-root `plugin.json` — this is the only supported manifest location in this skill.
+- MCP servers are defined in `mcp.json` at the plugin root and discovered automatically; they are never declared in `plugin.json`.
 - Does not create the content of individual SKILL.md, `.agent.md`, or MCP server executables — use the dedicated maker skills for those.
 - Does not create hook scripts — use hook-maker for that.
 - The `"repository"` field is sourced from user input and is not hardcoded.

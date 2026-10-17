@@ -17,5 +17,5 @@ if ($env:DOC_ARCHITECTURE_DIR) {
 }
 
 if ($lines.Count -gt 0) {
-    @{ hookSpecificOutput = @{ additionalContext = ($lines -join "`n") } } | ConvertTo-Json -Compress
+    @{ additionalContext = ($lines -join "`n") } | ConvertTo-Json -Compress
 }

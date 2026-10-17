@@ -21,7 +21,7 @@ Install via the VS Code Chat Plugin Marketplace using the `dimpletz/prompts-coll
 
 ### PostToolUse hook
 
-The plugin registers a `PostToolUse` hook (`hooks/hooks.json`) that runs `scripts/python-quality.py` after every agent tool call.
+The plugin registers a `PostToolUse` hook (`com.github.copilot/hooks/hooks.json`) that runs `scripts/python-quality.py` after every agent tool call.
 
 When a Python file is created or modified the script:
 

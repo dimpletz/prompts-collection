@@ -17,4 +17,4 @@ if ($null -ne $reportDirEnv) {
     $context += "`nCODE_REVIEW_REPORT_DIR=${reportDirEnv}"
 }
 
-@{ hookSpecificOutput = @{ hookEventName = "SessionStart"; additionalContext = $context } } | ConvertTo-Json -Compress
+@{ additionalContext = $context } | ConvertTo-Json -Compress

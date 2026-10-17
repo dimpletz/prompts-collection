@@ -8,5 +8,5 @@ parts=()
 
 if [ ${#parts[@]} -gt 0 ]; then
     context="${parts[*]}"
-    printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$context"
+    printf '{"additionalContext":"%s"}\n' "$context"
 fi

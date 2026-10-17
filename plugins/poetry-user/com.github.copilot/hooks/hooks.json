@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "bash": "bash \"${PLUGIN_ROOT}/scripts/inject-poetry-context.sh\"",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/inject-poetry-context.ps1\""
+      },
+      {
+        "type": "command",
+        "bash": "bash \"${PLUGIN_ROOT}/scripts/check-poetry.sh\"",
+        "powershell": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${PLUGIN_ROOT}/scripts/check-poetry.ps1\""
+      }
+    ]
+  }
+}

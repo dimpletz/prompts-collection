@@ -13,5 +13,5 @@ fi
 
 if [ -n "$ROWS" ]; then
     CONTEXT="mdview command prefered parameters:\n| Parameter | Prefered |\n|------------|-------------- |\n$ROWS"
-    printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$CONTEXT"
+    printf '{"additionalContext":"%s"}\n' "$CONTEXT"
 fi

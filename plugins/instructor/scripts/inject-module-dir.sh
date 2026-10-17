@@ -4,4 +4,4 @@
 # Falls back to empty string if MODULE_DIR is not set (agent uses workspace root /modules/ default).
 
 MODULE_DIR="${MODULE_DIR:-}"
-printf '{"hookSpecificOutput":{"additionalContext":"INSTRUCTOR_MODULE_DIR=\"%s\""}}\n' "$MODULE_DIR"
+printf '{"additionalContext":"INSTRUCTOR_MODULE_DIR=\\"%s\\""}\n' "$MODULE_DIR"

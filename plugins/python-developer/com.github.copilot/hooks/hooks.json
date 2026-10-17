@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "PostToolUse": [
+      {
+        "type": "command",
+        "bash": "python3 \"${PLUGIN_ROOT}/scripts/python-quality.py\"",
+        "powershell": "python \"${PLUGIN_ROOT}/scripts/python-quality.py\""
+      }
+    ]
+  }
+}

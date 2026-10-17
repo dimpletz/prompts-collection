@@ -4,4 +4,4 @@
 # Falls back to $HOME/Documents/LearnerNotes if LEARNER_NOTES_DIR is not set.
 
 LEARNER_NOTES_DIR="${LEARNER_NOTES_DIR:-$HOME/Documents/LearnerNotes}"
-printf '{"hookSpecificOutput":{"additionalContext":"LEARNER_NOTES_DIR=\"%s\""}}\n' "$LEARNER_NOTES_DIR"
+printf '{"additionalContext":"LEARNER_NOTES_DIR=\\"%s\\""}\n' "$LEARNER_NOTES_DIR"

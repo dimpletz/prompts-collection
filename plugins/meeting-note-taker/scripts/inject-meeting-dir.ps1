@@ -5,4 +5,4 @@
 $meetingDir = if ($env:MEETING_DIR) { $env:MEETING_DIR } else { Join-Path $env:USERPROFILE "Documents\MeetingNotes" }
 # Ensure meetingDir is quoted in the additionalContext value
 $quotedMeetingDir = '"' + $meetingDir + '"'
-@{ hookSpecificOutput = @{ additionalContext = "MEETING_DIR=$quotedMeetingDir" } } | ConvertTo-Json -Compress
+@{ additionalContext = "MEETING_DIR=$quotedMeetingDir" } | ConvertTo-Json -Compress

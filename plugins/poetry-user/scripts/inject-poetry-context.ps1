@@ -4,5 +4,5 @@
 
 if (Test-Path "poetry.lock") {
     $msg = "This project uses Poetry. Always use poetry commands as much as possible (e.g., ``poetry run <cmd>``, ``poetry add <package>``, ``poetry install``, ``poetry update``, ``poetry remove <package>``)."
-    @{ hookSpecificOutput = @{ additionalContext = $msg } } | ConvertTo-Json -Compress
+    @{ additionalContext = $msg } | ConvertTo-Json -Compress
 }

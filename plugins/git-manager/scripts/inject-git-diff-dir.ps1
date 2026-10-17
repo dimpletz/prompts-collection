@@ -4,5 +4,5 @@
 
 if ($env:GIT_DIFF_DIR) {
     $context = "GIT_DIFF_DIR=`"$($env:GIT_DIFF_DIR)`""
-    @{ hookSpecificOutput = @{ additionalContext = $context } } | ConvertTo-Json -Compress
+    @{ additionalContext = $context } | ConvertTo-Json -Compress
 }

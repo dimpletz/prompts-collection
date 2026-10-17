@@ -12,36 +12,35 @@ using the `dimpletz/prompts-collection` marketplace source.
 
 - plugins/ — all plugins, grouped by domain
 - plugins/*/README.md — per-plugin documentation
-- plugins/*/agents/ — agent definition files (.agent.md)
+- plugins/*/com.github.copilot/agents/ — agent definition files (.agent.md)
 - plugins/*/skills/ — skill definition files (SKILL.md)
-- plugins/*/plugin/ — plugin.json manifest for skill/agent-only plugins
-- plugins/*/.claude-plugin/ — plugin.json manifest for plugins that include hooks
-- plugins/*/hooks/ — hook configuration files (hooks.json)
+- plugins/*/plugin.json — plugin manifest, always at the plugin root
+- plugins/*/com.github.copilot/hooks/ — hook configuration files (hooks.json)
 - plugins/*/scripts/ — hook scripts referenced by hooks.json
 - plugins/technical-writer/ — agents for creating how-to guides, quick reference guides, user guides, and document reviews
-- plugins/technical-writer/.claude-plugin/plugin.json — hook-based plugin manifest
-- plugins/technical-writer/agents/DocumentReviewer.agent.md — reviews documents from URLs or attachments and produces a multi-section structured Markdown report
-- plugins/technical-writer/hooks/hooks.json — SessionStart hook that injects DOC_REVIEWER_DIR into agent context
+- plugins/technical-writer/plugin.json — hook-based plugin manifest
+- plugins/technical-writer/com.github.copilot/agents/DocumentReviewer.agent.md — reviews documents from URLs or attachments and produces a multi-section structured Markdown report
+- plugins/technical-writer/com.github.copilot/hooks/hooks.json — SessionStart hook that injects DOC_REVIEWER_DIR into agent context
 - plugins/technical-writer/scripts/inject-env-variables.ps1 — Windows hook script; reads DOC_REVIEWER_DIR and DOC_PROPOSAL_DIR env vars
 - plugins/technical-writer/scripts/inject-env-variables.sh — Linux/macOS hook script; reads DOC_REVIEWER_DIR and DOC_PROPOSAL_DIR env vars
 - plugins/instructor/ — agent for creating complete learning modules covering theory, practical applications, and a single end-to-end project
-- plugins/instructor/.claude-plugin/plugin.json — hook-based plugin manifest for instructor
-- plugins/instructor/agents/ModuleMaker.agent.md — creates a complete teaching module from theory through examples to a finish-to-finish project; hands off automatically to Narration Script Writer
-- plugins/instructor/agents/NarrationScriptWriter.agent.md — generates a speaker-ready video narration script from a completed module file; invoked by Module Maker or independently
-- plugins/instructor/hooks/hooks.json — SessionStart hook that injects MODULE_DIR into agent context as INSTRUCTOR_MODULE_DIR
+- plugins/instructor/plugin.json — hook-based plugin manifest for instructor
+- plugins/instructor/com.github.copilot/agents/ModuleMaker.agent.md — creates a complete teaching module from theory through examples to a finish-to-finish project; hands off automatically to Narration Script Writer
+- plugins/instructor/com.github.copilot/agents/NarrationScriptWriter.agent.md — generates a speaker-ready video narration script from a completed module file; invoked by Module Maker or independently
+- plugins/instructor/com.github.copilot/hooks/hooks.json — SessionStart hook that injects MODULE_DIR into agent context as INSTRUCTOR_MODULE_DIR
 - plugins/instructor/scripts/inject-module-dir.ps1 — Windows hook script; reads MODULE_DIR env var
 - plugins/instructor/scripts/inject-module-dir.sh — Linux/macOS hook script; reads MODULE_DIR env var
 - plugins/poetry-user/ — detects poetry.lock and injects Poetry usage context; auto-installs Poetry via pip
-- plugins/ai-engineer/.claude-plugin/plugin.json — hook-based plugin manifest for ai-engineer
-- plugins/ai-engineer/hooks/hooks.json — SessionStart/SubagentStart hooks that inject temporary-script guidance for large-file handling
+- plugins/ai-engineer/plugin.json — hook-based plugin manifest for ai-engineer
+- plugins/ai-engineer/com.github.copilot/hooks/hooks.json — SessionStart/SubagentStart hooks that inject temporary-script guidance for large-file handling
 - plugins/ai-engineer/scripts/inject-temporary-script-guidance.sh — Linux/macOS hook script for temporary-script guidance
 - plugins/ai-engineer/scripts/inject-temporary-script-guidance.ps1 — Windows hook script for temporary-script guidance
-- plugins/code-reviewer/agents/LanguageRulesAuditor.agent.md — sub-agent that applies review rules to diff chunks; dispatched by Code Reviewer orchestrator
+- plugins/code-reviewer/com.github.copilot/agents/LanguageRulesAuditor.agent.md — sub-agent that applies review rules to diff chunks; dispatched by Code Reviewer orchestrator
 - plugins/code-reviewer/skills/review-rules-provider/ — skill that loads and concatenates cross-cutting + language-specific review rules
 - plugins/code-reviewer/skills/code-review-report-appender/ — skill that appends findings markdown to the shared report file
 - plugins/okf-manager/ — skills for managing OKF v0.2 bundle concept documents (create, update, search, delete)
-- plugins/okf-manager/.claude-plugin/plugin.json — hook-based plugin manifest for okf-manager
-- plugins/okf-manager/hooks/hooks.json — SessionStart/SubagentStart hook that injects OKF_DEFAULT_BUNDLE_DIR into agent context
+- plugins/okf-manager/plugin.json — hook-based plugin manifest for okf-manager
+- plugins/okf-manager/com.github.copilot/hooks/hooks.json — SessionStart/SubagentStart hook that injects OKF_DEFAULT_BUNDLE_DIR into agent context
 - plugins/okf-manager/scripts/inject-okf-bundle-dir.ps1 — Windows hook script; reads OKF_DEFAULT_BUNDLE_DIR env var
 - plugins/okf-manager/scripts/inject-okf-bundle-dir.sh — Linux/macOS hook script; reads OKF_DEFAULT_BUNDLE_DIR env var
 - plugins/okf-manager/skills/create-okf/ — creates a new OKF v0.2 concept document in a bundle directory
@@ -60,7 +59,9 @@ using the `dimpletz/prompts-collection` marketplace source.
 - Before creating a new skill, read plugins/ai-engineer/skills/skill-maker/SKILL.md for the canonical format
 - Before modifying README.md, read plugins/developer/skills/readme-maintainer/SKILL.md
 - Before modifying CHANGELOG.md, read plugins/developer/skills/changelog-maintainer/SKILL.md
-- Every plugin must have a plugin.json manifest — plugins with hooks use `.claude-plugin/plugin.json`; skill/agent-only plugins use `plugin/plugin.json`; never create a plugin without one
+- Every plugin must have a plugin.json manifest — it lives at the plugin root (`plugins/<name>/plugin.json`), never in `.claude-plugin/` or `plugin/`; never create a plugin without one
+- Hook configuration lives in `plugins/<name>/com.github.copilot/hooks/hooks.json` (`version: 1`, `bash`/`powershell` keys) and references scripts via `${PLUGIN_ROOT}`, never `${CLAUDE_PLUGIN_ROOT}`; hook scripts inject context as flat `{"additionalContext": "..."}` JSON without `hookSpecificOutput`
+- `plugin.json` must validate against the Agent Plugins 1.0.0 schema (https://agent-plugins.org/schemas/1.0.0/plugin.schema.json): start with that `$schema`, and use only `$schema`, `name`, `version`, `description`, `author` (`name`/`email`/`url` only), `homepage`, `repository`, `license`, `keywords`, `extensions`; never add `skills`, `agents`, `hooks`, or `mcpServers` — skills live in `skills/`, MCP in `mcp.json`, agents in `com.github.copilot/agents/`, hooks in `com.github.copilot/hooks/`
 - Every agent file uses the .agent.md extension; every skill entry point is SKILL.md
 - Keep plugin folders named in kebab-case matching the domain (e.g. git-manager, technical-writer)
 - When adding a new plugin, agent, or skill, update the tables in README.md to reflect the addition

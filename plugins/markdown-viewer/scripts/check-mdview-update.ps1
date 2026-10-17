@@ -34,4 +34,4 @@ $parts = $outdatedLine -split '\s+'
 $latestVer = $parts[2]
 
 $msg = "A new version of markdown-viewer-app is available (installed: $installedVer, latest: $latestVer). Before executing the mdview command, notify the user that a new version is available. Offer to upgrade it and use the following pip command to upgrade: pip install --upgrade markdown-viewer-app"
-@{ hookSpecificOutput = @{ additionalContext = $msg } } | ConvertTo-Json -Compress
+@{ additionalContext = $msg } | ConvertTo-Json -Compress

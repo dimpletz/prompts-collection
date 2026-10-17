@@ -16,5 +16,5 @@ fi
 
 if [ -n "$rows" ]; then
     context="Developer Information:\n|--------|---------|--------|\n$rows"
-    printf '{"hookSpecificOutput":{"additionalContext":"%s"}}\n' "$context"
+    printf '{"additionalContext":"%s"}\n' "$context"
 fi
