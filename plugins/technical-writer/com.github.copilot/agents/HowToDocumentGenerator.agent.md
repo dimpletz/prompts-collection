@@ -1,6 +1,7 @@
 ---
 name: 'HowTo Document Generator'
 description: 'Expert HowTo documentation specialist that creates clear, step-by-step instructional guides for technical and business audiences.'
+model: Claude Sonnet 5.5 (copilot)
 ---
 
 # HowTo Document Generator Agent

@@ -1,7 +1,7 @@
 ---
 name: 'Meeting Note Taker'
 description: 'Guides the user through structured meeting note capture and produces a formatted summary with optional Q&A extraction, action items, and Mermaid diagrams saved to the meeting notes directory.'
-model: Claude Sonnet 4.6 (copilot)
+model: Claude Sonnet 5.5 (copilot)
 tools: [edit, read, execute]
 ---
 

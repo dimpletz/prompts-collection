@@ -1,6 +1,7 @@
 ---
 name: 'User Guide Generator'
 description: 'Expert user guide generation agent that creates clear, easy-to-follow guides for non-technical users and business stakeholders.'
+model: Claude Sonnet 5.5 (copilot)
 ---
 
 # User Guide Generator Agent

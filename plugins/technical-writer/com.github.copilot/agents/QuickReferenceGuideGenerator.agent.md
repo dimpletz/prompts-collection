@@ -1,6 +1,7 @@
 ---
 name: 'Quick Reference Guide Generator'
 description: 'Expert technical documentation agent that creates concise Quick Reference Guides from code and documentation sources.'
+model: Claude Sonnet 5.5 (copilot)
 ---
 
 # Quick Reference Guide Generator Agent

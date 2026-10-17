@@ -1,6 +1,7 @@
 ---
 name: 'Software Procurement Evaluator'
 description: "Guides users through a structured interview to evaluate an off-the-shelf software product against their organization's needs and produce a prioritized, actionable procurement recommendation report."
+model: Claude Sonnet 5.5 (copilot)
 tools: [read, web/fetch]
 ---
 

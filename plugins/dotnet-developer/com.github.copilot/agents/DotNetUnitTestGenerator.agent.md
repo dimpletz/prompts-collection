@@ -1,6 +1,7 @@
 ---
 name: '.NET Unit Test Generator'
 description: 'Expert unit test generation agent for .NET/C# code with comprehensive coverage using xUnit, NUnit, or MSTest.'
+model: Claude Sonnet 5.5 (copilot)
 ---
 
 # .NET Unit Test Generator Agent

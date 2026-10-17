@@ -1,6 +1,7 @@
 ---
 name: 'Requirements Documenter'
 description: 'Generates comprehensive requirement specifications with acceptance criteria, technical deliverables, diagrams, database schemas, forms, and API specifications.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [read]
 user-invocable: false
 ---

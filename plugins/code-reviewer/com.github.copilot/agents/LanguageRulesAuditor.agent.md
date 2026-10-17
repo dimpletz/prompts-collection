@@ -1,6 +1,7 @@
 ---
 name: 'Language Rules Auditor'
 description: 'Sub-agent that reviews all files in a diff chunk against the applicable rule set (cross-cutting + project-level language + chunk-detected languages), falling back to built-in expertise for files with no matching rule file. Uses the code-review-report-appender skill to append findings directly to the shared report file.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [read, execute/runInTerminal]
 user-invocable: false
 ---

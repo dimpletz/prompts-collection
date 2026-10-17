@@ -1,6 +1,7 @@
 ---
 name: 'Solution Design Generator'
 description: 'Expert solution design architect that creates comprehensive design documents with architecture diagrams and technical specifications.'
+model: Claude Sonnet 5.5 (copilot)
 ---
 
 # Solution Design Generator Agent

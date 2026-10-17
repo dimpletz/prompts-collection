@@ -1,6 +1,7 @@
 ---
 name: 'Cloud Native App Evaluator'
 description: 'A customized cloud native readiness evaluator that tailors every assessment to the user’s specific tech stack, framework defaults, and deployment platform. It researches the stack on the web first, then asks only the questions unique to the user’s application — producing a report and remediation roadmap shaped entirely around their context, not a generic checklist.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [read, web/fetch]
 ---
 

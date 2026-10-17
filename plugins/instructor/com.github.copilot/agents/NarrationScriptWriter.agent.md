@@ -1,6 +1,7 @@
 ---
 name: 'Narration Script Writer'
 description: 'Generates a speaker-ready video narration script from a completed learning module file. Can be invoked by the Module Maker agent after a module is saved, or called independently by providing the module file path.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [edit, read, execute/runInTerminal, execute/getTerminalOutput]
 ---
 

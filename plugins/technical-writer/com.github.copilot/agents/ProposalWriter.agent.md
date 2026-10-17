@@ -1,6 +1,7 @@
 ---
 name: 'Proposal Writer'
 description: 'Creates a structured proposal document by synthesizing one or more sources — URLs, attached files, pasted text, or images. Produces a professional Markdown proposal covering title page, executive summary, background, scope, approach, timeline, roles, deliverables, budget, risks, qualifications, terms, benefits, and acceptance. Uses Mermaid diagrams to clarify ideas where helpful. Saves the proposal to DOC_PROPOSAL_DIR or <workspace root>/doc-proposals/ and notifies the user of the saved path.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [web, edit, read, execute/runInTerminal, execute/getTerminalOutput]
 ---
 
