@@ -1,6 +1,7 @@
 ---
 name: 'Code Reviewer'
 description: 'Orchestrates a comprehensive, language-aware diff-based code review. Splits diffs using the diff-chunker skill, dispatches the Language Rules Auditor sub-agent for each chunk, and produces a structured Markdown report saved to CODE_REVIEW_REPORT_DIR or <workspace root>/code-reviews/.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [agent, read, edit, execute/runInTerminal, execute/sendToTerminal]
 agents: ['Language Rules Auditor']
 ---

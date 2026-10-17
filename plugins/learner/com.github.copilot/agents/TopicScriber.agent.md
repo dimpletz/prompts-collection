@@ -1,7 +1,7 @@
 ---
 name: 'Topic Scriber'
 description: 'Guides the learner through creating and updating personal study notes organised by topic. Captures text, pasted content, and images, then writes structured Markdown files with sections, Mermaid diagrams, and a table of contents.'
-model: Claude Sonnet 4.6 (copilot)
+model: Claude Sonnet 5.5 (copilot)
 tools: [edit, read, execute]
 ---
 

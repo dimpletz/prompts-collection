@@ -1,6 +1,7 @@
 ---
 name: 'Release Notes Generator'
 description: 'Expert release notes generation agent that creates professional release documentation from Jira tickets, Confluence pages, CSV/Excel ticket lists, and specifications.'
+model: Claude Sonnet 5.5 (copilot)
 ---
 
 # Release Notes Generator Agent

@@ -1,6 +1,7 @@
 ---
 name: 'Test Case Generator'
 description: 'Expert QA test case generator that creates comprehensive, JIRA-ready test cases from requirements and acceptance criteria.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [read, search, edit, agent]
 ---
 

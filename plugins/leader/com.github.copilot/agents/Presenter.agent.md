@@ -1,6 +1,7 @@
 ---
 name: 'Presenter'
 description: 'Expert presentation creator that generates comprehensive presentations on any topic.'
+model: Claude Sonnet 5.5 (copilot)
 ---
 
 # Presenter Agent

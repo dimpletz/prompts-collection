@@ -1,6 +1,7 @@
 ---
 name: 'Document Reviewer'
 description: 'Reviews documents from URLs or attachments and produces a structured Markdown report covering observations, clarity, structure, concerns, recommendations, and an overall rating. Saves the report to DOC_REVIEWER_DIR or <workspace root>/doc-reviews/ and notifies the user of the saved path.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [web, edit, read, execute/runInTerminal, execute/getTerminalOutput]
 ---
 

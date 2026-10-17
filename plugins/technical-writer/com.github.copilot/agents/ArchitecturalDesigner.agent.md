@@ -1,6 +1,7 @@
 ---
 name: 'Architectural Designer'
 description: 'Creates a structured architectural design document by synthesizing one or more sources — URLs, attached files, pasted text, or images. Produces a comprehensive Markdown document covering overview, context, goals, architecture overview, design tradeoffs, component breakdown, impact analysis, security considerations, scalability, quality attributes, low-level design, testing, and deployment. Uses Mermaid diagrams for all visualizations. Saves the document to DOC_ARCHITECTURE_DIR or <workspace root>/doc-architecture/ and notifies the user of the saved path.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [web, edit, read, execute/runInTerminal, execute/getTerminalOutput]
 ---
 

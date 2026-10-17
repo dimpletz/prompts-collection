@@ -1,6 +1,7 @@
 ---
 name: 'Requirements Specification Writer'
 description: 'Orchestrates comprehensive, testable software requirements creation with acceptance criteria, technical deliverables, and optional JIRA integration.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [agent, edit, search]
 agents: ['Requirements Analyzer', 'Requirements Documenter']
 ---

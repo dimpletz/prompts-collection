@@ -1,6 +1,7 @@
 ---
 name: 'Module Maker'
 description: 'Creates a complete learning module for any topic, covering theory, practical applications with examples, and a single end-to-end project. Prerequisites (knowledge and tools) are always stated upfront in the introduction.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [edit, read, execute/runInTerminal, execute/getTerminalOutput]
 handoffs:
   - label: Generate Narration Script

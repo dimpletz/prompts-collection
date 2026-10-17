@@ -1,6 +1,7 @@
 ---
 name: 'PHP Unit Test Generator'
 description: 'Expert PHP unit test generation agent for Magento 2, Laravel, Symfony with comprehensive PHPUnit test coverage.'
+model: Claude Sonnet 5.5 (copilot)
 ---
 
 # PHP Unit Test Generator Agent

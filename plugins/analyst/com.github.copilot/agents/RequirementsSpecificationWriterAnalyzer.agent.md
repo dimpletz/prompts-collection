@@ -1,6 +1,7 @@
 ---
 name: 'Requirements Analyzer'
 description: 'Analyzes feature requests, performs codebase research, and identifies stakeholders, dependencies, edge cases, and technical constraints.'
+model: Claude Sonnet 5.5 (copilot)
 tools: [read, search]
 user-invocable: false
 ---
