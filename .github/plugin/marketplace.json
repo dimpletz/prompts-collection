@@ -2,7 +2,7 @@
   "name": "prompts-collection",
   "metadata": {
     "description": "A curated collection of specialized AI prompts, designed to enhance productivity and automate common tasks through intelligent conversation interfaces.",
-    "version": "1.32.0",
+    "version": "1.33.0",
     "pluginRoot": "./plugins"
   },
   "owner": {
@@ -52,10 +52,10 @@
       "version": "1.0.0"
     },
     {
-      "name": "software-evaluator",
-      "source": "software-evaluator",
-      "description": "Software Evaluators are a collection of agents that help you evaluate cloud-native applications and software procurement decisions.",
-      "version": "1.0.0"
+      "name": "evaluator",
+      "source": "evaluator",
+      "description": "Evaluators are a collection of agents that help you evaluate cloud-native applications, software procurement decisions, and vendor responses to RFPs.",
+      "version": "2.0.0"
     },
     {
       "name": "technical-writer",
