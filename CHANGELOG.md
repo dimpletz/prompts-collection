@@ -5,9 +5,14 @@
 ### Added
 - evaluator plugin v2.0.0 — adds the `RFP Evaluator` agent, a buyer-side evaluator that scores vendor responses against an RFP's requirements and evaluation criteria from attached files, pasted text, or URLs; it applies a mandatory pass/fail gate, builds a per-vendor requirements compliance matrix with evidence citations, computes 0–5 weighted scores (proposing default weights when the RFP defines none), compares normalized pricing and TCO, assesses risks, drafts vendor clarification questions, and saves a ranked recommendation report
 - evaluator plugin v2.0.0 — adds a `SessionStart` hook that injects `EVALUATOR_DIR` into agent context; RFP evaluation reports are saved to `EVALUATOR_DIR` or `<workspace root>/evaluations/`
+- technical-writer plugin v1.3.0 — adds `DOC_HOWTO_DIR`, `DOC_QUICKREF_DIR`, and `DOC_USERGUIDE_DIR` environment variables, injected into agent context by the `SessionStart` hook; the `HowTo Document Generator`, `Quick Reference Guide Generator`, and `User Guide Generator` agents now save their documents to these directories, falling back to `<workspace root>/doc-howtos/`, `<workspace root>/doc-quick-references/`, and `<workspace root>/doc-user-guides/` respectively
 
 ### Changed
-- software-evaluator plugin renamed to evaluator and bumped to v2.0.0 (breaking: the plugin id changed, so existing installs must switch to `evaluator`); the `Cloud Native App Evaluator` and `Software Procurement Evaluator` agents are unchanged
+- software-evaluator plugin renamed to evaluator and bumped to v2.0.0 (breaking: the plugin id changed, so existing installs must switch to `evaluator`)
+- evaluator plugin v2.0.0 — the `Cloud Native App Evaluator` and `Software Procurement Evaluator` agents now write their reports to a file instead of printing them in chat, saving to `EVALUATOR_DIR` or `<workspace root>/evaluations/` (as `<slug>-cloud-native-evaluation-<timestamp>.md` and `<slug>-software-evaluation-<timestamp>.md`) and replying with only the saved path; both agents gain the `edit` and `execute` tools to do so
+
+### Fixed
+- technical-writer plugin v1.3.0 — the Linux/macOS hook script (`inject-env-variables.sh`) now escapes backslashes and quotes in injected directory values, so Windows-style paths no longer produce invalid JSON; `QuickReferenceGuideGenerator` step numbering and a corrupted line were also repaired
 
 ## 1.32.0 - 2026-10-18
 
