@@ -31,6 +31,12 @@ using the `dimpletz/prompts-collection` marketplace source.
 - plugins/instructor/scripts/inject-module-dir.ps1 — Windows hook script; reads MODULE_DIR env var
 - plugins/instructor/scripts/inject-module-dir.sh — Linux/macOS hook script; reads MODULE_DIR env var
 - plugins/poetry-user/ — detects poetry.lock and injects Poetry usage context; auto-installs Poetry via pip
+- plugins/evaluator/ — agents for evaluating cloud-native apps, software procurement fit, and vendor responses to RFPs (renamed from software-evaluator)
+- plugins/evaluator/plugin.json — hook-based plugin manifest for evaluator
+- plugins/evaluator/com.github.copilot/agents/RFPEvaluator.agent.md — buyer-side agent that scores vendor responses against an RFP and saves a ranked evaluation report
+- plugins/evaluator/com.github.copilot/hooks/hooks.json — SessionStart hook that injects EVALUATOR_DIR into agent context
+- plugins/evaluator/scripts/inject-evaluator-dir.ps1 — Windows hook script; reads EVALUATOR_DIR env var
+- plugins/evaluator/scripts/inject-evaluator-dir.sh — Linux/macOS hook script; reads EVALUATOR_DIR env var
 - plugins/ai-engineer/plugin.json — hook-based plugin manifest for ai-engineer
 - plugins/ai-engineer/com.github.copilot/hooks/hooks.json — SessionStart/SubagentStart hooks that inject temporary-script guidance for large-file handling
 - plugins/ai-engineer/scripts/inject-temporary-script-guidance.sh — Linux/macOS hook script for temporary-script guidance
@@ -102,3 +108,4 @@ using the `dimpletz/prompts-collection` marketplace source.
 - Skill companion scripts must live under each skill directory (`skills/<skill-name>/scripts/`) rather than plugin-level `scripts/` (learned 2026-05-14)
 - README.md has no dedicated Hooks section table; the `Hooks` column in the Plugins table is the hooks catalog — skip the "Hooks section table" rule until that section is added (learned 2026-08-16)
 - Shared OKF rules (Decomposition, Linking Rules, Step 8) live once in `plugins/okf-manager/references/`, outside any skill; skills link to them as `../../references/<file>.md`, never copy them inline (learned 2026-10-18)
+- Renaming a plugin means updating its folder, plugin.json name/keywords, marketplace.json name/source, root README row and links, and the plugin README; bump the plugin major version since the plugin id changes (learned 2026-11-10)

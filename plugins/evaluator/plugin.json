@@ -1,15 +1,15 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "software-evaluator",
-  "description": "Software Evaluators are a collection of agents that help you evaluate cloud-native applications and software procurement decisions.",
-  "version": "1.0.0",
+  "name": "evaluator",
+  "description": "Evaluators are a collection of agents that help you evaluate cloud-native applications, software procurement decisions, and vendor responses to RFPs.",
+  "version": "2.0.0",
   "author": {
     "name": "Dimpletz"
   },
   "repository": "https://github.com/dimpletz/prompts-collection",
   "license": "MIT",
   "keywords": [
-    "software-evaluator",
+    "evaluator",
     "evaluation",
     "assessment",
     "cloud-native",
@@ -18,6 +18,12 @@
     "vendor-evaluation",
     "scoring",
     "rfp",
+    "rfp-evaluation",
+    "proposal-evaluation",
+    "vendor-response",
+    "compliance-matrix",
+    "weighted-scoring",
+    "bid-evaluation",
     "kubernetes",
     "microservices"
   ]
