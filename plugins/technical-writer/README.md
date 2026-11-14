@@ -1,4 +1,4 @@
-# Technical Writer `v1.2.1`
+# Technical Writer `v1.3.0`
 
 > A collection of agents for creating how-to guides, quick reference guides, user guides, structured document reviews, and professional proposals from any source material.
 
@@ -27,7 +27,7 @@ Open Copilot Chat, select the desired agent, and provide the source material (li
 
 | Event | Script | Description |
 |-------|--------|-------------|
-| `SessionStart` | [inject-env-variables.ps1](scripts/inject-env-variables.ps1) / [inject-env-variables.sh](scripts/inject-env-variables.sh) | Reads the `DOC_REVIEWER_DIR`, `DOC_PROPOSAL_DIR`, and `DOC_ARCHITECTURE_DIR` environment variables and injects them into the agent context. If not set, agents fall back to `<workspace root>/doc-reviews/`, `<workspace root>/doc-proposals/`, and `<workspace root>/doc-architecture/` respectively. |
+| `SessionStart` | [inject-env-variables.ps1](scripts/inject-env-variables.ps1) / [inject-env-variables.sh](scripts/inject-env-variables.sh) | Reads the `DOC_REVIEWER_DIR`, `DOC_PROPOSAL_DIR`, `DOC_ARCHITECTURE_DIR`, `DOC_HOWTO_DIR`, `DOC_QUICKREF_DIR`, and `DOC_USERGUIDE_DIR` environment variables and injects them into the agent context. If not set, agents fall back to `<workspace root>/doc-reviews/`, `<workspace root>/doc-proposals/`, `<workspace root>/doc-architecture/`, `<workspace root>/doc-howtos/`, `<workspace root>/doc-quick-references/`, and `<workspace root>/doc-user-guides/` respectively. |
 
 ## Configuration
 
@@ -36,6 +36,9 @@ Open Copilot Chat, select the desired agent, and provide the source material (li
 | `DOC_REVIEWER_DIR` | Optional | Absolute path to the directory where document review reports are saved. Supports any depth of nested subdirectories. If not set, reports are saved to `<workspace root>/doc-reviews/`. |
 | `DOC_PROPOSAL_DIR` | Optional | Absolute path to the directory where proposal documents are saved. Supports any depth of nested subdirectories. If not set, proposals are saved to `<workspace root>/doc-proposals/`. |
 | `DOC_ARCHITECTURE_DIR` | Optional | Absolute path to the directory where architectural design documents are saved. Supports any depth of nested subdirectories. If not set, documents are saved to `<workspace root>/doc-architecture/`. |
+| `DOC_HOWTO_DIR` | Optional | Absolute path to the directory where HowTo documents are saved. Supports any depth of nested subdirectories. If not set, documents are saved to `<workspace root>/doc-howtos/`. |
+| `DOC_QUICKREF_DIR` | Optional | Absolute path to the directory where Quick Reference Guides are saved. Supports any depth of nested subdirectories. If not set, guides are saved to `<workspace root>/doc-quick-references/`. |
+| `DOC_USERGUIDE_DIR` | Optional | Absolute path to the directory where User Guides are saved. Supports any depth of nested subdirectories. If not set, guides are saved to `<workspace root>/doc-user-guides/`. |
 
 ## Components
 
@@ -54,19 +57,19 @@ graph TD
 
 Creates clear, comprehensive, step-by-step instructional guides from user-provided links, inputs, and attachments. Adapts content for technical and business audiences. Always presents a structured outline for review before generating the final document. Uses Mermaid diagrams, tables, and lists to produce detailed yet concise documentation.
 
-**Best for:** Deployment procedures, configuration walkthroughs, developer onboarding guides, business process documentation.
+**Best for:** Deployment procedures, configuration walkthroughs, developer onboarding guides, business process documentation. Documents are saved to `DOC_HOWTO_DIR` or `<workspace root>/doc-howtos/`.
 
 ### Quick Reference Guide Generator
 
 Distills complex information from codebases, modules, folders, files, or code selections into concise, easy-to-scan reference materials. Ideal for command cheat sheets, API quick references, configuration summaries, and workflow overviews.
 
-**Best for:** CLI command references, API endpoint summaries, keyboard shortcuts, configuration option tables.
+**Best for:** CLI command references, API endpoint summaries, keyboard shortcuts, configuration option tables. Guides are saved to `DOC_QUICKREF_DIR` or `<workspace root>/doc-quick-references/`.
 
 ### User Guide Generator
 
 Translates complex technical functionality into simple, step-by-step instructions designed for non-technical users and business stakeholders. Includes visual aids, practical examples, and helpful tips. Analyzes codebases, UI components, and workflows to create guides that empower users to confidently use applications and systems.
 
-**Best for:** End-user application manuals, business process guides, onboarding materials for non-technical staff.
+**Best for:** End-user application manuals, business process guides, onboarding materials for non-technical staff. Guides are saved to `DOC_USERGUIDE_DIR` or `<workspace root>/doc-user-guides/`.
 
 ### Document Reviewer
 

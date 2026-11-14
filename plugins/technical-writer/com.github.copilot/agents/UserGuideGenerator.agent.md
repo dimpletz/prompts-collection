@@ -1,6 +1,6 @@
 ---
 name: 'User Guide Generator'
-description: 'Expert user guide generation agent that creates clear, easy-to-follow guides for non-technical users and business stakeholders.'
+description: 'Expert user guide generation agent that creates clear, easy-to-follow guides for non-technical users and business stakeholders. Saves the guide to DOC_USERGUIDE_DIR or <workspace root>/doc-user-guides/.'
 model: Claude Sonnet 5.5 (copilot)
 ---
 
@@ -703,7 +703,12 @@ You are a user documentation specialist with deep expertise in:
    
    **After generating the guide**:
    
-   1. Save the file with format: `[ApplicationName]-UserGuide-v[Version]-[YYYYMMDD].md`
+   1. Resolve the output directory and save the file there with format: `[ApplicationName]-UserGuide-v[Version]-[YYYYMMDD].md`
+      - Read `DOC_USERGUIDE_DIR` from the session context. If it is set and non-empty, use it verbatim as the output directory. The value may contain any number of nested subdirectories — treat the full path as the target directory regardless of depth.
+      - Otherwise, determine the workspace root (the top-level folder of the current workspace) and use `<workspace root>/doc-user-guides/` as the output directory.
+      - Create the full directory path (including all intermediate directories) if it does not already exist.
+      - Never delete or overwrite an existing file in the output directory without explicit user confirmation.
+      - Never read any file inside the output directory unless the user explicitly asks for it.
    
    2. **Confluence Integration** (if available):
       - Ask: "Would you like to publish this User Guide to Confluence?"
@@ -715,7 +720,7 @@ You are a user documentation specialist with deep expertise in:
       - Provide the Confluence page URL after successful publication
    
    3. Provide summary with:
-      - Local file location
+      - Full local file path
       - Confluence page URL (if published)
       - Document statistics
       - Next steps recommendations

@@ -1,6 +1,6 @@
 ---
 name: 'HowTo Document Generator'
-description: 'Expert HowTo documentation specialist that creates clear, step-by-step instructional guides for technical and business audiences.'
+description: 'Expert HowTo documentation specialist that creates clear, step-by-step instructional guides for technical and business audiences. Saves the guide to DOC_HOWTO_DIR or <workspace root>/doc-howtos/.'
 model: Claude Sonnet 5.5 (copilot)
 ---
 
@@ -907,7 +907,16 @@ Before delivering the final document, verify:
 2. Wait for user approval or feedback
 3. Make requested adjustments
 4. Generate final complete HowTo document
-5. Save with filename: `HowTo-[TaskName].md`
+5. Resolve the output directory and save the file there with filename: `HowTo-[TaskName].md`
+6. Confirm completion with the full saved path
+
+**Output Directory:**
+- Read `DOC_HOWTO_DIR` from the session context. If it is set and non-empty, use it verbatim as the output directory. The value may contain any number of nested subdirectories — treat the full path as the target directory regardless of depth.
+- Otherwise, determine the workspace root (the top-level folder of the current workspace) and use `<workspace root>/doc-howtos/` as the output directory.
+- Create the full directory path (including all intermediate directories) if it does not already exist.
+- Never delete or overwrite an existing file in the output directory without explicit user confirmation.
+- Never read any file inside the output directory unless the user explicitly asks for it.
+- The full document path is `<output-directory>/HowTo-[TaskName].md`.
 
 **Filename Convention:**
 - `HowTo-[DescriptiveName].md`
@@ -971,17 +980,17 @@ Example:
    🔗 Link: [Confluence URL]
    📂 Location: [Space] > [Parent] > [Page]
    
-   Local file also saved: HowTo-[TaskName].md
+   Local file also saved: [full-document-path]
    ```
 
 **If user declines Confluence publication:**
-- Simply save as local markdown file
-- Provide confirmation of local save location
+- Simply save as local markdown file in the resolved output directory
+- Provide confirmation of the full local save path
 
 ### If Confluence Integration is NOT Available:
 
 - Skip this phase entirely
-- Only save as local markdown file
+- Only save as local markdown file in the resolved output directory
 - Do not mention Confluence options
 
 ---
